@@ -80,7 +80,6 @@
     <ClInclude Include="player_sprite.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="sprite.h" />
-    <ClInclude Include="vec2d.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="world.h" />
   </ItemGroup>
