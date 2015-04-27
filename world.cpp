@@ -63,8 +63,9 @@ namespace csis3700 {
   world::~world() {
 	for_each(sprites.begin(), sprites.end(), free_sprite);
 	sprites.clear();
+	//Remove sounds.
 	al_destroy_sample(game_music);
-	al_destroy_sample(jump_sound);
+	al_destroy_sample(jump_sound); 
 	
   }
 
