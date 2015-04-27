@@ -28,7 +28,9 @@ namespace csis3700 {
 	virtual void hover();
     virtual void walk_left();
     virtual void walk_right();
+	virtual void respawn();
     virtual void move(character_movement direction);
+	void draw(Vector2 *camera_in, Vector2 *view_rect_in);
 
     
     
@@ -37,7 +39,10 @@ namespace csis3700 {
     float move_speed;
     float max_move_speed;
     float jump_speed;
+	float y_min_bounds;
     Vector2 gravity;
+	Vector2 camera_offset;
+	Vector2 respawn_location;
 	ALLEGRO_SAMPLE *jump_sound;
 	ALLEGRO_SAMPLE *change_direction_sound;
 	

@@ -62,6 +62,8 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE *game_music;
 	ALLEGRO_SAMPLE *jump_sound;
     std::vector<sprite*> sprites;
+	 Vector2 camera;
+	 Vector2 view_rect;
   };
 }
 

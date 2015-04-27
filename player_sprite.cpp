@@ -19,9 +19,12 @@ namespace csis3700 {
 		  move_speed = move_speed_in;
 		  max_move_speed = max_move_speed_in;
 		  jump_speed = jump_speed_in;
+		  y_min_bounds = 768 + 300;
 		  // Declare the Gravity Vector, For each second(dt), accelerate the velocity 450 pixels towards the floor
 		  gravity = Vector2(0.0, 450);
 		  jump_sound = jump_sound_in;
+		  camera_offset.Set(-100, 100);
+		  respawn_location.Set((1024.0f / 2.0f) - 400.0f, (768.0f - 50) - 100);
   }
 
   bool player_sprite::is_passive() const {
@@ -31,31 +34,40 @@ namespace csis3700 {
   void player_sprite::set_on_ground(bool v) {
 		  on_ground = v;
   }
+
+  void player_sprite::respawn() {
+	  set_position(respawn_location);
+	  set_velocity(Vector2(0, 0));
+  }
  
   void player_sprite::advance_by_time(double dt) {
 		  phys_sprite::advance_by_time(dt);
 
-		  // HARDCODED RESPAWN
-		  if (position.get_y() > 768 + 300){
-			  set_position(Vector2((1024.0f / 2.0f) - 400.0f, (768.0f - 50) - 100));
-			  set_velocity(Vector2(0, 0));
+		  
+		  // HARDCODED RESPAWN FOR Y-MIN
+		  if (position.get_y() > y_min_bounds){
+			  respawn();
 		  }
 
-		  // HARDCODED RESPAWN
-		  if (position.get_x() < -51){
-			  set_position(Vector2(1024 + 50, position.get_y()));
-		  }
 
-		  // HARDCODED RESPAWN
-		  if (position.get_x() > 1024 +51){
-			  set_position(Vector2(-50, position.get_y()));  
-		  }
+		  /*
+			  // HARDCODED RESPAWN FOR LEFT BOUNDS
+			  if (position.get_x() < -51){
+				  set_position(Vector2(1024 + 50, position.get_y()));
+			  }
+
+			  // HARDCODED RESPAWN FOR RIGHT BOUNDS
+			  if (position.get_x() > 1024 +51){
+				  set_position(Vector2(-50, position.get_y()));  
+			  }
+		  */
 
 		// Scale the acceleration down to the size of the current timestep
 		  Vector2 gravityStep = (dt * gravity);
 		  set_velocity( ( get_velocity() + gravityStep) );
 		  Vector2 stepVelocity = (dt * get_velocity());
 		  set_position( (get_position() + stepVelocity));
+		  
   }
 
   void player_sprite::resolve(const collision& collision, sprite *other) {
@@ -123,6 +135,12 @@ namespace csis3700 {
 			   }
 		
   
+  }
+
+  void player_sprite::draw(Vector2 *camera_in, Vector2 *view_rect_in){
+	  sequence->draw(time, 1024 / 2 + camera_offset.get_x(), 768 / 2 + camera_offset.get_y());
+	  //sequence->draw(time, get_x(), get_y());
+	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
   }
 
 } // end of csis3700 namespace

@@ -39,7 +39,9 @@ namespace csis3700 {
 		cout << "----TRANSFORM       " << endl;
 		cout << "--------POSITION    " << endl;
 		cout << "------------X     : " << get_x() << endl;
-		cout << "------------Y     : " << get_y() << endl << endl;
+		cout << "------------Y     : " << get_y() << endl;
+		cout << "------------X_Loc : " << get_x_local() << endl;
+		cout << "------------Y_Loc : " << get_y_local() << endl << endl;
   }  
   
   // set_image_sequence
@@ -78,9 +80,22 @@ namespace csis3700 {
     return position.get_y();
   }
 
+  // get_x
+  float sprite::get_x_local()  {
+	  
+	  // return  position.get_x() + camera.get_x() - (1024 / 2);
+	  return  ( -512) + position.get_x();
+  }
+
+  // get_y
+  float sprite::get_y_local()  {
+	  //return   position.get_y() + camera.get_y() + (768 / 2);
+	  return  ( - 768/2) + position.get_y();
+  }
+
   // draw
-  void sprite::draw() {
-    sequence->draw(time, get_x(), get_y());
+  void sprite::draw(Vector2 *camera_in, Vector2 *view_rect_in) {
+	  sequence->draw(time, (-camera_in->get_x() + 512) + position.get_x(), (-camera_in->get_y() + 768 / 2) + position.get_y());
   }
 
   // bounding_box

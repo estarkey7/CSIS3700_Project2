@@ -20,6 +20,8 @@ namespace csis3700 {
   } 
 
   world::world() {
+	  camera.Set(1024 / 2, 768 / 2);
+	  view_rect.Set(1024, 768);
 	  game_music = al_load_sample("game_music.wav");
 	  jump_sound = al_load_sample("jump.wav");
 	  al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
@@ -27,7 +29,7 @@ namespace csis3700 {
 	obstruction_sprite *ground = new obstruction_sprite("ground",(1024.0f /2.0f) - 20.0f, 768.0f - 50  ,image_library::get_instance()->get("ground.png"));
 	  sprites.push_back(splash); 
 	  make_ground();
-	player = new player_sprite("alien", (1024.0f / 2.0f) - 400.0f, (768.0f - 50) - 100, image_library::get_instance()->get("player.png"), 300.0f, 300.0f, 400.0f, jump_sound);
+	player = new player_sprite("alien", (1024.0f / 2.0f)  , (768.0f /2) , image_library::get_instance()->get("player.png"), 300.0f, 300.0f, 400.0f, jump_sound);
 	
 	 player->s->add_image(image_library::get_instance()->get("player_idle2.png"), .2);
 	 
@@ -37,7 +39,7 @@ namespace csis3700 {
   }
 
   void world::make_ground(){
-	  for (int i = 0; i < 1024; i += 50){
+	  for (int i = 0; i < 3000; i += 50){
 			
 		  if (i <= 400 || i > 800)
 			  sprites.push_back(new obstruction_sprite("ground", i , 768.0f - 50, image_library::get_instance()->get("ground.png")));
@@ -90,7 +92,11 @@ namespace csis3700 {
 				
 				case ALLEGRO_KEY_DOWN:  player->move(HOVER); break;
 				
-				case ALLEGRO_KEY_SPACE :  break;
+				case ALLEGRO_KEY_SPACE :  
+					
+					for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
+						(*it)->print_inital_configuration();
+					break;
 												
 			   }
 	}
@@ -130,7 +136,7 @@ namespace csis3700 {
   void world::draw() {
 	al_clear_to_color(al_map_rgb(5,5,5));
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
-	  (*it)->draw();
+	  (*it)->draw(&camera, &view_rect);
   }
 
 }
