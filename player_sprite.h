@@ -14,7 +14,9 @@
 namespace csis3700 {
   class player_sprite : public phys_sprite {
   public:
-	  image_sequence  *s;
+	  image_sequence  *idle_sequence;
+	  image_sequence  *jump_sequence;
+	  character_movement player_movement_state;
   
 	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, 
 				  ALLEGRO_BITMAP *image = NULL, float move_speed_in = 10, 

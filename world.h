@@ -62,7 +62,18 @@ namespace csis3700 {
 
   private:
     void resolve_collisions();
-	void build_platform(int init_x, int init_y, int width, int height);
+
+	void build_platform(
+						int init_x = 0, 
+						int init_y = 0,
+						int x_scale = 1,
+						int y_scale = 1,
+						string object_name_in = "ground", 
+						string object_location_string_in = "ground.png",
+						int object_width_in = 50, 
+						int object_height_in = 50 
+						);
+
 	void build_background(int init_x, int init_y, int width);
     player_sprite *player;
 	ALLEGRO_SAMPLE *game_music;

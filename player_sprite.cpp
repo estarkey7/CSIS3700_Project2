@@ -55,9 +55,21 @@ namespace csis3700 {
 						ALLEGRO_BITMAP *image, float move_speed_in,
 						float max_move_speed_in, float jump_speed_in, Vector2 *camera_in, ALLEGRO_SAMPLE *jump_sound_in, ALLEGRO_SAMPLE *change_dir_sound_in) :
 							phys_sprite(name_in,initial_x, initial_y) {
-		  s = new image_sequence;
-		  s->add_image(image, .1);
-		  set_image_sequence(s);
+
+			// CREATE IDLE_SEQUENCE (DEFAULT)
+		  idle_sequence = new image_sequence;
+		  idle_sequence->add_image(image, .1);
+		  
+
+		    // SET IDLE SEQUENCE AS INITIAL SEQUENCE
+		  set_image_sequence(idle_sequence);
+
+		    // CREATE JUMP SEQUENCE
+		  jump_sequence = new image_sequence;
+		  jump_sequence->add_image(image_library::get_instance()->get("player_jump1.png"), .1);
+		  jump_sequence->add_image(image_library::get_instance()->get("player_jump2.png"), .2);
+
+		  player_movement_state = IDLE;
 		  move_speed = move_speed_in;		// INCREMENT SPEED AT WHICH THE PLAYERS HORIZONTAL VELOCITY INCREASES PER MOVEMENT CALL
 		  max_move_speed = max_move_speed_in; // MAX HORIZONTAL VELOCITY LIMIT THAT THE PLAYERS MOVEMENT FUNCTIONS CAN REACH
 		  jump_speed = jump_speed_in; // JUMP STRENGTH
@@ -68,12 +80,13 @@ namespace csis3700 {
 		  y_min_bounds = 768 + 300;	// The y value that triggers a respawn. "value = 768(bottom of display) + amount below the screen"
 		  hover_strength = .6;
 		  gravity = Vector2(0.0, 450);	// Declare the Gravity Vector, For each second(dt), accelerate the velocity 450 pixels towards the floor
-		  camera_offset.Set(-100, 100); // PIXEL OFF USED TO CONTROLL WHERE THE "BITMAP IMAGE" OF THE PLAYER IS DRAWN FROM THE CENTER OF THE DISPLAY
-		  respawn_location.Set((1024.0f / 2.0f) - 400.0f, (768.0f - 50) - 100);	// HARDCODED LOCATION VECTOR TO RESET THE PLAYERS LOCATION TO THE BEGGINING OF LEVEL 1
+		  camera_offset.Set(0, 100); // PIXEL OFF USED TO CONTROLL WHERE THE "BITMAP IMAGE" OF THE PLAYER IS DRAWN FROM THE CENTER OF THE DISPLAY
+		  respawn_location.Set((1024.0f / 2.0f) - 112.0f, (768.0f - 50) - 250);	// HARDCODED LOCATION VECTOR TO RESET THE PLAYERS LOCATION TO THE BEGGINING OF LEVEL 1
 		  friction = .8f;	// FRICTION FROM PLAYER MOVING ON GROUND
 		  friction_threshhold = 50.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
 
 		  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
+		  respawn();
   }
 
   bool player_sprite::is_passive() const {
@@ -96,7 +109,7 @@ namespace csis3700 {
 	  splash_screen();	// Prints a Box that makes the player object easier to find in the command line cout statements
 	  cout << "**********SPRITE CREATED**********" << endl;
 	  cout << "----NAME          : " << get_name() << endl;
-	  cout << "----SPRITE_ID     : " << get_sprite_id() << endl;
+	  cout << "----SPRITE_ID     : " << get_sprite_id() << " OUT OF : " << get_sprite_id_count() << endl;
 	  cout << "----TRANSFORM       " << endl;
 	  cout << "--------POSITION    " << endl;
 	  cout << "------------X     : " << get_x() << endl;
@@ -151,6 +164,8 @@ namespace csis3700 {
 	  
 		  if (get_velocity().get_x() > -friction_threshhold && get_velocity().get_x() < friction_threshhold){
 			  set_velocity((Vector2(0.0f , 0.0f)));
+			  player_movement_state = IDLE;
+			  set_image_sequence(idle_sequence);
 		  }
 		  else {
 			  set_velocity( Vector2(get_velocity().get_x() * friction,  0.0f) );
@@ -166,8 +181,11 @@ namespace csis3700 {
 		  // add force upwards
 		  // al_play_sample(jump_sound, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
 		  set_velocity(get_velocity() + Vector2(0, -jump_speed));
+		  player_movement_state = JUMP;
+		  set_image_sequence(jump_sequence);
 		  if (sound_in != NULL)
 			  al_play_sample(sound_in, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+		  
 	  }
   }
 
@@ -228,7 +246,9 @@ namespace csis3700 {
   void player_sprite::draw(Vector2 *camera_in, Vector2 *view_rect_in){
 	  
 	  // (1024.0f / 2.0f) - 300, (768.0f / 2) + 100
-	  sequence->draw(time, 1024 / 2 + camera_offset.get_x(), 768 / 2 + camera_offset.get_y());
+	  //if (player_movement_state == IDLE)
+	   sequence->draw(time, 1024 / 2 + camera_offset.get_x(), 768 / 2 + camera_offset.get_y());
+	  
 	  //sequence->draw(time, get_x(), get_y());
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
   }

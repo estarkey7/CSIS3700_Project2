@@ -46,7 +46,8 @@ namespace csis3700 {
     
     virtual void register_sprite_id();
     
-    virtual int get_sprite_id();	
+    virtual int get_sprite_id();
+	virtual int get_sprite_id_count();
 
     virtual int get_width() const;
 

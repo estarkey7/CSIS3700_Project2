@@ -30,6 +30,11 @@ namespace csis3700 {
   int sprite::get_sprite_id(){
   	return sprite_id;
   }
+
+  // get_sprite_id_count
+  int sprite::get_sprite_id_count(){
+	  return sprite_id_count;
+  }
   
   void sprite::print_initial_configuration(){
   	// PRINT OBJECT STATISTICS
