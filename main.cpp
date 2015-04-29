@@ -54,7 +54,7 @@ int main(int argc, char **argv){
    }
 
 
-   al_reserve_samples(2);
+   al_reserve_samples(4);
 
    
 
@@ -83,7 +83,7 @@ int main(int argc, char **argv){
 	  al_destroy_display(display);
 	 return -1;
    }
-
+   
    ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
 
    if(!event_queue) {

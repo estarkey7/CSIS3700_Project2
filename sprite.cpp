@@ -12,7 +12,7 @@ namespace csis3700 {
 	
 	
 	// PRINT INITALIZATION VARIABLE INFO FOR DEBUGGING 
-	print_inital_configuration();
+	print_initial_configuration();
   }
 
   // get_name  
@@ -31,7 +31,7 @@ namespace csis3700 {
   	return sprite_id;
   }
   
-  void sprite::print_inital_configuration(){
+  void sprite::print_initial_configuration(){
   	// PRINT OBJECT STATISTICS
   		cout << "**********SPRITE CREATED**********" << endl;
 		cout << "----NAME          : " << get_name() << endl;
@@ -87,7 +87,7 @@ namespace csis3700 {
 	  return  ( -512) + position.get_x();
   }
 
-  // get_y
+  // get_y 
   float sprite::get_y_local()  {
 	  //return   position.get_y() + camera.get_y() + (768 / 2);
 	  return  ( - 768/2) + position.get_y();

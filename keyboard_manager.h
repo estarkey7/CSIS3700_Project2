@@ -1,12 +1,13 @@
 #ifndef __CDS_KEYBOARD_MANAGER_H
 #define __CDS_KEYBOARD_MANAGER_H
 #include <set>
+#include "allegro5/allegro.h"
 
 namespace csis3700 {
   class keyboard_manager {
   public:
     static keyboard_manager *get_instance();
-
+	ALLEGRO_KEYBOARD_STATE state;
     keyboard_manager();
 
     /**

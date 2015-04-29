@@ -24,33 +24,66 @@ namespace csis3700 {
 	  view_rect.Set(1024, 768);
 	  game_music = al_load_sample("game_music.wav");
 	  jump_sound = al_load_sample("jump.wav");
-	  al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
-	  obstruction_sprite *splash = new obstruction_sprite("splash", 0, 0, image_library::get_instance()->get("splash.png"));
-	obstruction_sprite *ground = new obstruction_sprite("ground",(1024.0f /2.0f) - 20.0f, 768.0f - 50  ,image_library::get_instance()->get("ground.png"));
-	  sprites.push_back(splash); 
+	  player_change_direction_sound = al_load_sample("player_change_direction.wav");
+	  player = new player_sprite("player", (1024.0f / 2.0f) - 300, (768.0f / 2) + 100, image_library::get_instance()->get("player.png"), 100.0f, 250.0f, 400.0f, &camera, jump_sound);
+	  al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);  
+	  obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20 , image_library::get_instance()->get("woods_splash2.png"));
+	  obstruction_sprite *ground = new obstruction_sprite("ground",(1024.0f /2.0f) - 20.0f, 768.0f - 50  ,image_library::get_instance()->get("ground.png"));
+	  build_background(-1859, -20, 8);
+	  sprites.push_back(splash);
 	  make_ground();
-	player = new player_sprite("alien", (1024.0f / 2.0f)  , (768.0f /2) , image_library::get_instance()->get("player.png"), 300.0f, 300.0f, 400.0f, jump_sound);
+	  
+	  
 	
-	 player->s->add_image(image_library::get_instance()->get("player_idle2.png"), .2);
+	  player->s->add_image(image_library::get_instance()->get("player_idle2.png"), .2);
 	 
 	
-	sprites.push_back(player);
+	  sprites.push_back(player);
+	
+	  Key_Input.get_instance();
+	
   
   }
 
   void world::make_ground(){
+
+	  // MAIN GROUND
 	  for (int i = 0; i < 3000; i += 50){
 			
 		  if (i <= 400 || i > 800)
 			  sprites.push_back(new obstruction_sprite("ground", i , 768.0f - 50, image_library::get_instance()->get("ground.png")));
 	  }
 
+	  // FIRST PLATFORM
 	  for (int i = 550; i < 1024 - 300; i += 50){
 
 		  sprites.push_back(new obstruction_sprite("ground", i, 768.0f - 250, image_library::get_instance()->get("ground.png")));
 	  }
-	  //Test
+
+	  // SECOND PLATFORM
+	  build_platform(1200, 260, 10, 1);
 	  
+	  
+  }
+
+  void world::build_platform(int init_x, int init_y, int width, int height){
+
+	  for (int x = init_x; x < (init_x + (width * 50)); x += 50){
+		  for (int y = init_y; y > (init_y - (height * 50)); y -= 50){
+			  sprites.push_back(new obstruction_sprite("ground", x, y, image_library::get_instance()->get("ground.png")));
+		  }
+	  }
+
+  }
+
+  void world::build_background(int init_x, int init_y, int width ){
+
+	  for (int x = init_x; x < (init_x + (width * 1081)); x += 1081){
+		   
+		  sprites.push_back(new obstruction_sprite("background", x, init_y, image_library::get_instance()->get("woods_green.png")) );
+		  
+	  }
+
   }
 
   world::world(const world& other) {
@@ -67,6 +100,7 @@ namespace csis3700 {
 	sprites.clear();
 	//Remove sounds.
 	al_destroy_sample(game_music);
+	al_destroy_sample(player_change_direction_sound);
 	al_destroy_sample(jump_sound); 
 	
   }
@@ -76,29 +110,33 @@ namespace csis3700 {
 		
 
 		switch (ev.keyboard.keycode){
-				case ALLEGRO_KEY_A :  player->move(MOVE_LEFT); break;
+				//case ALLEGRO_KEY_A :  player->move(MOVE_LEFT); break;
 								 
 				case ALLEGRO_KEY_S:   player->move(HOVER); break;
 								 
-				case ALLEGRO_KEY_D :  player->move(MOVE_RIGHT); break;
+				//case ALLEGRO_KEY_D :  player->move(MOVE_RIGHT); break;
 								 
-				case ALLEGRO_KEY_W:  player->move(JUMP); break;			  
+				//case ALLEGRO_KEY_W:  player->move(JUMP); break;			  
 								 
 				case ALLEGRO_KEY_LEFT : player->move(MOVE_LEFT); break;
 								 
 				case ALLEGRO_KEY_RIGHT :  player->move(MOVE_RIGHT);break;
 				
-				case ALLEGRO_KEY_UP :  player->move(JUMP); break;
+				case ALLEGRO_KEY_UP :  player->move(JUMP, jump_sound); break;
 				
 				case ALLEGRO_KEY_DOWN:  player->move(HOVER); break;
 				
 				case ALLEGRO_KEY_SPACE :  
 					
-					for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
-						(*it)->print_inital_configuration();
-					break;
-												
-			   }
+					for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it){
+
+						if ((*it)->get_name() == "player"){
+							(*it)->print_initial_configuration();
+						}
+					}
+						break;
+										
+		}
 	}
   
   }
@@ -127,6 +165,29 @@ namespace csis3700 {
   }
 
   void world::advance_by_time(double dt) {
+	  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_W)){
+		  cout << "KEY_DOWN: W................" << endl;
+		  player->move(JUMP, jump_sound);
+
+	  }
+	  /*
+		  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_S)){
+			  cout << "KEY_DOWN: S................" << endl;
+			  player->move(HOVER);
+		  }
+	  */
+	  
+	  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_A)){
+		  cout << "KEY_DOWN: A" << endl;
+		  player->move(MOVE_LEFT, player_change_direction_sound);
+	  }
+	  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_D)){
+		  cout << "KEY_DOWN: D................" << endl;
+		  player->move(MOVE_RIGHT, player_change_direction_sound);
+	  }
+
+	 
+
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  (*it)->advance_by_time(dt);
 	  //(*it)->set_velocity;
@@ -134,7 +195,7 @@ namespace csis3700 {
   }
 
   void world::draw() {
-	al_clear_to_color(al_map_rgb(5,5,5));
+	al_clear_to_color(al_map_rgb(0,0,0));
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  (*it)->draw(&camera, &view_rect);
   }

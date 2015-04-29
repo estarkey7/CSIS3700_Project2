@@ -8,6 +8,10 @@
 #include <vector>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
+#include "keyboard_manager.h"
+#include <cstdlib>
+#include <string>
+#include <iostream>
 
 namespace csis3700 {
   class world {
@@ -58,12 +62,16 @@ namespace csis3700 {
 
   private:
     void resolve_collisions();
+	void build_platform(int init_x, int init_y, int width, int height);
+	void build_background(int init_x, int init_y, int width);
     player_sprite *player;
 	ALLEGRO_SAMPLE *game_music;
+	ALLEGRO_SAMPLE *player_change_direction_sound;
 	ALLEGRO_SAMPLE *jump_sound;
     std::vector<sprite*> sprites;
 	 Vector2 camera;
 	 Vector2 view_rect;
+	 keyboard_manager Key_Input;
   };
 }
 

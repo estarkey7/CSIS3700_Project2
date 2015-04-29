@@ -4,7 +4,7 @@
 #include "image_sequence.h"
 #include "Vector2.h"
 #include "rectangle.h"
-#include <cstdlib>
+#include <cstdlib> 
 #include <string>
 #include <iostream>
 #include "enums.h"
@@ -42,7 +42,7 @@ namespace csis3700 {
     
     virtual string get_name() const;
     
-    virtual void print_inital_configuration();
+    virtual void print_initial_configuration();
     
     virtual void register_sprite_id();
     
@@ -106,8 +106,7 @@ namespace csis3700 {
     
 
   protected:
-  	
-  	
+  
   	int sprite_id;
   	
 	string name;

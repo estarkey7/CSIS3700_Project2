@@ -6,8 +6,10 @@ namespace csis3700 {
   keyboard_manager *keyboard_manager::default_instance = NULL;
 
   keyboard_manager *keyboard_manager::get_instance() {
-    if (default_instance == NULL)
-      default_instance = new keyboard_manager();
+	  if (default_instance == NULL){
+		  default_instance = new keyboard_manager();
+
+	  }
     return default_instance; 
   }
 
@@ -15,7 +17,10 @@ namespace csis3700 {
   }
 
   bool keyboard_manager::is_key_down(int keycode) {
-    return down.find(keycode) != down.end();
+	  al_get_keyboard_state(&state);
+	  return al_key_down(&state, keycode);
+
+	  //return down.find(keycode) != down.end();
   }
 
   void keyboard_manager::key_down(int keycode) {
