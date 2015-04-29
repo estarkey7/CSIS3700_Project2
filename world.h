@@ -12,8 +12,11 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include "Vector2.h"
+#include "enums.h"
 
 namespace csis3700 {
+	
   class world {
   public:
   
@@ -23,7 +26,7 @@ namespace csis3700 {
      * store the display in an instance variable. DO NOT start drawing
      * on the screen. Just load bitmaps etc.
      */
-    world();
+    world(size_t width_in, size_t height_in);
 
     /**
      * Free any resources being used by the world.
@@ -61,6 +64,7 @@ namespace csis3700 {
 	void make_ground();
 
   private:
+
     void resolve_collisions();
 
 	void build_platform(
@@ -79,9 +83,13 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE *game_music;
 	ALLEGRO_SAMPLE *player_change_direction_sound;
 	ALLEGRO_SAMPLE *jump_sound;
+	ALLEGRO_SAMPLE_INSTANCE *jump_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *player_change_direction_sound_instance;
+	ALLEGRO_SAMPLE *player_landing_sound;
+	ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance;
     std::vector<sprite*> sprites;
 	 Vector2 camera;
-	 Vector2 view_rect;
+	 
 	 keyboard_manager Key_Input;
   };
 }

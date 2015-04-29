@@ -53,7 +53,7 @@ int main(int argc, char **argv){
 	   exit(1);
    }
 
-
+   DISPLAY_SIZE.Set(WIDTH, HEIGHT);
    al_reserve_samples(4);
 
    
@@ -100,7 +100,7 @@ int main(int argc, char **argv){
    al_register_event_source(event_queue, al_get_keyboard_event_source());
    al_start_timer(timer);
 
-   csis3700::world world;
+   csis3700::world world(WIDTH, HEIGHT);
    
    double time = 0;
    bool redraw = true; // paint the first time through

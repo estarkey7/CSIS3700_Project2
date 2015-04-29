@@ -18,24 +18,24 @@ namespace csis3700 {
 	  image_sequence  *jump_sequence;
 	  character_movement player_movement_state;
   
-	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, 
+	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, float sx_in = 1.0f, float sy_in = 1.0f, 
 				  ALLEGRO_BITMAP *image = NULL, float move_speed_in = 10, 
 				  float max_move_speed_in = 50, float jump_speed_in = 200,
 				   Vector2 *camera_in = NULL,
-				  ALLEGRO_SAMPLE *jump_sound_in = NULL,
-				  ALLEGRO_SAMPLE *change_dir_sound_in = NULL);
+				  ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance_in = NULL,
+				  ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in = NULL);
 
     virtual bool is_passive() const;
     virtual void set_on_ground(bool v);
     virtual void advance_by_time(double dt);
     virtual void resolve(const collision& collision, sprite* other);
-	virtual void jump(ALLEGRO_SAMPLE *sound_in = NULL);
-	virtual void hover(ALLEGRO_SAMPLE *sound_in = NULL);
-	virtual void walk_left(ALLEGRO_SAMPLE *sound_in = NULL);
-	virtual void walk_right(ALLEGRO_SAMPLE *sound_in = NULL);
-	virtual void respawn(ALLEGRO_SAMPLE *sound_in = NULL);
-	virtual void move(character_movement direction, ALLEGRO_SAMPLE *sound_in = NULL);
-	void draw(Vector2 *camera_in, Vector2 *view_rect_in);
+	virtual void jump(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	virtual void hover(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	virtual void walk_left(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	virtual void walk_right(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	virtual void respawn(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	virtual void move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	void draw(Vector2 *camera_in);
 	void print_initial_configuration();
 
     
@@ -52,8 +52,9 @@ namespace csis3700 {
     Vector2 gravity;
 	Vector2 camera_offset;
 	Vector2 respawn_location;
-	ALLEGRO_SAMPLE *jump_sound;
-	ALLEGRO_SAMPLE *change_direction_sound;
+	ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
+	ALLEGRO_SAMPLE *hover_sound;
 	
 
   };

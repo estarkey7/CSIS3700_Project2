@@ -1,9 +1,9 @@
 #include "world.h"
 #include <cassert>
 #include <algorithm>
-#include "sprite.h"
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_image.h"
+#include "sprite.h"
 #include "player_sprite.h"
 #include "obstruction_sprite.h"
 #include "collision.h"
@@ -19,19 +19,43 @@ namespace csis3700 {
 	delete s;
   } 
 
-  world::world() {
-	  camera.Set(1024 / 2, 768 / 2);
-	  view_rect.Set(1024, 768);
-	  game_music = al_load_sample("game_music.wav");
-	  jump_sound = al_load_sample("jump.wav");
-	  player_change_direction_sound = al_load_sample("player_change_direction.wav");
-	  player = new player_sprite("player", (1024.0f / 2.0f) - 300, (768.0f / 2) + 100, image_library::get_instance()->get("player_idle1.png"), 100.0f, 250.0f, 400.0f, &camera, jump_sound);
-	  //al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);  
-	  obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20 , image_library::get_instance()->get("woods_splash2.png"));
-	  obstruction_sprite *ground = new obstruction_sprite("ground",(1024.0f /2.0f) - 20.0f, 768.0f - 50  ,image_library::get_instance()->get("ground.png"));
-	  build_background(-1859, -20, 14);
-	  sprites.push_back(splash);
-	  make_ground();
+  world::world(size_t width_in, size_t height_in) {
+	  DISPLAY_SIZE.Set(width_in, height_in);
+
+		// INITIALIZE CAMERA
+	  camera.Set(DISPLAY_SIZE.get_x() / 2, DISPLAY_SIZE.get_y() / 2);
+		
+		cout << sprite_id_count;
+
+		// SETUP AUDIO SAMPLES, SAMPLE INSTANCES, AND ATTACH TO MIXER
+		game_music = al_load_sample("game_music.wav");
+		jump_sound = al_load_sample("jump.wav");
+		player_change_direction_sound = al_load_sample("player_change_direction.wav");
+		player_landing_sound = al_load_sample("player_landing.wav");
+
+		// SETUP AUDIO SAMPLE INSTANCES
+		jump_sound_instance = al_create_sample_instance(jump_sound);
+		player_landing_sound_instance = al_create_sample_instance(player_landing_sound);
+		player_change_direction_sound_instance = al_create_sample_instance(player_change_direction_sound);
+		
+		// ATTACH AUDIO SAMPLE INSTANCES TO MIXER
+		al_attach_sample_instance_to_mixer(jump_sound_instance, al_get_default_mixer());
+		al_attach_sample_instance_to_mixer(player_landing_sound_instance, al_get_default_mixer());
+		al_attach_sample_instance_to_mixer(player_change_direction_sound_instance, al_get_default_mixer());
+
+		// START GAME_MUSIC
+		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+		
+	 
+		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
+		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 0.5f, 0.5f, image_library::get_instance()->get("player_idle1.png"), 100.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance,player_change_direction_sound_instance);
+	  
+	  
+		
+		obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20, 1.0f, 1.0f, image_library::get_instance()->get("woods_splash2.png")); // y should be 330 for 1920x1080 res
+		build_background(-4021, -20, 15);
+		sprites.push_back(splash);
+		make_ground();
 	  
 	  
 	
@@ -48,33 +72,30 @@ namespace csis3700 {
   void world::make_ground(){
 
 	  // MAIN GROUND
+		// Secret Bonus Platform way to the left of respawn point
+		  build_platform(-4000, -250, 15);
+	  
+		  // START AT LOCATION (0, 0). MAKE 8x1 BLOCK PLATFORM (50x50 per block). Default parameters are for ground objects
+		  // (0,0) -> (750,0) : 8x1 
+		  build_platform(0, 0, 15); 
 
-	  // START AT LOCATION (0, 718). MAKE 8 BLOCKS (50x50 px each) times 1 ROW (50 pxs high)
-	  build_platform(0, 0, 8, 1); 
+		  // (1750,0) -> (2950,0) : 40x1 
+		  build_platform(1750, 0, 24);
 
+		  // (3000,0) -> (3400,0) : 8x1 
+		  build_platform(4300, 0, 6);
 
-	 // build_platform(0, 718, 8, 1);
-	  for (int i = 0; i < 3000; i += 50){
-			
-		  if (i <= 400 || i > 800)
-			  sprites.push_back(new obstruction_sprite("ground", i , 768.0f - 50, image_library::get_instance()->get("ground.png")));
-	  }
 
 	  // FIRST PLATFORM
-	  for (int i = 550; i < 1024 - 300; i += 50){
-
-		  sprites.push_back(new obstruction_sprite("ground", i, 768.0f - 250, image_library::get_instance()->get("ground.png")));
-	  }
+		  build_platform(343, 200, 1);
 
 	  // SECOND PLATFORM
-	  build_platform(1200, 260, 10, 1);
+		  build_platform(3300, 300, 6);
 	  
 	  
   }
 
-  void world::build_platform(int init_x, int init_y, int x_scale, int y_scale,
-							 string object_name_in, string object_location_string_in,
-							 int object_width_in, int object_height_in){
+  void world::build_platform(int init_x, int init_y, int x_scale, int y_scale, string object_name_in, string object_location_string_in,int object_width_in, int object_height_in){
 	  /*
 		PLATFORM CREATOR
 			- More easily create platform loops to build maps
@@ -105,7 +126,7 @@ namespace csis3700 {
 		
 	  for (int x = init_x; x < (init_x + (x_scale * object_width_in)); x += object_width_in){
 		  for (int y = init_y; y < init_y + (y_scale * object_height_in) ; y += object_height_in){
-			  sprites.push_back(new obstruction_sprite(object_name_in, x, 768 - y, image_library::get_instance()->get(object_location_string_in)));
+			  sprites.push_back(new obstruction_sprite(object_name_in, x, DISPLAY_SIZE.get_y() - y - object_height_in, 1.0f, 1.0f, image_library::get_instance()->get(object_location_string_in)));
 		  }
 	  }
 
@@ -115,7 +136,7 @@ namespace csis3700 {
 
 	  for (int x = init_x; x < (init_x + (width * 1081)); x += 1081){
 		   
-		  sprites.push_back(new obstruction_sprite("background", x, init_y, image_library::get_instance()->get("woods_green.png")) );
+		  sprites.push_back(new obstruction_sprite("background", x, init_y, 1.0f, 1.0f, image_library::get_instance()->get("woods_green.png")));
 		  
 	  }
 
@@ -134,6 +155,7 @@ namespace csis3700 {
 	for_each(sprites.begin(), sprites.end(), free_sprite);
 	sprites.clear();
 	//Remove sounds.
+	al_destroy_sample_instance(jump_sound_instance);
 	al_destroy_sample(game_music);
 	al_destroy_sample(player_change_direction_sound);
 	al_destroy_sample(jump_sound); 
@@ -157,7 +179,7 @@ namespace csis3700 {
 								 
 				case ALLEGRO_KEY_RIGHT :  player->move(MOVE_RIGHT);break;
 				
-				case ALLEGRO_KEY_UP :  player->move(JUMP, jump_sound); break;
+				case ALLEGRO_KEY_UP :  player->move(JUMP, jump_sound_instance); break;
 				
 				case ALLEGRO_KEY_DOWN:  player->move(HOVER); break;
 				
@@ -201,8 +223,8 @@ namespace csis3700 {
 
   void world::advance_by_time(double dt) {
 	  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_W)){
-		  cout << "KEY_DOWN: W................" << endl;
-		  player->move(JUMP, jump_sound);
+		  //cout << "KEY_DOWN: W................" << endl;
+		  player->move(JUMP, jump_sound_instance);
 
 	  }
 	  /*
@@ -213,12 +235,12 @@ namespace csis3700 {
 	  */
 	  
 	  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_A)){
-		  cout << "KEY_DOWN: A" << endl;
-		  player->move(MOVE_LEFT, player_change_direction_sound);
+		  //cout << "KEY_DOWN: A" << endl;
+		  player->move(MOVE_LEFT, player_change_direction_sound_instance);
 	  }
 	  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_D)){
-		  cout << "KEY_DOWN: D................" << endl;
-		  player->move(MOVE_RIGHT, player_change_direction_sound);
+		  //cout << "KEY_DOWN: D................" << endl;
+		  player->move(MOVE_RIGHT, player_change_direction_sound_instance);
 	  }
 
 	 
@@ -230,9 +252,9 @@ namespace csis3700 {
   }
 
   void world::draw() {
-	al_clear_to_color(al_map_rgb(0,0,0));
+	  al_clear_to_color(al_map_rgb(0, 0, 0));
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
-	  (*it)->draw(&camera, &view_rect);
+	  (*it)->draw(&camera);
   }
 
 }

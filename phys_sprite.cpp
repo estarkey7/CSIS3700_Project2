@@ -5,7 +5,7 @@ using namespace std;
 
 namespace csis3700 {
   
-  phys_sprite::phys_sprite(string name_in,float initial_x, float initial_y, float initial_vx, float initial_vy) : sprite(name_in,initial_x, initial_y) {
+  phys_sprite::phys_sprite(string name_in,float initial_x, float initial_y, float sx_in, float sy_in, float initial_vx, float initial_vy) : sprite(name_in,initial_x, initial_y, sx_in, sy_in) {
     velocity = Vector2(initial_vx, initial_vy); 
     
   }

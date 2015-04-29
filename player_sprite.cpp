@@ -51,10 +51,10 @@ namespace csis3700 {
 		cout << endl << endl << endl << endl;
 	}
 
-  player_sprite::player_sprite(string name_in,float initial_x, float initial_y,
+  player_sprite::player_sprite(string name_in,float initial_x, float initial_y, float sx_in, float sy_in,
 						ALLEGRO_BITMAP *image, float move_speed_in,
-						float max_move_speed_in, float jump_speed_in, Vector2 *camera_in, ALLEGRO_SAMPLE *jump_sound_in, ALLEGRO_SAMPLE *change_dir_sound_in) :
-							phys_sprite(name_in,initial_x, initial_y) {
+						float max_move_speed_in, float jump_speed_in, Vector2 *camera_in, ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance_in, ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in) :
+							phys_sprite(name_in,initial_x, initial_y, sx_in, sy_in) {
 
 			// CREATE IDLE_SEQUENCE (DEFAULT)
 		  idle_sequence = new image_sequence;
@@ -74,14 +74,16 @@ namespace csis3700 {
 		  max_move_speed = max_move_speed_in; // MAX HORIZONTAL VELOCITY LIMIT THAT THE PLAYERS MOVEMENT FUNCTIONS CAN REACH
 		  jump_speed = jump_speed_in; // JUMP STRENGTH
 
-		  jump_sound = jump_sound_in; // SOUND FX FOR JUMPING
+		  player_landing_sound_instance = player_landing_sound_instance_in; // SOUND FX FOR JUMPING
+		  change_direction_sound_instance = change_direction_sound_instance_in; // SOUND FX FOR JUMPING
+		  hover_sound = al_load_sample("jump.wav");
 
 
-		  y_min_bounds = 768 + 300;	// The y value that triggers a respawn. "value = 768(bottom of display) + amount below the screen"
+		  y_min_bounds = DISPLAY_SIZE.get_y() + 300;	// The y value that triggers a respawn. "value = 768(bottom of display) + amount below the screen"
 		  hover_strength = .6;
 		  gravity = Vector2(0.0, 450);	// Declare the Gravity Vector, For each second(dt), accelerate the velocity 450 pixels towards the floor
-		  camera_offset.Set(0, 100); // PIXEL OFF USED TO CONTROLL WHERE THE "BITMAP IMAGE" OF THE PLAYER IS DRAWN FROM THE CENTER OF THE DISPLAY
-		  respawn_location.Set((1024.0f / 2.0f) - 112.0f, (768.0f - 50) - 250);	// HARDCODED LOCATION VECTOR TO RESET THE PLAYERS LOCATION TO THE BEGGINING OF LEVEL 1
+		  camera_offset.Set(0, 0); // PIXEL OFF USED TO CONTROLL WHERE THE "BITMAP IMAGE" OF THE PLAYER IS DRAWN FROM THE CENTER OF THE DISPLAY
+		  respawn_location.Set(343, (DISPLAY_SIZE.get_y() - 50) - 250);	// HARDCODED LOCATION VECTOR TO RESET THE PLAYERS LOCATION TO THE BEGGINING OF LEVEL 1
 		  friction = .8f;	// FRICTION FROM PLAYER MOVING ON GROUND
 		  friction_threshhold = 50.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
 
@@ -97,11 +99,11 @@ namespace csis3700 {
 		  on_ground = v;
   }
 
-  void player_sprite::respawn(ALLEGRO_SAMPLE *sound_in) {
+  void player_sprite::respawn(ALLEGRO_SAMPLE_INSTANCE *sound_in) {
 	  set_position(respawn_location);
 	  set_velocity(Vector2(0, 0));
 	  if (sound_in != NULL)
-		  al_play_sample(sound_in, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+		  al_play_sample_instance(sound_in);
   }
 
   void player_sprite::print_initial_configuration(){
@@ -118,7 +120,10 @@ namespace csis3700 {
 	  cout << "------------Y_Loc : " << get_y_local() << endl;
 	  cout << "--------VECLOCITY   " << endl;
 	  cout << "------------X     : " << get_velocity().get_x() << endl;
-	  cout << "------------Y     : " << get_velocity().get_y() << endl << endl;
+	  cout << "------------Y     : " << get_velocity().get_y() << endl;
+	  cout << "--------SCALE     : " << endl;
+	  cout << "------------SX    : " << sx << endl;
+	  cout << "------------SY    : " << sy << endl << endl;
   }
  
   void player_sprite::advance_by_time(double dt) {
@@ -161,7 +166,13 @@ namespace csis3700 {
 		  rectangle r = collision.collision_rectangle();
 		  set_position((get_position() + Vector2(0, -r.get_height())));
 		  //set_velocity((Vector2(get_velocity().get_x(), 0.0f)));
-	  
+
+		  // IF PLAYER FALLS FASTER THAN A VELOCITY OF 300 DOWN, MAKE A THUMP ON LANDING
+		  if (get_velocity().get_y() >300 && get_velocity().get_y() != 0)
+			  al_play_sample_instance(player_landing_sound_instance);
+
+		  // WHEN PLAYERS VELOCITY IS ALMOST 0(WITHIN FRICTION THRESHHOLD AMOUNT OF 0), SET IT TO EXACTLY 0;
+		  //	IF ITS NOT CLOSE, APPLY FRICTION
 		  if (get_velocity().get_x() > -friction_threshhold && get_velocity().get_x() < friction_threshhold){
 			  set_velocity((Vector2(0.0f , 0.0f)));
 			  player_movement_state = IDLE;
@@ -174,7 +185,7 @@ namespace csis3700 {
   }
   
   
-  void player_sprite::jump(ALLEGRO_SAMPLE *sound_in) {
+  void player_sprite::jump(ALLEGRO_SAMPLE_INSTANCE *sound_in) {
   
 		// INCREASE VELOCITY UPWARDS IF VELOCITY IS 0 (NOT JUMPING)
 	  if (get_velocity().y == 0){
@@ -184,12 +195,12 @@ namespace csis3700 {
 		  player_movement_state = JUMP;
 		  set_image_sequence(jump_sequence);
 		  if (sound_in != NULL)
-			  al_play_sample(sound_in, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+			  al_play_sample_instance(sound_in);
 		  
 	  }
   }
 
-  void player_sprite::hover(ALLEGRO_SAMPLE *sound_in) {
+  void player_sprite::hover(ALLEGRO_SAMPLE_INSTANCE *sound_in) {
 
 	  // INCREASE VELOCITY UPWARDS IF VELOCITY IS 0 (NOT JUMPING)
 	  if (get_velocity().y >= 0){
@@ -198,16 +209,16 @@ namespace csis3700 {
 		  set_velocity(Vector2(get_velocity().get_x(), get_velocity().get_y() * hover_strength));
 
 		  if (sound_in != NULL)
-			  al_play_sample(sound_in, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+			  al_play_sample_instance(sound_in);
 	  }
   }
   
-  void player_sprite::walk_left(ALLEGRO_SAMPLE *sound_in){
+  void player_sprite::walk_left(ALLEGRO_SAMPLE_INSTANCE *sound_in){
 		// SNAP VELOCITY TO 0 IF CHANGING DIRECTIONS
 	  if (get_velocity().x > 0){
 		  set_velocity(Vector2(0, get_velocity().y));
 		  if (sound_in != NULL)
-			  al_play_sample(sound_in, 1.5f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+			  al_play_sample_instance(sound_in);
 	  }
 	  
 		// INCREASE VELOCITY TO THE LEFT IF VELOCITY HASN'T REACHED MAX_MOVE_SPEED YET
@@ -215,12 +226,12 @@ namespace csis3700 {
 			set_velocity(get_velocity() + Vector2(-move_speed, 0));
   }
   
-  void player_sprite::walk_right(ALLEGRO_SAMPLE *sound_in){
+  void player_sprite::walk_right(ALLEGRO_SAMPLE_INSTANCE *sound_in){
 		// SNAP VELOCITY TO 0 IF CHANGING DIRECTIONS
 	  if (get_velocity().x < 0){
 		  set_velocity(Vector2(0, get_velocity().y));
 		  if (sound_in != NULL)
-			  al_play_sample(sound_in, 1.5f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+			  al_play_sample_instance(sound_in);
 	  }
 		
 		// INCREASE VELOCITY TO THE RIGHT IF VELOCITY HASN'T REACHED MAX_MOVE_SPEED YET
@@ -228,7 +239,7 @@ namespace csis3700 {
 			set_velocity(get_velocity()  + Vector2(move_speed, 0));
   }
   
-  void player_sprite::move(character_movement direction, ALLEGRO_SAMPLE *sound_in){
+  void player_sprite::move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in){
 		// add force
 		  switch (direction){
 			    case   MOVE_LEFT:    walk_left(sound_in);   break;
@@ -243,11 +254,11 @@ namespace csis3700 {
 		 
   }
 
-  void player_sprite::draw(Vector2 *camera_in, Vector2 *view_rect_in){
+  void player_sprite::draw(Vector2 *camera_in){
 	  
 	  // (1024.0f / 2.0f) - 300, (768.0f / 2) + 100
 	  //if (player_movement_state == IDLE)
-	   sequence->draw(time, 1024 / 2 + camera_offset.get_x(), 768 / 2 + camera_offset.get_y());
+	  sequence->draw(time, (DISPLAY_SIZE.get_x() / 2) + camera_offset.get_x(), (DISPLAY_SIZE.get_y() / 2) + camera_offset.get_y(), sx, sy);
 	  
 	  //sequence->draw(time, get_x(), get_y());
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());

@@ -15,15 +15,13 @@ namespace csis3700 {
 
   static int sprite_id_count = 0;
   
-  static Vector2 view_rectangle(1024, 768);
-
   class collision;
 	
   class sprite {
   public:
 	  
 	  
-	  sprite(string name_in, float initial_x, float initial_y);
+	  sprite(string name_in, float initial_x, float initial_y, float sx, float sy);
 
     void set_image_sequence(image_sequence *s);
 
@@ -77,7 +75,7 @@ namespace csis3700 {
     /**
      * Draw this sprite.
      */
-	virtual void draw(Vector2 *camera_in, Vector2 *view_rect_in);
+	virtual void draw(Vector2 *camera_in);
 
     /**
      * Returns true iff I collide with other. Default implementation
@@ -107,8 +105,10 @@ namespace csis3700 {
     
 
   protected:
-  
+	  float sx;
+	  float sy;
   	int sprite_id;
+	
   	
 	string name;
     

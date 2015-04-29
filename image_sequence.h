@@ -27,7 +27,7 @@ namespace csis3700 {
     /**
      * Draw the current image on the current allegro target.
      */
-    void draw(double time, float x, float y);
+	void draw(double time, float x, float y, float sx = 1.0f, float sy = 1.0f);
 
     /**
      * Set the loop index. When the last image in the sequence is
@@ -48,7 +48,7 @@ namespace csis3700 {
 
 
   private:
-    void draw_current(float x, float y);
+	  void draw_current(float x, float y, float sx = 1.0f, float sy = 1.0f);
     std::vector<image_with_offset> images;
     std::size_t current;
     double last_change_time;

@@ -3,16 +3,17 @@
 namespace csis3700 {
 
   // CONSTRUCTOR
-	sprite::sprite(string name_in, float initial_x, float initial_y) {
+	sprite::sprite(string name_in, float initial_x, float initial_y,float sx_in, float sy_in) {
 	name = name_in;
 	position = Vector2(initial_x, initial_y);
 	time = 0;
 	register_sprite_id();
-
+	sx = sx_in;
+	sy = sy_in;
 	
 	
 	// PRINT INITALIZATION VARIABLE INFO FOR DEBUGGING 
-	print_initial_configuration();
+	//print_initial_configuration();
   }
 
   // get_name  
@@ -89,23 +90,24 @@ namespace csis3700 {
   float sprite::get_x_local()  {
 	  
 	  // return  position.get_x() + camera.get_x() - (1024 / 2);
-	  return  ( -512) + position.get_x();
+	  return  (-(DISPLAY_SIZE.get_x() / 2)) + position.get_x();
+	  
   }
 
   // get_y 
   float sprite::get_y_local()  {
 	  //return   position.get_y() + camera.get_y() + (768 / 2);
-	  return  ( - 768/2) + position.get_y();
+	  return  (-(DISPLAY_SIZE.get_y() / 2)) + position.get_y();
   }
 
   // draw
-  void sprite::draw(Vector2 *camera_in, Vector2 *view_rect_in) {
-	  sequence->draw(time, (-camera_in->get_x() + 512) + position.get_x(), (-camera_in->get_y() + 768 / 2) + position.get_y());
+  void sprite::draw(Vector2 *camera_in) {
+	  sequence->draw(time, (-camera_in->get_x() + (DISPLAY_SIZE.get_x() / 2)) + position.get_x(), (-camera_in->get_y() + DISPLAY_SIZE.get_y() / 2) + position.get_y(), sx, sy);
   }
 
   // bounding_box
   rectangle sprite::bounding_box() const {
-    return rectangle(position, get_width(), get_height());
+    return rectangle(position, get_width() * sx, get_height() * sy);
   }
 
   // collision_rectangle

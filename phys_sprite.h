@@ -12,7 +12,7 @@ namespace csis3700 {
    */
   class phys_sprite : public sprite {
   public:
-    phys_sprite(string name_in,float initial_x=0, float initial_y=0, float initial_vx=0, float initial_vy=0);
+    phys_sprite(string name_in,float initial_x=0, float initial_y=0, float sx_in = 1.0f, float sy_in = 1.0f , float initial_vx=0, float initial_vy=0);
 
     virtual void advance_by_time(double dt);
 

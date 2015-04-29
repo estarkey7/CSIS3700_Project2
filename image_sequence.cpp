@@ -2,7 +2,10 @@
 #include "allegro5/allegro.h"
 #include <cassert>
 
+
 namespace csis3700 {
+	//  jump_sequence->add_image(image_library::get_instance()->get("player_jump1.png"), .1);
+	//  sequence->draw(time, (DISPLAY_SIZE.get_x() / 2) + camera_offset.get_x(), (DISPLAY_SIZE.get_y() / 2) + camera_offset.get_y());
 
   image_with_offset::image_with_offset(ALLEGRO_BITMAP* i, double o) {
     image = i;
@@ -20,14 +23,21 @@ namespace csis3700 {
     images.push_back(image_with_offset(image, offset));
   }
 
-  void image_sequence::draw_current(float x, float y) {
-    al_draw_bitmap(images[current].image, x, y, 0);
+  void image_sequence::draw_current(float x, float y, float sx, float sy) {
+	  if (sx == 1.0f && sy == 1.0f){
+		  al_draw_bitmap(images[current].image, x, y, 0);
+	  }
+	  else {
+		  float ImageWidth = al_get_bitmap_width(images[current].image);
+		  float ImageHeight = al_get_bitmap_height(images[current].image);
+		  al_draw_scaled_bitmap(images[current].image, 0, 0, ImageWidth, ImageHeight, x, y, sx * ImageWidth, sy * ImageHeight, 0);
+	  }
   }
 
-  void image_sequence::draw(double time, float x, float y) {
+  void image_sequence::draw(double time, float x, float y, float sx, float sy) {
     assert(images.size() > 0);
     if (images.size() == 1) {
-      draw_current(x, y);
+      draw_current(x, y, sx, sy);
       return;
     }
     image_with_offset visible = images[current];
@@ -40,7 +50,7 @@ namespace csis3700 {
       current = next_index;
       last_change_time = time;
     }
-    draw_current(x, y);
+	draw_current(x, y,sx, sy);
   }
 
   int image_sequence::get_width() const {

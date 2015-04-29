@@ -5,6 +5,7 @@
 #include <string>
 
 namespace csis3700 {
+	static Vector2 DISPLAY_SIZE(1024, 768);
 	enum character_state { ALIVE , DEAD, };
 	enum character_movement { MOVE_LEFT, JUMP, MOVE_RIGHT, HOVER, IDLE };
   	enum game_state { GAME_OVER , LEVEL_ONE };
