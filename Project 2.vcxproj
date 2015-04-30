@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
+    <ClInclude Include="enemy_sprite.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="image_library.h" />
     <ClInclude Include="image_sequence.h" />
@@ -85,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="collision.cpp" />
+    <ClCompile Include="enemy_sprite.cpp" />
     <ClCompile Include="image_library.cpp" />
     <ClCompile Include="image_sequence.cpp" />
     <ClCompile Include="keyboard_manager.cpp" />
@@ -105,6 +107,8 @@
     <Image Include="Imagesx\player_idle2.png" />
     <Image Include="Imagesx\splash.png" />
     <Image Include="Imagesx\splash2.png" />
+    <Image Include="Images\bug1.png" />
+    <Image Include="Images\bug2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

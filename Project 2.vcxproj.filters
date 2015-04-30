@@ -54,6 +54,9 @@
     <ClInclude Include="world.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="enemy_sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="collision.cpp">
@@ -92,6 +95,9 @@
     <ClCompile Include="world.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="enemy_sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Imagesx\ground dirt.png">
@@ -113,6 +119,12 @@
       <Filter>Resource Files\Images</Filter>
     </Image>
     <Image Include="Imagesx\splash2.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\bug1.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\bug2.png">
       <Filter>Resource Files\Images</Filter>
     </Image>
   </ItemGroup>

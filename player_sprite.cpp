@@ -313,7 +313,13 @@ namespace csis3700 {
   }
 
 
-
+  player_sprite::~player_sprite()
+  {
+	  delete idle_sequence;
+	  delete walk_right_sequence;
+	  delete walk_left_sequence;
+	  delete jump_sequence;
+  }
   
 
 } // end of csis3700 namespace

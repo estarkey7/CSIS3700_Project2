@@ -39,6 +39,7 @@ namespace csis3700 {
 	virtual void move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
 	void draw(Vector2 *camera_in);
 	void print_initial_configuration();
+	virtual ~player_sprite();
 
     
     
