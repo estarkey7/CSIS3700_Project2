@@ -4,9 +4,10 @@
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_native_dialog.h"
 #include "allegro5/allegro_primitives.h"
-#include <allegro5\allegro_audio.h>
-#include <allegro5\allegro_acodec.h>
-
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
+#include "allegro5\allegro_font.h"
+#include "allegro5\allegro_ttf.h"
 #include "world.h"
 
 using namespace std;
@@ -52,6 +53,9 @@ int main(int argc, char **argv){
 	   cerr << "Failed to initialize al_init_acodec_addon!" << endl;
 	   exit(1);
    }
+   al_init_primitives_addon();
+   al_init_font_addon();
+   al_init_ttf_addon();
 
    DISPLAY_SIZE.Set(WIDTH, HEIGHT);
    al_reserve_samples(5);

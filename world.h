@@ -8,6 +8,8 @@
 #include <vector>
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
+#include "allegro5\allegro_font.h"
+#include "allegro5\allegro_ttf.h"
 #include "keyboard_manager.h"
 #include <cstdlib>
 #include <string>
@@ -90,6 +92,10 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE_INSTANCE *player_change_direction_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
+	ALLEGRO_FONT *rapier12 = al_load_font("Rapier Zero.ttf", 12, 0);
+	ALLEGRO_FONT *rapier24 = al_load_font("Rapier Zero.ttf", 24, 0);
+	ALLEGRO_FONT *rapier32 = al_load_font("Rapier Zero.ttf", 32, 0);
+	ALLEGRO_FONT *rapier48 = al_load_font("Rapier Zero.ttf", 48, 0);
     std::vector<sprite*> sprites;
 	 Vector2 camera;
 	 

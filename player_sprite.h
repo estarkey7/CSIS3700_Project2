@@ -39,15 +39,22 @@ namespace csis3700 {
 	virtual void move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
 	void draw(Vector2 *camera_in);
 	void print_initial_configuration();
+	void set_score(int i);
+	void add_score(int i);
+	int get_score();
 	virtual ~player_sprite();
-
     
     
   private:
+	  float fly_strength;
+	int score = 0;
     bool on_ground;
     float move_speed;
     float max_move_speed;
 	float hover_strength;
+	float move_speed_default;
+	float max_move_speed_default;
+	float hover_strength_default;
 	float friction;
 	float friction_threshhold;
     float jump_speed;

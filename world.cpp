@@ -64,6 +64,24 @@ namespace csis3700 {
 		sprites.push_back(splash);
 		sprites.push_back(splash2);
 		make_ground();
+		obstruction_sprite *ground = new obstruction_sprite("ground", 358, DISPLAY_SIZE.get_y() - 200, .5f, .1f, image_library::get_instance()->get("ground dirt.png"));
+		sprites.push_back(ground);
+
+		// Balloon Test
+		obstruction_sprite *balloon = new obstruction_sprite("balloon", 3300, DISPLAY_SIZE.get_y() -500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
+		obstruction_sprite *magic_balloon = new obstruction_sprite("magic_balloon", -3450,  - 500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
+		obstruction_sprite *magic_balloon2 = new obstruction_sprite("magic_balloon", 0, 500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
+		image_sequence *balloon_sequence =  new image_sequence;
+		double balloon_animation_speed = 1.0;
+		balloon_sequence->add_image(image_library::get_instance()->get("balloon1.png"), balloon_animation_speed);
+		balloon_sequence->add_image(image_library::get_instance()->get("balloon2.png"), balloon_animation_speed);
+		balloon->set_image_sequence(balloon_sequence);
+		magic_balloon->set_image_sequence(balloon_sequence);
+		magic_balloon2->set_image_sequence(balloon_sequence);
+		sprites.push_back(balloon);
+		sprites.push_back(magic_balloon);
+		sprites.push_back(magic_balloon2);
+
 	  
 	  
 	
@@ -86,25 +104,31 @@ namespace csis3700 {
 		  build_platform(-3450, 300, 1, 3);
 		  build_platform(-3450, 750, 1, 1);
 		  build_platform(-3450, 1100, 2, 2);
+
+		  build_platform(5000, 20, 1, 1, "ground", "ground_5000.png", 5000, 50);
+		  for (int i = 10500; i < 18000; i += 2000)
+			  build_platform(i, 20, 1,1,"ground","ground_2000.png",3200,50);
 	  
 		  // START AT LOCATION (0, 0). MAKE 8x1 BLOCK PLATFORM (50x50 per block). Default parameters are for ground objects
 		  // (0,0) -> (750,0) : 8x1 
-		  build_platform(0, 0, 15); 
+
+		  build_platform(0, 0, 3, 1, "ground", "ground_300.png", 300, 50);
 
 		  // (1750,0) -> (2950,0) : 40x1 
-		  build_platform(1750, 0, 24);
-		  build_platform(1950, -200, 21);
+		  build_platform(1750, 0, 4, 1, "ground", "ground_300.png", 300, 50);
+			  build_platform(1950, -200, 4.5, 1, "ground", "ground_300.png", 300, 50);
 
 		  // (3000,0) -> (3400,0) : 8x1 
-		  build_platform(4300, 0, 6);
+			  build_platform(4300, 0, 1, 1, "ground", "ground_300.png", 300, 50);
 
 
 	  // FIRST PLATFORM
-		  build_platform(343, 200, 1);
+		  //build_platform(343, 200, 1);
 
 	  // SECOND PLATFORM
-		  build_platform(3300, 300, 6);
-	  
+		  build_platform(3300, 300, 1, 1, "ground", "ground_300.png", 300, 50);
+
+		 
 	  
   }
 
@@ -281,6 +305,13 @@ namespace csis3700 {
 	  al_clear_to_color(al_map_rgb(0, 0, 0));
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  (*it)->draw(&camera);
+	al_draw_rounded_rectangle       (20, 20, 200, 60, 15, 15, al_map_rgba( 0,  0,  0, 200), 7);
+	al_draw_rounded_rectangle       (20, 20, 200, 60, 15, 15, al_map_rgba(15, 60, 15,  20), 4);
+	al_draw_filled_rounded_rectangle(24, 24, 196, 56, 11, 11, al_map_rgba(15, 30, 15, 230));
+	al_draw_textf(rapier24, al_map_rgba(15, 120, 15, 255), 35, 27, ALLEGRO_ALIGN_LEFT, "SCORE : %i", player->get_score());
+
+
+
   }
 
   
