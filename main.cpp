@@ -54,7 +54,7 @@ int main(int argc, char **argv){
    }
 
    DISPLAY_SIZE.Set(WIDTH, HEIGHT);
-   al_reserve_samples(4);
+   al_reserve_samples(5);
 
    
 

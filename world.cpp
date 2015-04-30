@@ -29,28 +29,31 @@ namespace csis3700 {
 		
 		cout << sprite_id_count;
 
-		// SETUP AUDIO SAMPLES, SAMPLE INSTANCES, AND ATTACH TO MIXER
+		// SETUP AUDIO SAMPLES
 		game_music = al_load_sample("game_music.wav");
 		jump_sound = al_load_sample("jump.wav");
 		player_change_direction_sound = al_load_sample("player_change_direction.wav");
 		player_landing_sound = al_load_sample("player_landing.wav");
+		walk_sound = al_load_sample("alien_walk.wav");
 
 		// SETUP AUDIO SAMPLE INSTANCES
 		jump_sound_instance = al_create_sample_instance(jump_sound);
 		player_landing_sound_instance = al_create_sample_instance(player_landing_sound);
 		player_change_direction_sound_instance = al_create_sample_instance(player_change_direction_sound);
+		walk_sound_instance = al_create_sample_instance(walk_sound);
 		
 		// ATTACH AUDIO SAMPLE INSTANCES TO MIXER
 		al_attach_sample_instance_to_mixer(jump_sound_instance, al_get_default_mixer());
 		al_attach_sample_instance_to_mixer(player_landing_sound_instance, al_get_default_mixer());
 		al_attach_sample_instance_to_mixer(player_change_direction_sound_instance, al_get_default_mixer());
+		al_attach_sample_instance_to_mixer(walk_sound_instance, al_get_default_mixer());
 
 		// START GAME_MUSIC
-		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
+		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, NULL);
 		
 	 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
-		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 100.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance,player_change_direction_sound_instance);
+		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
 	  
 		
 
@@ -84,6 +87,7 @@ namespace csis3700 {
 
 		  // (1750,0) -> (2950,0) : 40x1 
 		  build_platform(1750, 0, 24);
+		  build_platform(1950, -200, 21);
 
 		  // (3000,0) -> (3400,0) : 8x1 
 		  build_platform(4300, 0, 6);

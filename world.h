@@ -82,12 +82,14 @@ namespace csis3700 {
 	void build_background(int init_x, int init_y, int width);
     player_sprite *player;
 	ALLEGRO_SAMPLE *game_music;
-	ALLEGRO_SAMPLE *player_change_direction_sound;
 	ALLEGRO_SAMPLE *jump_sound;
+	ALLEGRO_SAMPLE *player_change_direction_sound;
+	ALLEGRO_SAMPLE *player_landing_sound;
+	ALLEGRO_SAMPLE *walk_sound;
 	ALLEGRO_SAMPLE_INSTANCE *jump_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *player_change_direction_sound_instance;
-	ALLEGRO_SAMPLE *player_landing_sound;
 	ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
     std::vector<sprite*> sprites;
 	 Vector2 camera;
 	 

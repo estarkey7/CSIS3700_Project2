@@ -25,7 +25,7 @@ namespace csis3700 {
 				  float max_move_speed_in = 50, float jump_speed_in = 200,
 				   Vector2 *camera_in = NULL,
 				  ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance_in = NULL,
-				  ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in = NULL);
+				  ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in = NULL, ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance_in = NULL);
 
     virtual bool is_passive() const;
     virtual void set_on_ground(bool v);
@@ -56,6 +56,7 @@ namespace csis3700 {
 	Vector2 respawn_location;
 	ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
 	ALLEGRO_SAMPLE *hover_sound;
 	
 

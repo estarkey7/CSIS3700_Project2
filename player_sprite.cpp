@@ -53,7 +53,10 @@ namespace csis3700 {
 
   player_sprite::player_sprite(string name_in,float initial_x, float initial_y, float sx_in, float sy_in,
 						ALLEGRO_BITMAP *image, float move_speed_in,
-						float max_move_speed_in, float jump_speed_in, Vector2 *camera_in, ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance_in, ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in) :
+						float max_move_speed_in, float jump_speed_in, Vector2 *camera_in,
+						ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance_in,
+						ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in,
+						ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance_in) :
 							phys_sprite(name_in,initial_x, initial_y, sx_in, sy_in) {
 
 			// CREATE IDLE_SEQUENCE (DEFAULT)
@@ -64,7 +67,7 @@ namespace csis3700 {
 		  
 		  // CREATE walk_right_SEQUENCE (DEFAULT)
 		  walk_right_sequence = new image_sequence;
-		  double walk_animation_speed = .05;
+		  double walk_animation_speed = .045;
 		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right1.png"), walk_animation_speed );
 		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right2.png"), walk_animation_speed );
 		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right3.png"), walk_animation_speed );
@@ -106,6 +109,7 @@ namespace csis3700 {
 
 		  player_landing_sound_instance = player_landing_sound_instance_in; // SOUND FX FOR JUMPING
 		  change_direction_sound_instance = change_direction_sound_instance_in; // SOUND FX FOR JUMPING
+		  walk_sound_instance = walk_sound_instance_in;
 		  hover_sound = al_load_sample("jump.wav");
 
 
@@ -114,8 +118,8 @@ namespace csis3700 {
 		  gravity = Vector2(0.0, 450);	// Declare the Gravity Vector, For each second(dt), accelerate the velocity 450 pixels towards the floor
 		  camera_offset.Set(0, 0); // PIXEL OFF USED TO CONTROLL WHERE THE "BITMAP IMAGE" OF THE PLAYER IS DRAWN FROM THE CENTER OF THE DISPLAY
 		  respawn_location.Set(343, (DISPLAY_SIZE.get_y() - 50) - 250);	// HARDCODED LOCATION VECTOR TO RESET THE PLAYERS LOCATION TO THE BEGGINING OF LEVEL 1
-		  friction = .8f;	// FRICTION FROM PLAYER MOVING ON GROUND
-		  friction_threshhold = 50.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
+		  friction = .9f;	// FRICTION FROM PLAYER MOVING ON GROUND
+		  friction_threshhold = 40.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
 
 		  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 		  respawn();
@@ -215,10 +219,12 @@ namespace csis3700 {
 		  if (get_velocity().get_x() > friction_threshhold )
 		  {
 			  set_image_sequence(walk_right_sequence);
+			  al_play_sample_instance(walk_sound_instance);
 		  }
 		  else if (get_velocity().get_x() < -friction_threshhold)
 		  {
 			  set_image_sequence(walk_left_sequence);
+			  al_play_sample_instance(walk_sound_instance);
 		  }
 	  }
   }
