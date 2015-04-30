@@ -2,6 +2,7 @@
 #include "image_library.h"
 #include "image_sequence.h"
 #include "collision.h"
+#include "allegro5\allegro_primitives.h"
 
 
 using namespace std;
@@ -104,7 +105,9 @@ namespace csis3700 {
 
 		  player_movement_state = IDLE;
 		  move_speed = move_speed_in;		// INCREMENT SPEED AT WHICH THE PLAYERS HORIZONTAL VELOCITY INCREASES PER MOVEMENT CALL
+		  move_speed_default = move_speed_in;
 		  max_move_speed = max_move_speed_in; // MAX HORIZONTAL VELOCITY LIMIT THAT THE PLAYERS MOVEMENT FUNCTIONS CAN REACH
+		  max_move_speed_default = max_move_speed_in;
 		  jump_speed = jump_speed_in; // JUMP STRENGTH
 
 		  player_landing_sound_instance = player_landing_sound_instance_in; // SOUND FX FOR JUMPING
@@ -112,18 +115,28 @@ namespace csis3700 {
 		  walk_sound_instance = walk_sound_instance_in;
 		  hover_sound = al_load_sample("jump.wav");
 
-
+		  fly_strength = 0;
+		  score = 0; // initialize score
 		  y_min_bounds = DISPLAY_SIZE.get_y() + 300;	// The y value that triggers a respawn. "value = 768(bottom of display) + amount below the screen"
 		  hover_strength = .6;
+		  hover_strength_default = .6;
 		  gravity = Vector2(0.0, 450);	// Declare the Gravity Vector, For each second(dt), accelerate the velocity 450 pixels towards the floor
 		  camera_offset.Set(0, 0); // PIXEL OFF USED TO CONTROLL WHERE THE "BITMAP IMAGE" OF THE PLAYER IS DRAWN FROM THE CENTER OF THE DISPLAY
 		  respawn_location.Set(343, (DISPLAY_SIZE.get_y() - 50) - 250);	// HARDCODED LOCATION VECTOR TO RESET THE PLAYERS LOCATION TO THE BEGGINING OF LEVEL 1
 		  friction = .9f;	// FRICTION FROM PLAYER MOVING ON GROUND
 		  friction_threshhold = 40.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
-
+		 
+		  
+		  
 		  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 		  respawn();
+		  
   }
+
+  void player_sprite::set_score(int i){ score = i; }
+  void player_sprite::add_score(int i){ score += i; }
+  int player_sprite::get_score(){ return score; }
+
 
   bool player_sprite::is_passive() const {
 		  return false;
@@ -136,6 +149,10 @@ namespace csis3700 {
   void player_sprite::respawn(ALLEGRO_SAMPLE_INSTANCE *sound_in) {
 	  set_position(respawn_location);
 	  set_velocity(Vector2(0, 0));
+	  fly_strength = 0;
+	  hover_strength = hover_strength_default;
+	  move_speed = move_speed_default;
+	  max_move_speed = max_move_speed_default;
 	  if (sound_in != NULL)
 		  al_play_sample_instance(sound_in);
   }
@@ -167,6 +184,7 @@ namespace csis3700 {
 		  // MAKE PLAYER RESPAWN IF PLAYER FALLS BELOW THE y_min_bounds value
 		  if (position.get_y() > y_min_bounds){
 			  respawn();
+			  
 		  }
 
 
@@ -227,6 +245,20 @@ namespace csis3700 {
 			  al_play_sample_instance(walk_sound_instance);
 		  }
 	  }
+	  else  if (other->get_name() == "balloon"){
+		  move(JUMP);
+		  set_velocity(get_velocity() + Vector2(0.0f, -500.0f));
+		  other->set_position(Vector2(-10000, -5000));
+	  }
+	  else  if (other->get_name() == "magic_balloon"){
+		  move(JUMP);
+		  hover_strength = 0;
+		  fly_strength = -200;
+		  move_speed += 100;
+		  max_move_speed += 75;
+		  set_velocity(get_velocity() + Vector2(0.0f, -100.0f));
+		  other->set_position(Vector2(-10000, -5000));
+	  }
   }
   
   
@@ -252,7 +284,7 @@ namespace csis3700 {
 	  if (get_velocity().y >= 0){
 		  // add force upwards
 		  //al_play_sample(jump_sound, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
-		  set_velocity(Vector2(get_velocity().get_x(), get_velocity().get_y() * hover_strength));
+		  set_velocity(Vector2(get_velocity().get_x(), get_velocity().get_y() * hover_strength + fly_strength));
 
 		  if (sound_in != NULL)
 			  al_play_sample_instance(sound_in);
@@ -308,6 +340,7 @@ namespace csis3700 {
 	  //if (player_movement_state == IDLE)
 	  sequence->draw(time, (DISPLAY_SIZE.get_x() / 2) + camera_offset.get_x(), (DISPLAY_SIZE.get_y() / 2) + camera_offset.get_y(), sx, sy);
 	  
+
 	  //sequence->draw(time, get_x(), get_y());
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
   }

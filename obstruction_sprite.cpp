@@ -5,7 +5,7 @@
 namespace csis3700 {
   obstruction_sprite::obstruction_sprite(string name_in,float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image) : sprite(name_in,initial_x, initial_y, sx_in, sy_in) {
   	image_sequence *s = new image_sequence;
-  	s->add_image(image, 0);
+  	s->add_image(image, .1);
   	set_image_sequence(s);
   
   }
