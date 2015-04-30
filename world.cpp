@@ -59,8 +59,10 @@ namespace csis3700 {
 
 		
 		obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20, 1.0f, 1.0f, image_library::get_instance()->get("woods_splash2.png")); // y should be 330 for 1920x1080 res
+		obstruction_sprite *splash2 = new obstruction_sprite("splash", -3959, -881, 1.0f, 1.0f, image_library::get_instance()->get("splash.png")); // y should be 330 for 1920x1080 res
 		build_background(-4021, -20, 15);
 		sprites.push_back(splash);
+		sprites.push_back(splash2);
 		make_ground();
 	  
 	  
@@ -79,7 +81,11 @@ namespace csis3700 {
 
 	  // MAIN GROUND
 		// Secret Bonus Platform way to the left of respawn point
-		  build_platform(-4000, -250, 15);
+		  build_platform(-3319, -250, 1);
+		  build_platform(-3450, -150, 1, 3);
+		  build_platform(-3450, 300, 1, 3);
+		  build_platform(-3450, 750, 1, 1);
+		  build_platform(-3450, 1100, 2, 2);
 	  
 		  // START AT LOCATION (0, 0). MAKE 8x1 BLOCK PLATFORM (50x50 per block). Default parameters are for ground objects
 		  // (0,0) -> (750,0) : 8x1 
