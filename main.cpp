@@ -105,6 +105,7 @@ int main(int argc, char **argv){
    double time = 0;
    bool redraw = true; // paint the first time through
    ALLEGRO_EVENT ev;
+   
    do
    {
 	  al_wait_for_event(event_queue, &ev);

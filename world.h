@@ -60,6 +60,7 @@ namespace csis3700 {
      * the backbuffer.
      */
     void draw();
+	void fade();
 
 	void make_ground();
 

@@ -3,6 +3,8 @@
 #include <algorithm>
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_image.h"
+#include "allegro5/allegro_native_dialog.h"
+#include "allegro5/allegro_primitives.h"
 #include "sprite.h"
 #include "player_sprite.h"
 #include "obstruction_sprite.h"
@@ -48,9 +50,10 @@ namespace csis3700 {
 		
 	 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
-		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 0.5f, 0.5f, image_library::get_instance()->get("player_idle1.png"), 100.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance,player_change_direction_sound_instance);
+		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 100.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance,player_change_direction_sound_instance);
 	  
-	  
+		
+
 		
 		obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20, 1.0f, 1.0f, image_library::get_instance()->get("woods_splash2.png")); // y should be 330 for 1920x1080 res
 		build_background(-4021, -20, 15);
@@ -140,6 +143,18 @@ namespace csis3700 {
 		  
 	  }
 
+  }
+
+  void world::fade(){
+	  // DOES NOT WORK
+	  for (float alpha = 1.0; alpha > 0.0; alpha -= 0.1)
+	  {
+		  al_draw_filled_rectangle(55, 55, 60, 60, al_map_rgb(255, 0, 0));
+		  al_draw_filled_rectangle(50, 50, 100, 100, al_map_rgba_f(1 * alpha, 1 * alpha, 1 * alpha, alpha));
+		  al_flip_display();
+		  al_clear_to_color(al_map_rgb(0, 0, 0));
+		  al_rest(0.1);
+	  }
   }
 
   world::world(const world& other) {
@@ -249,6 +264,7 @@ namespace csis3700 {
 	  (*it)->advance_by_time(dt);
 	  //(*it)->set_velocity;
 	resolve_collisions();
+
   }
 
   void world::draw() {
@@ -256,5 +272,7 @@ namespace csis3700 {
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  (*it)->draw(&camera);
   }
+
+  
 
 }

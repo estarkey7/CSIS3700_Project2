@@ -16,6 +16,8 @@ namespace csis3700 {
   public:
 	  image_sequence  *idle_sequence;
 	  image_sequence  *jump_sequence;
+	  image_sequence  *walk_right_sequence;
+	  image_sequence  *walk_left_sequence;
 	  character_movement player_movement_state;
   
 	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, float sx_in = 1.0f, float sy_in = 1.0f, 

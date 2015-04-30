@@ -58,16 +58,46 @@ namespace csis3700 {
 
 			// CREATE IDLE_SEQUENCE (DEFAULT)
 		  idle_sequence = new image_sequence;
-		  idle_sequence->add_image(image, .1);
+		  //idle_sequence->add_image(image, .1);
+		  idle_sequence->add_image(image_library::get_instance()->get("alien_idle01.png"), .2);
+		  idle_sequence->add_image(image_library::get_instance()->get("alien_idle02.png"), .2);
 		  
+		  // CREATE walk_right_SEQUENCE (DEFAULT)
+		  walk_right_sequence = new image_sequence;
+		  double walk_animation_speed = .05;
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right1.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right2.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right3.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right4.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right5.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right6.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right7.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right8.png"), walk_animation_speed );
+		  walk_right_sequence->add_image(image_library::get_instance()->get("alien_walk_right9.png"), walk_animation_speed );
+
+		  // CREATE walk_left_SEQUENCE (DEFAULT)
+		  walk_left_sequence = new image_sequence;
+
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left1.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left2.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left3.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left4.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left5.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left6.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left7.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left8.png"), walk_animation_speed);
+		  walk_left_sequence->add_image(image_library::get_instance()->get("alien_walk_left9.png"), walk_animation_speed);
+
 
 		    // SET IDLE SEQUENCE AS INITIAL SEQUENCE
 		  set_image_sequence(idle_sequence);
 
 		    // CREATE JUMP SEQUENCE
 		  jump_sequence = new image_sequence;
-		  jump_sequence->add_image(image_library::get_instance()->get("player_jump1.png"), .1);
-		  jump_sequence->add_image(image_library::get_instance()->get("player_jump2.png"), .2);
+		  jump_sequence->add_image(image_library::get_instance()->get("alien_jump1.png"), .3);
+		  jump_sequence->add_image(image_library::get_instance()->get("alien_jump2.png"), .4);
+		  jump_sequence->add_image(image_library::get_instance()->get("alien_jump3.png"), 1.5);
+		  jump_sequence->add_image(image_library::get_instance()->get("alien_jump4.png"), .2);
 
 		  player_movement_state = IDLE;
 		  move_speed = move_speed_in;		// INCREMENT SPEED AT WHICH THE PLAYERS HORIZONTAL VELOCITY INCREASES PER MOVEMENT CALL
@@ -181,6 +211,15 @@ namespace csis3700 {
 		  else {
 			  set_velocity( Vector2(get_velocity().get_x() * friction,  0.0f) );
 		  }
+
+		  if (get_velocity().get_x() > friction_threshhold )
+		  {
+			  set_image_sequence(walk_right_sequence);
+		  }
+		  else if (get_velocity().get_x() < -friction_threshhold)
+		  {
+			  set_image_sequence(walk_left_sequence);
+		  }
 	  }
   }
   
@@ -189,11 +228,12 @@ namespace csis3700 {
   
 		// INCREASE VELOCITY UPWARDS IF VELOCITY IS 0 (NOT JUMPING)
 	  if (get_velocity().y == 0){
+		  set_image_sequence(jump_sequence);
 		  // add force upwards
 		  // al_play_sample(jump_sound, .3f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_ONCE, NULL);
 		  set_velocity(get_velocity() + Vector2(0, -jump_speed));
 		  player_movement_state = JUMP;
-		  set_image_sequence(jump_sequence);
+		  
 		  if (sound_in != NULL)
 			  al_play_sample_instance(sound_in);
 		  
@@ -237,6 +277,8 @@ namespace csis3700 {
 		// INCREASE VELOCITY TO THE RIGHT IF VELOCITY HASN'T REACHED MAX_MOVE_SPEED YET
 		  if(get_velocity().x < max_move_speed)
 			set_velocity(get_velocity()  + Vector2(move_speed, 0));
+
+		  
   }
   
   void player_sprite::move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in){
