@@ -104,7 +104,7 @@ int main(int argc, char **argv){
    al_register_event_source(event_queue, al_get_keyboard_event_source());
    al_start_timer(timer);
 
-   csis3700::world world(WIDTH, HEIGHT);
+   csis3700::world world(WIDTH, HEIGHT, display);
    
    double time = 0;
    bool redraw = true; // paint the first time through
