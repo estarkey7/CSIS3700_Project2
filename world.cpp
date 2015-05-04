@@ -54,7 +54,7 @@ namespace csis3700 {
 		
 		
 		
-
+		addEnemeySpawnVectors();
 		
 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
@@ -239,19 +239,29 @@ namespace csis3700 {
 		switch (ev.keyboard.keycode){
 				//case ALLEGRO_KEY_A :  player->move(MOVE_LEFT); break;
 								 
-				case ALLEGRO_KEY_S:   player->move(HOVER); break;
+				case ALLEGRO_KEY_S:   player->move(HOVER);
+					checkForEnemySpawn();
+					break;
 								 
 				//case ALLEGRO_KEY_D :  player->move(MOVE_RIGHT); break;
 								 
 				//case ALLEGRO_KEY_W:  player->move(JUMP); break;			  
 								 
-				case ALLEGRO_KEY_LEFT : player->move(MOVE_LEFT); break;
+				case ALLEGRO_KEY_LEFT : player->move(MOVE_LEFT);
+					checkForEnemySpawn();
+					break;
 								 
-				case ALLEGRO_KEY_RIGHT :  player->move(MOVE_RIGHT);break;
+				case ALLEGRO_KEY_RIGHT :  player->move(MOVE_RIGHT);
+					checkForEnemySpawn();
+					break;
 				
-				case ALLEGRO_KEY_UP :  player->move(JUMP, jump_sound_instance); break;
+				case ALLEGRO_KEY_UP :  player->move(JUMP, jump_sound_instance);
+					checkForEnemySpawn();
+					break;
 				
-				case ALLEGRO_KEY_DOWN:  player->move(HOVER); break;
+				case ALLEGRO_KEY_DOWN:  player->move(HOVER); 
+					checkForEnemySpawn();
+					break;
 
 				case ALLEGRO_KEY_H:  player->remove_health(10); break;
 				
@@ -391,6 +401,7 @@ namespace csis3700 {
 		  for (int x = 0; x < 3; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
@@ -399,6 +410,7 @@ namespace csis3700 {
 		  for (int x = 0; x < 5; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
@@ -407,6 +419,7 @@ namespace csis3700 {
 		  for (int x = 0; x < 8; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
@@ -415,6 +428,7 @@ namespace csis3700 {
 		  for (int x = 0; x < 12; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
@@ -423,6 +437,7 @@ namespace csis3700 {
 		  for (int x = 0; x < 20; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
@@ -431,6 +446,7 @@ namespace csis3700 {
 		  for (int x = 0; x < 30; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
@@ -448,7 +464,7 @@ namespace csis3700 {
   }
 
   void world::checkForEnemySpawn()
-  {
+  {	  
 	  if (player->get_x() >= enemySpawnLocationQueue.front().get_x())
 	  {
 		  Vector2 tempVect = enemySpawnLocationQueue.front();
