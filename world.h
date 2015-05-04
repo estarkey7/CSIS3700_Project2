@@ -28,7 +28,8 @@ namespace csis3700 {
      * store the display in an instance variable. DO NOT start drawing
      * on the screen. Just load bitmaps etc.
      */
-    world(size_t width_in, size_t height_in);
+    
+	world(size_t width_in, size_t height_in, ALLEGRO_DISPLAY *display);
 
     /**
      * Free any resources being used by the world.
@@ -96,6 +97,7 @@ namespace csis3700 {
 	ALLEGRO_FONT *rapier24 = al_load_font("Rapier Zero.ttf", 24, 0);
 	ALLEGRO_FONT *rapier32 = al_load_font("Rapier Zero.ttf", 32, 0);
 	ALLEGRO_FONT *rapier48 = al_load_font("Rapier Zero.ttf", 48, 0);
+	ALLEGRO_DISPLAY *gameDisplay;
     std::vector<sprite*> sprites;
 	 Vector2 camera;
 	 

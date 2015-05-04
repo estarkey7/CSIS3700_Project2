@@ -21,7 +21,8 @@ namespace csis3700 {
 	delete s;
   } 
 
-  world::world(size_t width_in, size_t height_in) {
+  world::world(size_t width_in, size_t height_in, ALLEGRO_DISPLAY *display) {
+	  gameDisplay = display;
 	  DISPLAY_SIZE.Set(width_in, height_in);
 
 		// INITIALIZE CAMERA
@@ -54,7 +55,7 @@ namespace csis3700 {
 	 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
 		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
-	  
+		player->setDifficulty(EASY);
 		
 
 		
@@ -241,6 +242,23 @@ namespace csis3700 {
 						}
 					}
 						break;
+				case ALLEGRO_KEY_ESCAPE :
+					int button = 0;
+					button = al_show_native_message_box(
+						gameDisplay,
+						"Close Project II",
+						"Player,",
+						"You are about to exit the game, is that okay?",
+						NULL,
+						ALLEGRO_MESSAGEBOX_YES_NO
+						);
+
+						if(button == 1)
+						{
+							std::exit(0);
+						}
+						
+					break;
 										
 		}
 	}
