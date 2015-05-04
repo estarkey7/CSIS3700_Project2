@@ -238,6 +238,7 @@ namespace csis3700 {
 		  Vector2 stepVelocity = (dt * get_velocity());
 		  set_position( (get_position() + stepVelocity));
 		  
+		  
 		  //CHECK IF PLAYER IS DEAD
 		  if (is_alive == false)
 		  {
@@ -250,6 +251,7 @@ namespace csis3700 {
 		// collision with ground
 	  if (other->get_name() == "ground"){
 		  rectangle r = collision.collision_rectangle();
+		  
 		  set_position((get_position() + Vector2(0, -r.get_height())));
 		  //set_velocity((Vector2(get_velocity().get_x(), 0.0f)));
 
