@@ -26,6 +26,7 @@ namespace csis3700
 		bugCrawlingSample = al_load_sample("bug.wav");
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
+		moveEnemy();
 	}
 
 	void enemy_sprite::resolve(const collision& collision, sprite *other)
