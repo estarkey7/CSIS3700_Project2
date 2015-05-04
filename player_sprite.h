@@ -21,6 +21,7 @@ namespace csis3700 {
 	  image_sequence  *walk_right_sequence;
 	  image_sequence  *walk_left_sequence;
 	  character_movement player_movement_state;
+	  
   
 	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, float sx_in = 1.0f, float sy_in = 1.0f, 
 				  ALLEGRO_BITMAP *image = NULL, float move_speed_in = 10, 
@@ -28,7 +29,10 @@ namespace csis3700 {
 				   Vector2 *camera_in = NULL,
 				  ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance_in = NULL,
 				  ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance_in = NULL, ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance_in = NULL);
-
+	int get_health();
+	void set_health(int h);
+	void add_health(int h);
+	void remove_health(int h);
     virtual bool is_passive() const;
     virtual void set_on_ground(bool v);
     virtual void advance_by_time(double dt);
@@ -49,6 +53,7 @@ namespace csis3700 {
 	
     
   private:
+	  int health = 100;
 	  float fly_strength;
 	int score = 0;
     bool on_ground;

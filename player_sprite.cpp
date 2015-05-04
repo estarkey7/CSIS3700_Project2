@@ -138,6 +138,10 @@ namespace csis3700 {
 
   void player_sprite::set_score(int i){ score = i; }
   void player_sprite::add_score(int i){ score += i; }
+  int player_sprite::get_health(){ return health; }
+  void player_sprite::set_health(int h){ health = h; }
+  void  player_sprite::add_health(int h){ health += h; }
+  void  player_sprite::remove_health(int h){ health -= h; }
   int player_sprite::get_score(){ return score; }
 
 
