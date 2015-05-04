@@ -112,6 +112,8 @@ namespace csis3700 {
 	 void createEnemies(Vector2 initialPosition);
 	 void addEnemeySpawnVectors();
 	 std::vector<enemy_sprite*> enemies;
+	 void checkForEnemySpawn();
+	 bool messageBoxAlreadyShown = false;
   };
 }
 

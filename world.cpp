@@ -53,6 +53,10 @@ namespace csis3700 {
 		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, NULL);
 		
 	 
+		
+
+		
+
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
 		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
 				
@@ -82,7 +86,24 @@ namespace csis3700 {
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
 
-	  
+		/*int button = 0;
+		button = al_show_native_message_box(
+			gameDisplay,
+			"Select Game Difficulty",
+			"Player,",
+			"Do you want to play this game on higher difficulty?",
+			NULL,
+			ALLEGRO_MESSAGEBOX_YES_NO
+			);
+
+		if (button == 1)
+		{
+			difficultyLevel = HARD;
+		}
+		else
+		{
+			difficultyLevel = EASY;
+		}*/
 	  
 	
 	  //player->idle_sequence->add_image(image_library::get_instance()->get("player02.png"), .2);
@@ -316,6 +337,34 @@ namespace csis3700 {
 	  //(*it)->set_velocity;
 	resolve_collisions();
 
+	static double timeFlag = 0;
+
+	if (timeFlag > .7 && messageBoxAlreadyShown == false)
+	{
+		int button = 0;
+		button = al_show_native_message_box(
+			gameDisplay,
+			"Select Game Difficulty",
+			"",
+			"Do you want to play this game on higher difficulty?",
+			NULL,
+			ALLEGRO_MESSAGEBOX_YES_NO
+			);
+
+		if (button == 1)
+		{
+			difficultyLevel = HARD;
+			messageBoxAlreadyShown = true;
+		}
+		else
+		{
+			difficultyLevel = EASY;
+			messageBoxAlreadyShown = true;
+		}	
+
+	}
+	timeFlag += dt;
+
   }
 
   void world::draw() {
@@ -326,7 +375,7 @@ namespace csis3700 {
 	al_draw_rounded_rectangle       (20, 20, 200, 60, 15, 15, al_map_rgba(15, 60, 15,  20), 4);
 	al_draw_filled_rounded_rectangle(24, 24, 196, 56, 11, 11, al_map_rgba(15, 30, 15, 230));
 	al_draw_textf(rapier24, al_map_rgba(15, 120, 15, 255), 35, 27, ALLEGRO_ALIGN_LEFT, "SCORE : %i", player->get_score());
-
+		
   }
 
   void world::createEnemies(Vector2 initialPosition)
@@ -391,6 +440,16 @@ namespace csis3700 {
 	  enemySpawnLocationQueue.push(Vector2(2700, 0));
 	  enemySpawnLocationQueue.push(Vector2(3400, 0));
 	  enemySpawnLocationQueue.push(Vector2(4700, 0));
+  }
+
+  void world::checkForEnemySpawn()
+  {
+	  if (player->get_x() >= enemySpawnLocationQueue.front().get_x())
+	  {
+		  Vector2 tempVect = enemySpawnLocationQueue.front();
+		  enemySpawnLocationQueue.pop();
+		  createEnemies(tempVect);
+	  }
   }
 
 
