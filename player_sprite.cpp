@@ -5,6 +5,7 @@
 #include "allegro5\allegro_primitives.h"
 
 
+
 using namespace std;
 
 namespace csis3700 {
@@ -126,10 +127,12 @@ namespace csis3700 {
 		  friction = .9f;	// FRICTION FROM PLAYER MOVING ON GROUND
 		  friction_threshhold = 40.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
 		 
+		  addEnemeySpawnVectors();
 		  
-		  
+
 		  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 		  respawn();
+
 		  
   }
 
@@ -321,6 +324,13 @@ namespace csis3700 {
   
   void player_sprite::move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in){
 		// add force
+
+	  if (get_x() >= enemySpawnLocationQueue.front().get_x())
+	  {		  
+		  Vector2 tempVect = enemySpawnLocationQueue.front();
+		  enemySpawnLocationQueue.pop();
+		  createEnemies(tempVect);
+	  }
 		  switch (direction){
 			    case   MOVE_LEFT:    walk_left(sound_in);   break;
 								 
@@ -343,8 +353,72 @@ namespace csis3700 {
 
 	  //sequence->draw(time, get_x(), get_y());
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
+	  
+	  //Draw enemies
+	  for (vector<enemy_sprite*>::iterator it = enemies.begin(); it != enemies.end(); ++it)
+		  (*it)->draw(camera_in);
   }
 
+
+  void player_sprite::setDifficulty(gameDifficulty difficulty)
+  {
+	  difficultyLevel = difficulty;
+  }
+
+  void player_sprite::createEnemies(Vector2 initialPosition)
+  {
+	switch(difficultyLevel)
+	{
+		case EASY:
+			for (int x = 0; x < 3; x++)
+			{
+				enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+				enemies.push_back(enemy);
+			}
+		break;
+
+		case MODERATE:
+			for (int x = 0; x < 5; x++)
+			{
+				enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+				enemies.push_back(enemy);
+			}
+		break;
+
+		case DIFFICULT:
+			for (int x = 0; x < 8; x++)
+			{
+				enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+				enemies.push_back(enemy);
+			}
+		break;
+
+		case HARD:
+			for (int x = 0; x < 12; x++)
+			{
+				enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+				enemies.push_back(enemy);
+			}
+		break;
+
+		case EXTREME:
+			for (int x = 0; x < 20; x++)
+			{
+				enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+				enemies.push_back(enemy);
+			}
+		break;
+
+		case INSANE:
+			for (int x = 0; x < 30; x++)
+			{
+				enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+				enemies.push_back(enemy);
+			}
+		break;
+
+	}
+  }
 
   player_sprite::~player_sprite()
   {
@@ -354,7 +428,14 @@ namespace csis3700 {
 	  delete jump_sequence;
   }
   
-
+  void player_sprite::addEnemeySpawnVectors()
+  {
+	  enemySpawnLocationQueue.push(Vector2(1700, 0));
+	  enemySpawnLocationQueue.push(Vector2(2200, 0));
+	  enemySpawnLocationQueue.push(Vector2(2700, 0));
+	  enemySpawnLocationQueue.push(Vector2(3400, 0));
+	  enemySpawnLocationQueue.push(Vector2(4700, 0));
+  }
 } // end of csis3700 namespace
 
 

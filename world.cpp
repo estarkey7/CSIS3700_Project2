@@ -55,7 +55,7 @@ namespace csis3700 {
 	 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
 		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
-	  
+		player->setDifficulty(EASY);
 		
 
 		

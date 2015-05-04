@@ -136,5 +136,19 @@
     <Image Include="Images\bug_static3.png">
       <Filter>Resource Files\Images</Filter>
     </Image>
+    <Image Include="Images\bug_run1.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\bug_run2.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\bug_run3.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="bug.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

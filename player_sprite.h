@@ -9,7 +9,8 @@
 #include <allegro5\allegro_acodec.h>
 #include <cstdlib> 
 #include <iostream>
-
+#include <queue>
+#include "enemy_sprite.h"
 
 namespace csis3700 {
   class player_sprite : public phys_sprite {
@@ -43,6 +44,7 @@ namespace csis3700 {
 	void add_score(int i);
 	int get_score();
 	virtual ~player_sprite();
+	void setDifficulty(gameDifficulty difficulty);
     
     
   private:
@@ -66,8 +68,11 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
 	ALLEGRO_SAMPLE *hover_sound;
-	
-
+	std::queue<Vector2> enemySpawnLocationQueue;
+	gameDifficulty difficultyLevel;
+	void createEnemies(Vector2 initialPosition);
+	void addEnemeySpawnVectors();
+	std::vector<enemy_sprite*> enemies;
   };
 }
 
