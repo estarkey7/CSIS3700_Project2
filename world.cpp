@@ -396,7 +396,7 @@ namespace csis3700 {
 	  case EASY:
 		  for (int x = 0; x < 3; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -405,7 +405,7 @@ namespace csis3700 {
 	  case MODERATE:
 		  for (int x = 0; x < 5; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -414,7 +414,7 @@ namespace csis3700 {
 	  case DIFFICULT:
 		  for (int x = 0; x < 8; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -423,7 +423,7 @@ namespace csis3700 {
 	  case HARD:
 		  for (int x = 0; x < 12; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -432,7 +432,7 @@ namespace csis3700 {
 	  case EXTREME:
 		  for (int x = 0; x < 20; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -441,7 +441,7 @@ namespace csis3700 {
 	  case INSANE:
 		  for (int x = 0; x < 30; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
