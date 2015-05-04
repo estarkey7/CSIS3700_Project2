@@ -108,6 +108,8 @@ namespace csis3700 {
 	
 	  //player->idle_sequence->add_image(image_library::get_instance()->get("player02.png"), .2);
 	 
+	srand((unsigned int)clock() * 3305193169);
+
 	
 	  sprites.push_back(player);
 	
@@ -398,45 +400,45 @@ namespace csis3700 {
 	  switch (difficultyLevel)
 	  {
 	  case EASY:
-		  for (int x = 0; x < 3; x++)
+		  for (int x = 0; x < 12; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40,60));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
 
 	  case MODERATE:
-		  for (int x = 0; x < 5; x++)
+		  for (int x = 0; x < 15; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 70));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
 
 	  case DIFFICULT:
-		  for (int x = 0; x < 8; x++)
+		  for (int x = 0; x < 18; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 80));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
 
 	  case HARD:
-		  for (int x = 0; x < 12; x++)
+		  for (int x = 0; x < 25; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 90));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
 
 	  case EXTREME:
-		  for (int x = 0; x < 20; x++)
+		  for (int x = 0; x < 40; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 95));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -445,7 +447,7 @@ namespace csis3700 {
 	  case INSANE:
 		  for (int x = 0; x < 30; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x() + 100, 0, 1, 1, NULL, 30);
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 90));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -457,23 +459,43 @@ namespace csis3700 {
   void world::addEnemeySpawnVectors()
   {
 	  enemySpawnLocationQueue.push(Vector2(1700, 0));
-	  enemySpawnLocationQueue.push(Vector2(2200, 0));
-	  enemySpawnLocationQueue.push(Vector2(2700, 0));
-	  enemySpawnLocationQueue.push(Vector2(3400, 0));
+	  enemySpawnLocationQueue.push(Vector2(3200, 0));
 	  enemySpawnLocationQueue.push(Vector2(4700, 0));
+	  enemySpawnLocationQueue.push(Vector2(5400, 0));
+	  enemySpawnLocationQueue.push(Vector2(7700, 0));
   }
 
   void world::checkForEnemySpawn()
   {	  
-	  if (player->get_x() >= enemySpawnLocationQueue.front().get_x())
+	  if (enemySpawnLocationQueue.size() > 0)
 	  {
-		  Vector2 tempVect = enemySpawnLocationQueue.front();
-		  enemySpawnLocationQueue.pop();
-		  createEnemies(tempVect);
+		  if (player->get_x() >= enemySpawnLocationQueue.front().get_x())
+		  {
+			  Vector2 tempVect = enemySpawnLocationQueue.front();
+			  enemySpawnLocationQueue.pop();
+			  createEnemies(tempVect);
+		  }
 	  }
+
+	  
   }
 
+  int world::randomGenerator(int min, int max)
+  {
+	  static int previous = 0;
 
+	  while (1)
+	  {
+		  //Seed rnd number. This is not working correctly.
+
+		  if (previous != rand() % (max - min + 1) + min)
+		  {
+			  previous = rand() % (max - min + 1) + min;
+			  return rand() % (max - min + 1) + min;
+			  break;
+		  }
+	  }
+  }
   
 
 }
