@@ -52,7 +52,7 @@ namespace csis3700 {
 		// START GAME_MUSIC
 		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, NULL);
 		
-	 
+		
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
 		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
 				
@@ -326,6 +326,7 @@ namespace csis3700 {
 	al_draw_rounded_rectangle       (20, 20, 200, 60, 15, 15, al_map_rgba(15, 60, 15,  20), 4);
 	al_draw_filled_rounded_rectangle(24, 24, 196, 56, 11, 11, al_map_rgba(15, 30, 15, 230));
 	al_draw_textf(rapier24, al_map_rgba(15, 120, 15, 255), 35, 27, ALLEGRO_ALIGN_LEFT, "SCORE : %i", player->get_score());
+	al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 100.0f - (player->get_health() * 1.0f), 70.0f, al_map_rgba(30, 0, 0, 230));
 
   }
 
