@@ -31,13 +31,13 @@ namespace csis3700
 		void setMoveSpeed(double speed);
 		void moveEnemy();
 		void advance_by_time(double dt);
-		virtual bool isPassive() const;
+		virtual bool is_passive() const;
 
 	protected:
-		float friction = .9f;
+		float friction = 0;
 		float frictionLimit = 40.0f;
 		float moveSpeed;
-		float maxMoveSpeed = 5;
+		float maxMoveSpeed = 30;
 		Vector2 gravity = Vector2(0.0, 450);
 
 		ALLEGRO_SAMPLE_INSTANCE *bugCrawlingSampleInstance;

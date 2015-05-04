@@ -26,6 +26,7 @@ namespace csis3700
 		bugCrawlingSample = al_load_sample("bug.wav");
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
+		moveSpeed = move_speed_in;
 		moveEnemy();
 	}
 
@@ -41,8 +42,8 @@ namespace csis3700
 			//	IF ITS NOT CLOSE, APPLY FRICTION
 			if (get_velocity().get_x() > -frictionLimit && get_velocity().get_x() < frictionLimit)
 			{
-				set_velocity((Vector2(0.0f, 0.0f)));
-				set_image_sequence(staticImageSequence);
+				//set_velocity((Vector2(0.0f, 0.0f)));
+				//set_image_sequence(staticImageSequence);
 			}
 			else
 			{
@@ -68,7 +69,7 @@ namespace csis3700
 
 	}
 
-	bool enemy_sprite::isPassive() const 
+	bool enemy_sprite::is_passive() const 
 	{
 		return false;
 	}
@@ -108,6 +109,7 @@ namespace csis3700
 	enemy_sprite::~enemy_sprite()
 	{
 		delete staticImageSequence;
+		delete movingImageSequence;
 	}
 
 }
