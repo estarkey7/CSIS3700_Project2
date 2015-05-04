@@ -9,10 +9,11 @@
 #include "allegro5\allegro_primitives.h"
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
-
-
-
-
+#include <cmath>
+#include <string>
+#include <cstdlib> 
+#include <iostream>
+#include <queue>
 
 
 

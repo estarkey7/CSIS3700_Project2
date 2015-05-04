@@ -12,8 +12,10 @@ namespace csis3700 {
 	sy = sy_in;
 	
 	
+	
 	// PRINT INITALIZATION VARIABLE INFO FOR DEBUGGING 
-	//print_initial_configuration();
+	if (name_in == "enemy")
+	print_initial_configuration();
   }
 
   // get_name  
@@ -90,19 +92,22 @@ namespace csis3700 {
   float sprite::get_x_local()  {
 	  
 	  // return  position.get_x() + camera.get_x() - (1024 / 2);
-	  return  (-(DISPLAY_SIZE.get_x() / 2)) + position.get_x();
+	  return  (x_local);
 	  
   }
 
   // get_y 
   float sprite::get_y_local()  {
 	  //return   position.get_y() + camera.get_y() + (768 / 2);
-	  return  (-(DISPLAY_SIZE.get_y() / 2)) + position.get_y();
+	  return  (y_local);
   }
 
   // draw
   void sprite::draw(Vector2 *camera_in) {
 	  sequence->draw(time, (-camera_in->get_x() + (DISPLAY_SIZE.get_x() / 2)) + position.get_x(), (-camera_in->get_y() + DISPLAY_SIZE.get_y() / 2) + position.get_y(), sx, sy);
+
+	  x_local = -camera_in->get_x() + (DISPLAY_SIZE.get_x() / 2) + position.get_x();
+	  y_local = (-camera_in->get_y() + DISPLAY_SIZE.get_y() / 2) + position.get_y();
   }
 
   // bounding_box

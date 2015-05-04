@@ -55,9 +55,9 @@ namespace csis3700 {
 
     virtual float get_y() const;
 
-	virtual float get_x_local() ;
+	virtual float get_x_local();
 
-	virtual float get_y_local() ;
+	virtual float get_y_local();
 
     
     // virtual Vector2 get_center() const;
@@ -105,6 +105,8 @@ namespace csis3700 {
 	image_sequence* getImageSequence() { return sequence; }
 
   protected:
+	  float x_local = 0.0f;
+	  float y_local = 0.0f;
 	  float sx;
 	  float sy;
   	int sprite_id;
