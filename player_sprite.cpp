@@ -141,7 +141,25 @@ namespace csis3700 {
   int player_sprite::get_health(){ return health; }
   void player_sprite::set_health(int h){ health = h; }
   void  player_sprite::add_health(int h){ health += h; }
-  void  player_sprite::remove_health(int h){ health -= h; }
+  void  player_sprite::remove_health(int h)
+  {
+	  // remove health but don't let it become negative
+	  if (h <= health)
+	  {
+		  health -= h;
+	  }
+	  else
+	  {
+		  health = 0;
+	  }
+  
+	  // DIE
+	  if (health == 0)
+	  {
+		  is_alive = false;
+	  }
+  
+  }
   int player_sprite::get_score(){ return score; }
 
 
@@ -154,6 +172,8 @@ namespace csis3700 {
   }
 
   void player_sprite::respawn(ALLEGRO_SAMPLE_INSTANCE *sound_in) {
+	  set_health(100);
+	  is_alive = true;
 	  set_position(respawn_location);
 	  set_velocity(Vector2(0, 0));
 	  fly_strength = 0;
@@ -190,7 +210,8 @@ namespace csis3700 {
 		  
 		  // MAKE PLAYER RESPAWN IF PLAYER FALLS BELOW THE y_min_bounds value
 		  if (position.get_y() > y_min_bounds){
-			  respawn();
+
+			  is_alive = false;
 			  
 		  }
 
@@ -217,6 +238,12 @@ namespace csis3700 {
 		  Vector2 stepVelocity = (dt * get_velocity());
 		  set_position( (get_position() + stepVelocity));
 		  
+		  //CHECK IF PLAYER IS DEAD
+		  if (is_alive == false)
+		  {
+			  respawn();
+
+		  }
   }
 
   void player_sprite::resolve(const collision& collision, sprite *other) {

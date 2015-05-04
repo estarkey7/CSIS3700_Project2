@@ -53,6 +53,7 @@ namespace csis3700 {
 	
     
   private:
+	  bool is_alive = true;
 	  int health = 100;
 	  float fly_strength;
 	int score = 0;

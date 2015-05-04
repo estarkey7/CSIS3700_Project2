@@ -262,6 +262,8 @@ namespace csis3700 {
 				case ALLEGRO_KEY_DOWN:  player->move(HOVER); 
 					checkForEnemySpawn();
 					break;
+
+				case ALLEGRO_KEY_H:  player->remove_health(10); break;
 				
 				case ALLEGRO_KEY_SPACE :  
 					
@@ -385,8 +387,10 @@ namespace csis3700 {
 	al_draw_rounded_rectangle       (20, 20, 200, 60, 15, 15, al_map_rgba(15, 60, 15,  20), 4);
 	al_draw_filled_rounded_rectangle(24, 24, 196, 56, 11, 11, al_map_rgba(15, 30, 15, 230));
 	al_draw_textf(rapier24, al_map_rgba(15, 120, 15, 255), 35, 27, ALLEGRO_ALIGN_LEFT, "SCORE : %i", player->get_score());
-	al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 100.0f - (player->get_health() * 1.0f), 70.0f, al_map_rgba(30, 0, 0, 230));
-		
+	if (player->get_health() >= 50)
+	al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 185.0f, 25.0f, al_get_display_width(gameDisplay) - 185.0f + (player->get_health() * 1.5f), 50.0f, al_map_rgba(15, 200, 15, 230));
+	else 
+		al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 185.0f, 25.0f, al_get_display_width(gameDisplay) - 185.0f + (player->get_health() * 1.5f), 50.0f, al_map_rgba(200, 15, 15, 230));
   }
 
   void world::createEnemies(Vector2 initialPosition)
