@@ -22,7 +22,7 @@ namespace csis3700
 		movingImageSequence->add_image(image_library::get_instance()->get("bug_run1.png"), .1);
 
 		set_image_sequence(movingImageSequence);
-
+		
 		bugCrawlingSample = al_load_sample("bug.wav");
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());

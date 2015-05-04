@@ -11,7 +11,7 @@
 #include <iostream>
 #include <queue>
 #include "enemy_sprite.h"
-#include "world.h"
+
 
 namespace csis3700 {
   class player_sprite : public phys_sprite {

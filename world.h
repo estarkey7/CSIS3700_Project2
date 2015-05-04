@@ -3,6 +3,7 @@
 
 #include "allegro5/allegro.h"
 #include "sprite.h"
+#include "phys_sprite.h"
 #include "player_sprite.h"
 #include "obstruction_sprite.h"
 #include <vector>
@@ -16,6 +17,7 @@
 #include <iostream>
 #include "Vector2.h"
 #include "enums.h"
+#include "enemy_sprite.h"
 
 namespace csis3700 {
 	
