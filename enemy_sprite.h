@@ -37,7 +37,7 @@ namespace csis3700
 		float friction = 0;
 		float frictionLimit = 40.0f;
 		float moveSpeed;
-		float maxMoveSpeed = 30;
+		float maxMoveSpeed = 100;
 		Vector2 gravity = Vector2(0.0, 450);
 
 		ALLEGRO_SAMPLE_INSTANCE *bugCrawlingSampleInstance;

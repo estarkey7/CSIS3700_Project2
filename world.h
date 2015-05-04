@@ -114,6 +114,7 @@ namespace csis3700 {
 	 std::vector<enemy_sprite*> enemies;
 	 void checkForEnemySpawn();
 	 bool messageBoxAlreadyShown = false;
+	 int randomGenerator(int minQty, int maxQty);
   };
 }
 

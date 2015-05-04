@@ -44,7 +44,7 @@ namespace csis3700
 			//	IF ITS NOT CLOSE, APPLY FRICTION
 			if (get_velocity().get_x() > -frictionLimit && get_velocity().get_x() < frictionLimit)
 			{
-				//set_velocity((Vector2(0.0f, 0.0f)));
+				//set_velocity((get_velocity().get_x(), 0.0f));
 				//set_image_sequence(staticImageSequence);
 			}
 			else
