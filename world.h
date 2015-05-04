@@ -64,6 +64,7 @@ namespace csis3700 {
      */
     void draw();
 	void fade();
+	void getPlayerPosition(int x, int y) const;
 
 	void make_ground();
 
@@ -102,6 +103,12 @@ namespace csis3700 {
 	 Vector2 camera;
 	 
 	 keyboard_manager Key_Input;
+
+	 std::queue<Vector2> enemySpawnLocationQueue;
+	 gameDifficulty difficultyLevel;
+	 void createEnemies(Vector2 initialPosition);
+	 void addEnemeySpawnVectors();
+	 std::vector<enemy_sprite*> enemies;
   };
 }
 

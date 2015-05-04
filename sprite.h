@@ -102,7 +102,7 @@ namespace csis3700 {
 
     virtual void resolve(const collision& collision, sprite* other) = 0;
     
-    
+	image_sequence* getImageSequence() { return sequence; }
 
   protected:
 	  float sx;

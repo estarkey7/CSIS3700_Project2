@@ -5,6 +5,7 @@
 #include "image_sequence.h"
 #include "image_library.h"
 #include "collision.h"
+#include "Vector2.h"
 #include "allegro5\allegro_primitives.h"
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
@@ -22,13 +23,15 @@ namespace csis3700
 		void enemy_sprite::resolve(const collision& collision, sprite *other);
 		void setMoveSpeed(double speed);
 		void moveEnemy();
-
+		void advance_by_time(double dt);
+		virtual bool isPassive() const;
 
 	protected:
 		float friction = .9f;
 		float frictionLimit = 40.0f;
 		float moveSpeed;
 		float maxMoveSpeed = 5;
+		Vector2 gravity = Vector2(0.0, 450);
 
 		ALLEGRO_SAMPLE_INSTANCE *bugCrawlingSampleInstance;
 		ALLEGRO_SAMPLE *bugCrawlingSample;

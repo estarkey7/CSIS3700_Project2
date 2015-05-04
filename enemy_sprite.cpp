@@ -67,6 +67,22 @@ namespace csis3700
 
 	}
 
+	bool enemy_sprite::isPassive() const 
+	{
+		return false;
+	}
+
+	void enemy_sprite::advance_by_time(double dt) {
+		phys_sprite::advance_by_time(dt);
+				
+
+		Vector2 gravityStep = (dt * gravity);
+		set_velocity((get_velocity() + gravityStep));
+		Vector2 stepVelocity = (dt * get_velocity());
+		set_position((get_position() + stepVelocity));
+
+	}
+
 	void enemy_sprite::moveEnemy()
 	{
 		if (get_velocity().x > -maxMoveSpeed)
