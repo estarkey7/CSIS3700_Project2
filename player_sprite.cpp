@@ -324,13 +324,7 @@ namespace csis3700 {
   
   void player_sprite::move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in){
 		// add force
-
-	  if (get_x() >= enemySpawnLocationQueue.front().get_x())
-	  {		  
-		  Vector2 tempVect = enemySpawnLocationQueue.front();
-		  enemySpawnLocationQueue.pop();
-		  createEnemies(tempVect);
-	  }
+	  	  
 		  switch (direction){
 			    case   MOVE_LEFT:    walk_left(sound_in);   break;
 								 

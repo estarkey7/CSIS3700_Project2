@@ -55,8 +55,7 @@ namespace csis3700 {
 	 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
 		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
-		player->setDifficulty(EASY);
-		
+				
 
 		
 		obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20, 1.0f, 1.0f, image_library::get_instance()->get("woods_splash2.png")); // y should be 330 for 1920x1080 res
@@ -328,9 +327,72 @@ namespace csis3700 {
 	al_draw_filled_rounded_rectangle(24, 24, 196, 56, 11, 11, al_map_rgba(15, 30, 15, 230));
 	al_draw_textf(rapier24, al_map_rgba(15, 120, 15, 255), 35, 27, ALLEGRO_ALIGN_LEFT, "SCORE : %i", player->get_score());
 
-
-
   }
+
+  void world::createEnemies(Vector2 initialPosition)
+  {
+	  switch (difficultyLevel)
+	  {
+	  case EASY:
+		  for (int x = 0; x < 3; x++)
+		  {
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemies.push_back(enemy);
+		  }
+		  break;
+
+	  case MODERATE:
+		  for (int x = 0; x < 5; x++)
+		  {
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemies.push_back(enemy);
+		  }
+		  break;
+
+	  case DIFFICULT:
+		  for (int x = 0; x < 8; x++)
+		  {
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemies.push_back(enemy);
+		  }
+		  break;
+
+	  case HARD:
+		  for (int x = 0; x < 12; x++)
+		  {
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemies.push_back(enemy);
+		  }
+		  break;
+
+	  case EXTREME:
+		  for (int x = 0; x < 20; x++)
+		  {
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemies.push_back(enemy);
+		  }
+		  break;
+
+	  case INSANE:
+		  for (int x = 0; x < 30; x++)
+		  {
+			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x(), 1300, 1, 1, NULL, 30);
+			  enemies.push_back(enemy);
+		  }
+		  break;
+
+	  }
+  }
+
+  void world::addEnemeySpawnVectors()
+  {
+	  enemySpawnLocationQueue.push(Vector2(1700, 0));
+	  enemySpawnLocationQueue.push(Vector2(2200, 0));
+	  enemySpawnLocationQueue.push(Vector2(2700, 0));
+	  enemySpawnLocationQueue.push(Vector2(3400, 0));
+	  enemySpawnLocationQueue.push(Vector2(4700, 0));
+  }
+
 
   
 
