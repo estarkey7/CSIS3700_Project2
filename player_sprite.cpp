@@ -110,7 +110,7 @@ namespace csis3700 {
 		  max_move_speed = max_move_speed_in; // MAX HORIZONTAL VELOCITY LIMIT THAT THE PLAYERS MOVEMENT FUNCTIONS CAN REACH
 		  max_move_speed_default = max_move_speed_in;
 		  jump_speed = jump_speed_in; // JUMP STRENGTH
-
+		  srand((unsigned int)clock() * 3305193169);
 		  player_landing_sound_instance = player_landing_sound_instance_in; // SOUND FX FOR JUMPING
 		  change_direction_sound_instance = change_direction_sound_instance_in; // SOUND FX FOR JUMPING
 		  walk_sound_instance = walk_sound_instance_in;
@@ -298,10 +298,18 @@ namespace csis3700 {
 
 	  }
 	  else  if (other->get_name() == "balloon"){
-		  
-		  set_velocity(get_velocity() + Vector2(0.0f, -250.0f));
+		  if (get_velocity().y<0)
+			  set_velocity(Vector2(get_velocity().get_x(), 0));
+		  set_velocity(get_velocity() + Vector2(0.0f, -450.0f));
 
 		  other->set_visible(false);
+	  }
+	  else  if (other->get_name() == "solid_balloon"){
+		  if (get_velocity().y<0)
+			  set_velocity(Vector2(get_velocity().get_x(), 0));
+		  set_velocity(get_velocity() + Vector2(0.0f, -450.0f));
+
+		  
 	  }
 	  else  if (other->get_name() == "magic_balloon"){
 		  move(JUMP);
@@ -321,6 +329,45 @@ namespace csis3700 {
 
 		  other->set_visible(false); // deletes object
 
+	  }
+
+	  if (other->get_name() == "winning_platform"){
+		  rectangle r = collision.collision_rectangle();
+
+		  set_position((get_position() + Vector2(0, -r.get_height())));
+		  //set_velocity((Vector2(get_velocity().get_x(), 0.0f)));
+
+		  // IF PLAYER FALLS FASTER THAN A VELOCITY OF 300 DOWN, MAKE A THUMP ON LANDING
+		  if (get_velocity().get_y() >300 && get_velocity().get_y() != 0)
+			  al_play_sample_instance(player_landing_sound_instance);
+
+		  // WHEN PLAYERS VELOCITY IS ALMOST 0(WITHIN FRICTION THRESHHOLD AMOUNT OF 0), SET IT TO EXACTLY 0;
+		  //	IF ITS NOT CLOSE, APPLY FRICTION
+		  if (get_velocity().get_x() > -friction_threshhold && get_velocity().get_x() < friction_threshhold){
+			  set_velocity((Vector2(0.0f, 0.0f)));
+			  player_movement_state = IDLE;
+			  set_image_sequence(idle_sequence);
+		  }
+		  else {
+			  set_velocity(Vector2(get_velocity().get_x() * friction, 0.0f));
+		  }
+
+		  if (get_velocity().get_x() > friction_threshhold)
+		  {
+			  set_image_sequence(walk_right_sequence);
+			  al_play_sample_instance(walk_sound_instance);
+		  }
+		  else if (get_velocity().get_x() < -friction_threshhold)
+		  {
+			  set_image_sequence(walk_left_sequence);
+			  al_play_sample_instance(walk_sound_instance);
+		  }
+		  player_has_won = true;
+		  
+	  }
+	  else
+	  {
+		  player_has_won = false;
 	  }
   }
   
@@ -408,11 +455,27 @@ namespace csis3700 {
 	  //sequence->draw(time, get_x(), get_y());
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 	  
-	  
+	  if (player_has_won)
+		  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 500, al_map_rgba(15, randomGenerator(100, 150), 15, randomGenerator(0, 50)));
 		  
   }
 
+  int player_sprite::randomGenerator(int min, int max)
+  {
+	  static int previous = 0;
 
+	  while (1)
+	  {
+		  //Seed rnd number. This is not working correctly.
+
+		  if (previous != rand() % (max - min + 1) + min)
+		  {
+			  previous = rand() % (max - min + 1) + min;
+			  return rand() % (max - min + 1) + min;
+			  break;
+		  }
+	  }
+  }
   
 
   

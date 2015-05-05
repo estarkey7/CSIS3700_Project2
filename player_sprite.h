@@ -53,6 +53,7 @@ namespace csis3700 {
 	
     
   private:
+	  bool player_has_won = false;
 	  bool is_alive = true;
 	  int health = 100;
 	  float fly_strength;
@@ -75,6 +76,7 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
 	ALLEGRO_SAMPLE *hover_sound;
+	int randomGenerator(int minQty, int maxQty);
 	
   };
 }

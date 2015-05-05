@@ -88,7 +88,7 @@ namespace csis3700 {
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
 		
-		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		
 	 
 	srand((unsigned int)clock() * 3305193169);
 
@@ -135,6 +135,34 @@ namespace csis3700 {
 		  // SECOND PLATFORM
 		  build_platform(3300, 300, 1, 1, "ground", "ground_300.png", 300, 50);
 
+
+		  // END RISING PLATFORMS
+		  build_platform(12546, 200, 1, 1, "ground", "ground_300.png", 300, 50);
+		  build_platform(12926, 400, 1, 1, "ground", "ground_300.png", 300, 50);
+		  simple_balloon(13882, 200, true);
+		  build_platform(14127, 700, 1, 1, "ground", "ground_300.png", 300, 50);
+		  build_platform(14924, 900, 1, 1, "ground", "ground_300.png", 300, 50);
+		  simple_balloon(15882, -400, true);
+		  simple_balloon(16782, -600, true);
+		  build_platform(17027, 1200, 3, 3, "winning_platform", "ground_300.png", 300, 50);
+
+		  // COINS sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  
+		  for (int i = 0; i < 1000; i += 200)
+		  {
+			  sprites.push_back(new coin("coin", 2200.0f + i, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  }
+		  
+		  sprites.push_back(new coin("coin", 2000.0f, 853, 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  sprites.push_back(new coin("coin", 4000.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+	  
+	  
+		  sprites.push_back(new balloon("balloon", 600.0f, (float)(DISPLAY_SIZE.get_y() - 400), .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  simple_balloon(5016.0f, 440);
+		  simple_balloon(2829, 1049);
+		 
+	  
 	  }
 	  else if (level_in == 2)
 	  {
@@ -142,6 +170,16 @@ namespace csis3700 {
 
 	  }
 	  
+  }
+
+  void world::simple_balloon(float x, float y, bool is_solid )
+  {
+	  if (is_solid == false)
+	  sprites.push_back(new balloon("balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+	  else
+	  {
+		  sprites.push_back(new balloon("solid_balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+	  }
   }
 
   void world::addEnemeySpawnVectors()
@@ -152,22 +190,6 @@ namespace csis3700 {
 	  switch (difficultyLevel)
 	  {
 	  case EASY:
-		  enemySpawnLocationQueue.push(Vector2(1750, 0));
-		  enemySpawnLocationQueue.push(Vector2(3200, 0));
-		  enemySpawnLocationQueue.push(Vector2(4700, 0));
-		  enemySpawnLocationQueue.push(Vector2(5400, 0));
-		  enemySpawnLocationQueue.push(Vector2(7700, 0));
-		  break;
-
-	  case MODERATE:
-		  enemySpawnLocationQueue.push(Vector2(1750, 0));
-		  enemySpawnLocationQueue.push(Vector2(3200, 0));
-		  enemySpawnLocationQueue.push(Vector2(4700, 0));
-		  enemySpawnLocationQueue.push(Vector2(5400, 0));
-		  enemySpawnLocationQueue.push(Vector2(7700, 0));
-		  break;
-
-	  case DIFFICULT:
 		  enemySpawnLocationQueue.push(Vector2(1750, 0));
 		  enemySpawnLocationQueue.push(Vector2(3200, 0));
 		  enemySpawnLocationQueue.push(Vector2(4700, 0));
@@ -190,21 +212,6 @@ namespace csis3700 {
 		  enemySpawnLocationQueue.push(Vector2(18000, 0));
 		  break;
 
-	  case EXTREME:
-		  enemySpawnLocationQueue.push(Vector2(1750, 0));
-		  enemySpawnLocationQueue.push(Vector2(3200, 0));
-		  enemySpawnLocationQueue.push(Vector2(4700, 0));
-		  enemySpawnLocationQueue.push(Vector2(5400, 0));
-		  enemySpawnLocationQueue.push(Vector2(7700, 0));
-		  break;
-
-	  case INSANE:
-		  enemySpawnLocationQueue.push(Vector2(1750, 0));
-		  enemySpawnLocationQueue.push(Vector2(3200, 0));
-		  enemySpawnLocationQueue.push(Vector2(4700, 0));
-		  enemySpawnLocationQueue.push(Vector2(5400, 0));
-		  enemySpawnLocationQueue.push(Vector2(7700, 0));
-		  break;
 
 	  }
   }
@@ -512,7 +519,8 @@ namespace csis3700 {
 	else 
 		al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.5f), 40.0f, al_map_rgba(200, 15, 15, 200));
 	
-	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 27, ALLEGRO_ALIGN_CENTER, "%i", player->get_health());
+	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 50, ALLEGRO_ALIGN_CENTER, "%i", player->get_health());
+	al_draw_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (100 * 1.5f), 40.0f, al_map_rgba(15, 15, 200, 200),3);
   }
 
 
@@ -540,7 +548,7 @@ namespace csis3700 {
 	  case HARD:
 		  for (int x = 0; x < 12; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25,true, (&camera));
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge, right_edge + 3000), randomGenerator(top_edge - 300,top_edge + 20), (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25, true, (&camera));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 			  enemy_count++;

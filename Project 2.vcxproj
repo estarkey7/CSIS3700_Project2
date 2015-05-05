@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="balloon.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="enemy_sprite.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="balloon.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="enemy_sprite.cpp" />

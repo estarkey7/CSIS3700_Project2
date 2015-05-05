@@ -19,6 +19,7 @@
 #include "enums.h"
 #include "enemy_sprite.h"
 #include "coin.h"
+#include "balloon.h"
 
 namespace csis3700 {
 	
@@ -117,6 +118,7 @@ namespace csis3700 {
 	 void checkForEnemySpawn();
 	 bool messageBoxAlreadyShown = false;
 	 int randomGenerator(int minQty, int maxQty);
+	 void simple_balloon(float x, float y, bool is_solid = false);
   };
 }
 
