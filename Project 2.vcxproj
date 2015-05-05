@@ -135,6 +135,8 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="bug.wav" />
+    <Media Include="drip.wav" />
+    <Media Include="falling.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

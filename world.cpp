@@ -88,11 +88,13 @@ namespace csis3700 {
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
 		
+		//sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 		
-	 
+
 	srand((unsigned int)clock() * 3305193169);
 
-	
+	createCoins();
+
 	  sprites.push_back(player);
 	
 	  Key_Input.get_instance();
@@ -560,7 +562,20 @@ namespace csis3700 {
 	  }
   }
 
-
+  void world::createCoins()
+  {
+	  for (int x = 0; x < 20000; x += randomGenerator(200, 500))
+	  {
+		  coin * newCoin = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+		  if (randomGenerator(1, 20) == 7)
+		  {
+			  newCoin->set_image_sequence(newCoin->coinSpecialSequence);
+			  newCoin->setMoveSpeed(35.0);
+			  newCoin->set_score_value(150);
+		  }
+		  sprites.push_back(newCoin);
+	  }
+  }
 
   void world::checkForEnemySpawn()
   {	  

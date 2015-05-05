@@ -49,6 +49,9 @@ namespace csis3700
 		ALLEGRO_SAMPLE_INSTANCE *bugCrawlingSampleInstance;
 		ALLEGRO_SAMPLE *bugCrawlingSample;
 
+		ALLEGRO_SAMPLE_INSTANCE *fallingBugSampleInstance;
+		ALLEGRO_SAMPLE *fallingBugSample;
+
 	};
 }
 #endif
