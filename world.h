@@ -91,6 +91,7 @@ namespace csis3700 {
 
     player_sprite *player;
 	int enemy_count = 0;
+	ALLEGRO_SAMPLE_ID id;
 	ALLEGRO_SAMPLE *game_music;
 	ALLEGRO_SAMPLE *jump_sound;
 	ALLEGRO_SAMPLE *player_change_direction_sound;

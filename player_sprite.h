@@ -22,7 +22,7 @@ namespace csis3700 {
 	  image_sequence  *walk_right_sequence;
 	  image_sequence  *walk_left_sequence;
 	  character_movement player_movement_state;
-	  
+	  bool player_has_won = false;
   
 	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, float sx_in = 1.0f, float sy_in = 1.0f, 
 				  ALLEGRO_BITMAP *image = NULL, float move_speed_in = 10, 
@@ -54,6 +54,7 @@ namespace csis3700 {
 	
     
   private:
+	  float winning_tint = 0;
 	  bool is_alive = true;
 	  int health = 100;
 	  float fly_strength;
@@ -85,7 +86,7 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE *death_sound;
 	ALLEGRO_SAMPLE *get_hit_sound;
 	bool playerHit = false;
-	bool player_has_won = false;
+	
 	
 
 	int randomGenerator(int minQty, int maxQty);

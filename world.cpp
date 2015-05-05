@@ -52,7 +52,7 @@ namespace csis3700 {
 		al_attach_sample_instance_to_mixer(walk_sound_instance, al_get_default_mixer());
 
 		// START GAME_MUSIC
-		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, NULL);
+		al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, &id);
 		
 		
 		
@@ -348,7 +348,7 @@ namespace csis3700 {
 					cout << "Objects in world: " << sprites.size() << endl;
 						break;
 				case ALLEGRO_KEY_P:
-
+					al_stop_sample(&id);
 					al_show_native_message_box(
 						gameDisplay,
 						"Game Paused",
@@ -357,7 +357,7 @@ namespace csis3700 {
 						NULL,
 						ALLEGRO_MESSAGEBOX_WARN
 						);
-
+					al_play_sample(game_music, .4f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, &id);
 
 					break;
 				case ALLEGRO_KEY_ESCAPE :
@@ -450,7 +450,8 @@ namespace csis3700 {
 		  cout << "OBJECT DELETED" << endl << endl;
 		  delete deletable_sprite;
 	  }
-	  
+	  if (player->player_has_won)
+		  al_stop_sample(&id);
 		  
 	  
 	  //(*it)->set_velocity;
@@ -548,7 +549,7 @@ namespace csis3700 {
 	 
 
 	  case HARD:
-		  for (int x = 0; x < 12; x++)
+		  for (int x = 0; x < 7; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge, right_edge + 3000), randomGenerator(top_edge - 300,top_edge + 20), (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25, true, (&camera));
 			  sprites.push_back(enemy);

@@ -25,10 +25,12 @@ namespace csis3700
 
 		bugCrawlingSample = al_load_sample("bug.wav");
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
+		al_set_sample_instance_gain(bugCrawlingSampleInstance, 1.00f);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
 
 		fallingBugSample = al_load_sample("falling.wav");
 		fallingBugSampleInstance = al_create_sample_instance(fallingBugSample);
+		al_set_sample_instance_gain(fallingBugSampleInstance, .500f);
 		al_attach_sample_instance_to_mixer(fallingBugSampleInstance, al_get_default_mixer());
 
 		moveSpeed = move_speed_in;

@@ -74,7 +74,9 @@ namespace csis3700 {
 
 		  // SETUP AUDIO SAMPLE INSTANCES
 		  gotCoinSampleInstance = al_create_sample_instance(gotCoinSample);
+		  al_set_sample_instance_gain(gotCoinSampleInstance, .40f);
 		  get_hit_sound_instance = al_create_sample_instance(get_hit_sound);
+		  al_set_sample_instance_gain(get_hit_sound_instance, 1.0f);
 		  win_sound_instance = al_create_sample_instance(win_sound);
 		  death_sound_instance = al_create_sample_instance(death_sound);
 		  
@@ -360,6 +362,8 @@ namespace csis3700 {
 	  }
 
 	  if (other->get_name() == "winning_platform"){
+		  if (!player_has_won)
+			  al_play_sample_instance(win_sound_instance);
 		  rectangle r = collision.collision_rectangle();
 
 		  set_position((get_position() + Vector2(0, -r.get_height())));
@@ -391,7 +395,7 @@ namespace csis3700 {
 			  al_play_sample_instance(walk_sound_instance);
 		  }
 		  player_has_won = true;
-		  al_play_sample_instance(win_sound_instance);
+		  
 		  
 	  }
 	  else
@@ -514,7 +518,15 @@ namespace csis3700 {
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 	  
 	  if (player_has_won)
-		  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 500, al_map_rgba(15, 150, 15, 100));
+	  {
+		  if (winning_tint <= 255)
+		  { 
+			  winning_tint += 1.33;
+		  }
+		  
+		  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2),4*(winning_tint), al_map_rgba(0, 0, 0, winning_tint));
+	  }
+		  
 		  
   }
 
