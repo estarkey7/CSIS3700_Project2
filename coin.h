@@ -1,5 +1,7 @@
 #pragma once
 #include "enemy_sprite.h"
+#include "image_sequence.h"
+#include "image_library.h"
 #ifndef _COIN_H
 #define _COIN_H
 
@@ -8,9 +10,9 @@ namespace csis3700
 	class coin : public enemy_sprite
 	{
 	public:
-		coin(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in);
+		coin(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in, int score_value_in);
 		image_sequence  *cointBaseSequence;
-		image_sequence  *coinSpecialSequence;
+		void coin::resolve(const collision& collision, sprite *other);
 		virtual ~coin();
 	};
 }

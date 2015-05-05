@@ -18,6 +18,7 @@
 #include "Vector2.h"
 #include "enums.h"
 #include "enemy_sprite.h"
+#include "coin.h"
 
 namespace csis3700 {
 	

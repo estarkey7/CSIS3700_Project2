@@ -293,13 +293,15 @@ namespace csis3700 {
 
 		  other->set_passive(true);
 		  
+		  // if visible is false, this object will be deleted on next world.advance_by_time iteration of sprites
 		  other->set_visible(false);
 
 	  }
 	  else  if (other->get_name() == "balloon"){
 		  move(JUMP);
 		  set_velocity(get_velocity() + Vector2(0.0f, -300.0f));
-		  other->set_position(Vector2(-10000, -5000));
+
+		  other->set_visible(false);
 	  }
 	  else  if (other->get_name() == "magic_balloon"){
 		  move(JUMP);
@@ -309,6 +311,16 @@ namespace csis3700 {
 		  max_move_speed += 75;
 		  set_velocity(get_velocity() + Vector2(0.0f, -100.0f));
 		  other->set_position(Vector2(-10000, -5000));
+	  }
+	  else if (other->get_name() == "coin"){
+		  cout << "Collected coin (ID #" << other->get_sprite_id() << " )." << endl;
+		  if (other->is_passive() == false)
+			  add_score(other->get_score_value());
+
+		  other->set_passive(true);	// stops collisions with object
+
+		  other->set_visible(false); // deletes object
+
 	  }
   }
   

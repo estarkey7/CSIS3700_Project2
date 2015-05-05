@@ -27,10 +27,10 @@ namespace csis3700
 		image_sequence  *movingImageSequence;
 		virtual ~enemy_sprite();
 
-		void enemy_sprite::resolve(const collision& collision, sprite *other);
+		virtual void resolve(const collision& collision, sprite *other);
 		void setMoveSpeed(double speed);
 		void moveEnemy();
-		void advance_by_time(double dt);
+		virtual void advance_by_time(double dt);
 		virtual bool is_passive() const;
 		
 

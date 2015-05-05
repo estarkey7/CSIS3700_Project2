@@ -11,6 +11,7 @@
 #include "obstruction_sprite.h"
 #include "collision.h"
 #include "image_library.h"
+#include "coin.h"
 
 using namespace std;
 
@@ -86,6 +87,7 @@ namespace csis3700 {
 		sprites.push_back(balloon);
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
+		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f,20));
 	 
 	srand((unsigned int)clock() * 3305193169);
 
