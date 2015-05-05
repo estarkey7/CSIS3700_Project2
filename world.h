@@ -119,6 +119,7 @@ namespace csis3700 {
 	 bool messageBoxAlreadyShown = false;
 	 int randomGenerator(int minQty, int maxQty);
 	 void simple_balloon(float x, float y, bool is_solid = false);
+	 void createCoins();
   };
 }
 
