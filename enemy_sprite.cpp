@@ -5,7 +5,7 @@ using namespace std;
 
 namespace csis3700
 {
-	enemy_sprite::enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
+	enemy_sprite::enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in,bool can_jump) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
 	{
 		staticImageSequence = new image_sequence();
 		staticImageSequence->add_image(image_library::get_instance()->get("bug_static1.png"), .3);
@@ -22,32 +22,33 @@ namespace csis3700
 		movingImageSequence->add_image(image_library::get_instance()->get("bug_run1.png"), .1);
 
 		set_image_sequence(movingImageSequence);
-		
+
 		bugCrawlingSample = al_load_sample("bug.wav");
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
 		moveSpeed = move_speed_in;
 		moveEnemy();
+		is_jumping = can_jump;
 	}
 
-	
+
 
 	void enemy_sprite::resolve(const collision& collision, sprite *other)
 	{
 		// collision with ground
 		if (other->get_name() == "ground")
 		{
-			
-			
+
+
 			rectangle r = collision.collision_rectangle();
 			set_velocity(Vector2(get_velocity().get_x(), 0.0f));
 			set_position((get_position() + Vector2(0, -r.get_height())));
-			
+
 			// WHEN PLAYERS VELOCITY IS ALMOST 0(WITHIN FRICTION THRESHHOLD AMOUNT OF 0), SET IT TO EXACTLY 0;
 			//	IF ITS NOT CLOSE, APPLY FRICTION
 			if (get_velocity().get_x() > -frictionLimit && get_velocity().get_x() < frictionLimit)
 			{
-				//set_velocity((get_velocity().get_x(), 0.0f));
+				//set_velocity(Vector2(get_velocity().get_x(), 0.0f));
 				//set_image_sequence(staticImageSequence);
 			}
 			else
@@ -65,6 +66,15 @@ namespace csis3700
 			set_image_sequence(walk_left_sequence);
 			al_play_sample_instance(walk_sound_instance);
 			}*/
+			if (is_jumping)
+			{
+				set_velocity(Vector2(get_velocity().get_x(), -60.0f));
+			}
+		}
+		else if (other->get_name() == "player")
+		{
+
+			
 		}
 		/*else  if (other->get_name() == "balloon"){
 		move(JUMP);
@@ -73,6 +83,7 @@ namespace csis3700
 		}*/
 
 	}
+	
 
 	bool enemy_sprite::is_passive() const 
 	{
@@ -94,8 +105,9 @@ namespace csis3700
 
 	void enemy_sprite::moveEnemy()
 	{
-		if (get_velocity().x > -maxMoveSpeed)
+		if (get_velocity().x > -maxMoveSpeed && get_velocity().x < maxMoveSpeed)
 		{
+
 			set_velocity(get_velocity() + Vector2(-moveSpeed, 0));
 			//al_play_sample_instance(bugCrawlingSampleInstance);
 		}
