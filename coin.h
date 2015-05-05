@@ -11,7 +11,8 @@ namespace csis3700
 	{
 	public:
 		coin(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in, int score_value_in);
-		image_sequence  *cointBaseSequence;
+		image_sequence  *coinBaseSequence;
+		image_sequence  *coinSpecialSequence;
 		void coin::resolve(const collision& collision, sprite *other);
 		virtual ~coin();
 	};

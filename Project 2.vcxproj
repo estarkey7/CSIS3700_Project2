@@ -117,6 +117,19 @@
     <Image Include="Images\bug_static1.png" />
     <Image Include="Images\bug_static2.png" />
     <Image Include="Images\bug_static3.png" />
+    <Image Include="Images\coin1.png" />
+    <Image Include="Images\coin2.png" />
+    <Image Include="Images\coin3.png" />
+    <Image Include="Images\coin4.png" />
+    <Image Include="Images\coin5.png" />
+    <Image Include="Images\coin6.png" />
+    <Image Include="Images\dollar1.png" />
+    <Image Include="Images\dollar2.png" />
+    <Image Include="Images\dollar3.png" />
+    <Image Include="Images\dollar4.png" />
+    <Image Include="Images\dollar5.png" />
+    <Image Include="Images\dollar6.png" />
+    <Image Include="Images\dollar7.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="bug.wav" />

@@ -10,19 +10,23 @@ namespace csis3700
 		//enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, 
 		//ALLEGRO_BITMAP *image, float move_speed_in, bool can_jump, float jump_amount_in, int damage_in) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
 	{
-		cointBaseSequence = new image_sequence();
+		coinBaseSequence = new image_sequence();
 		float coint_rotate_speed = .04;
-		cointBaseSequence->add_image(image_library::get_instance()->get("coin1.png"), coint_rotate_speed);
-		cointBaseSequence->add_image(image_library::get_instance()->get("coin2.png"), coint_rotate_speed);
-		cointBaseSequence->add_image(image_library::get_instance()->get("coin3.png"), coint_rotate_speed);
-		cointBaseSequence->add_image(image_library::get_instance()->get("coin4.png"), coint_rotate_speed);
-		cointBaseSequence->add_image(image_library::get_instance()->get("coin5.png"), coint_rotate_speed);
-		cointBaseSequence->add_image(image_library::get_instance()->get("coin6.png"), coint_rotate_speed);
-		/*cointBaseSequence->add_image(image_library::get_instance()->get("bug_static2.png"), .3);
-		cointBaseSequence->add_image(image_library::get_instance()->get("bug_static3.png"), .3);
-		cointBaseSequence->add_image(image_library::get_instance()->get("bug_static2.png"), .3);
-		cointBaseSequence->add_image(image_library::get_instance()->get("bug_static1.png"), .3);*/
-		set_image_sequence(cointBaseSequence);
+		coinBaseSequence->add_image(image_library::get_instance()->get("coin1.png"), coint_rotate_speed);
+		coinBaseSequence->add_image(image_library::get_instance()->get("coin2.png"), coint_rotate_speed);
+		coinBaseSequence->add_image(image_library::get_instance()->get("coin3.png"), coint_rotate_speed);
+		coinBaseSequence->add_image(image_library::get_instance()->get("coin4.png"), coint_rotate_speed);
+		coinBaseSequence->add_image(image_library::get_instance()->get("coin5.png"), coint_rotate_speed);
+		coinBaseSequence->add_image(image_library::get_instance()->get("coin6.png"), coint_rotate_speed);
+		
+		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar1.png"), coint_rotate_speed);
+		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar2.png"), coint_rotate_speed);
+		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar3.png"), coint_rotate_speed);
+		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar4.png"), coint_rotate_speed);
+		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar5.png"), coint_rotate_speed);
+		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar6.png"), coint_rotate_speed);
+
+		set_image_sequence(coinBaseSequence);
 		jump_amount = 170;
 		is_jumping = true;
 	}
@@ -52,6 +56,7 @@ namespace csis3700
 
 	coin::~coin()
 	{
-		delete cointBaseSequence;
+		delete coinBaseSequence;
+		delete coinSpecialSequence;
 	}
 }
