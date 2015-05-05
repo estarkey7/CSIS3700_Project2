@@ -260,7 +260,13 @@ namespace csis3700 {
 		// GRAVITY PHYSICS  CODE FROM GAME EXAMPLE ON CLASS SITE:
 		
 		  // Scale the acceleration down to the size of the current timestep
+		  
 		  Vector2 gravityStep = (dt * gravity);
+
+		  if (player_has_won)
+		  {
+			  gravityStep = 0;
+		  }
 		  set_velocity( ( get_velocity() + gravityStep) );
 		  Vector2 stepVelocity = (dt * get_velocity());
 		  set_position( (get_position() + stepVelocity));
@@ -398,9 +404,9 @@ namespace csis3700 {
 		  
 		  
 	  }
-	  else
-	  {
-		  player_has_won = false;
+	  else if (current_level != 2)
+	  {	
+		 // player_has_won = false;
 	  }
   }
   
@@ -514,19 +520,41 @@ namespace csis3700 {
 	  }
 	  
 
-	  //sequence->draw(time, get_x(), get_y());
+	  
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 	  
-	  if (player_has_won)
+	  // END OF LEVEL ONE LOGIC
+
+	  // FADE TO BLACK ON WINNING PLATFORM
+	  if (player_has_won && current_level == 1)
 	  {
+		  
 		  if (winning_tint <= 255)
 		  { 
+			  // FADE SPEED from 0 => 255
+			  winning_tint += 1.33;
+		  }
+		  else
+		  {
+			  reload_level = true;
+			  
+		  }
+		  
+		  
+	  }
+	  else if (player_has_won && current_level == 2)
+	  {
+		  if (winning_tint == 0)
+			  al_play_sample_instance(win_sound_instance);
+
+		  if (winning_tint <= 255)
+		  {
+			  // FADE SPEED from 0 => 255
 			  winning_tint += 1.33;
 		  }
 		  
-		  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2),4*(winning_tint), al_map_rgba(0, 0, 0, winning_tint));
 	  }
-		  
+	  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 4 * (winning_tint), al_map_rgba(0, 0, 0, winning_tint));
 		  
   }
 

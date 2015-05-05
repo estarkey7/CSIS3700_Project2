@@ -31,6 +31,8 @@ namespace csis3700
 		set_image_sequence(coinBaseSequence);
 		jump_amount = 170;
 		is_jumping = true;
+		coins_created++;
+		cout << "coin count: " <<coins_created << endl;
 	}
 
 
@@ -58,6 +60,8 @@ namespace csis3700
 
 	coin::~coin()
 	{
+		coins_created--;
+		cout << "coin count: " << coins_created << endl;
 		delete coinBaseSequence;
 		delete coinSpecialSequence;
 	}

@@ -19,7 +19,7 @@ namespace csis3700 {
   }
 
   // get_name  
-  string sprite::get_name() const {
+  string sprite::get_name() {
     return name;
   } 
   

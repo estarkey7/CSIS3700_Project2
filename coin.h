@@ -9,6 +9,7 @@
 
 namespace csis3700
 {
+	static int coins_created = 0;
 	class coin : public enemy_sprite
 	{
 	public:

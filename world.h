@@ -91,6 +91,9 @@ namespace csis3700 {
 
     player_sprite *player;
 	int enemy_count = 0;
+	int coin_count = 0;
+	bool can_move = true;
+	int level = 1;
 	ALLEGRO_SAMPLE_ID id;
 	ALLEGRO_SAMPLE *game_music;
 	ALLEGRO_SAMPLE *jump_sound;
@@ -110,7 +113,7 @@ namespace csis3700 {
 	 Vector2 camera;
 	 
 	 keyboard_manager Key_Input;
-
+	 void destroy_level();
 	 std::queue<Vector2> enemySpawnLocationQueue;
 	 gameDifficulty difficultyLevel;
 	 void createEnemies();
@@ -119,7 +122,7 @@ namespace csis3700 {
 	 void checkForEnemySpawn();
 	 bool messageBoxAlreadyShown = false;
 	 int randomGenerator(int minQty, int maxQty);
-	 void simple_balloon(float x, float y, bool is_solid = false);
+	 void simple_balloon(float x, float y, bool is_solid = false, bool is_magical = false);
 	 void createCoins();
   };
 }

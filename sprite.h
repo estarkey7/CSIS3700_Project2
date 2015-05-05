@@ -38,7 +38,7 @@ namespace csis3700 {
     
     sprite& operator =(const sprite& other) { assert(false); }
     
-    virtual string get_name() const;
+    virtual string get_name() ;
     
     virtual void print_initial_configuration();
     

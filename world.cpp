@@ -62,38 +62,23 @@ namespace csis3700 {
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
 		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 325.1f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
 				
+	
+			make_ground(level);
+		
+		
 
 		
-		obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20, 1.0f, 1.0f, image_library::get_instance()->get("woods_splash2.png")); // y should be 330 for 1920x1080 res
-		obstruction_sprite *splash2 = new obstruction_sprite("splash", -3959, -881, 1.0f, 1.0f, image_library::get_instance()->get("splash.png")); // y should be 330 for 1920x1080 res
-		build_background(-4021, -20, 15);
-		sprites.push_back(splash);
-		sprites.push_back(splash2);
-		make_ground(1);
-		obstruction_sprite *ground = new obstruction_sprite("ground", 358, DISPLAY_SIZE.get_y() - 200, .5f, .1f, image_library::get_instance()->get("ground dirt.png"));
-		sprites.push_back(ground);
-
-		// Balloon Test
-		obstruction_sprite *balloon = new obstruction_sprite("balloon", 3300, DISPLAY_SIZE.get_y() -500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
-		obstruction_sprite *magic_balloon = new obstruction_sprite("magic_balloon", -3450,  - 500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
-		obstruction_sprite *magic_balloon2 = new obstruction_sprite("magic_balloon", 0, 500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
-		image_sequence *balloon_sequence =  new image_sequence;
-		double balloon_animation_speed = 1.0;
-		balloon_sequence->add_image(image_library::get_instance()->get("balloon1.png"), balloon_animation_speed);
-		balloon_sequence->add_image(image_library::get_instance()->get("balloon2.png"), balloon_animation_speed);
-		balloon->set_image_sequence(balloon_sequence);
-		magic_balloon->set_image_sequence(balloon_sequence);
-		magic_balloon2->set_image_sequence(balloon_sequence);
-		sprites.push_back(balloon);
-		sprites.push_back(magic_balloon);
-		sprites.push_back(magic_balloon2);
+			
+		//obstruction_sprite *magic_balloon2 = new obstruction_sprite("magic_balloon", 0, 500, .2f, .2f, image_library::get_instance()->get("balloon1.png"));
+		//magic_balloon2->set_image_sequence(balloon_sequence);
+		//sprites.push_back(magic_balloon2);
 		
 		//sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 		
 
 	srand((unsigned int)clock() * 3305193169);
 
-	createCoins();
+	
 
 	  sprites.push_back(player);
 	
@@ -102,16 +87,42 @@ namespace csis3700 {
   
   }
 
+  void world::destroy_level()
+  {
+	 for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
+	  {
+		  string name = (*it)->get_name();
+
+		  if (name == "ground") { (*it)->set_visible(false); }
+		  else if (name == "balloon") { (*it)->set_visible(false); }
+		  else if (name == "winning_platform") { (*it)->set_visible(false); }
+		  else if (name == "enemy") { (*it)->set_visible(false); }
+		  else if (name == "coin") { (*it)->set_visible(false); }
+		  else if (name == "magic_balloon") { (*it)->set_visible(false); }
+		  else if (name == "solid_balloon") { (*it)->set_visible(false); }
+		  
+
+		 
+	  }
+	  cout << "****** LEVEL " << level << " destroyed ******" << endl;
+	  
+  }
   void world::make_ground(int level_in){
+	  if (player->reload_level == false){ return; }
+
 	  if (level_in == 1)
 	  {
+		  // INITIAL SPLASH SCREEN
+		  build_background(-4021, -20, 15);
+
 		  // LEVEL ONE
 			// MAIN GROUND
 				// Secret Bonus Platform way to the left of respawn point
-				  build_platform(-3319, -250, 1);
-				  build_platform(-3450, -150, 1, 3);
-				  build_platform(-3450, 300, 1, 1);
-				  build_platform(-3450, 750, 1, 1);
+				  build_platform(-3319, -200, 2);
+				  build_platform(-3450, -140, 1, 3);
+				  build_platform(-3450, 300, 1, 2);
+				  simple_balloon(-3450, DISPLAY_SIZE.get_y()- 650);
+				  
 				  build_platform(-3450, 1100, 2, 1);
 
 		  build_platform(5000, 20, 1, 1, "ground", "ground_5000.png", 5000, 50);
@@ -132,7 +143,7 @@ namespace csis3700 {
 
 
 		  // FIRST PLATFORM
-		  //build_platform(343, 200, 1);
+		  build_platform(0, 500, 1, 1, "winning_platform", "ground_300.png", 300, 50);
 
 		  // SECOND PLATFORM
 		  build_platform(3300, 300, 1, 1, "ground", "ground_300.png", 300, 50);
@@ -149,6 +160,7 @@ namespace csis3700 {
 		  build_platform(17027, 1200, 3, 3, "winning_platform", "ground_300.png", 300, 50);
 
 		  // COINS sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  /*
 		  sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 		  
 		  for (int i = 0; i < 1000; i += 200)
@@ -158,29 +170,49 @@ namespace csis3700 {
 		  
 		  sprites.push_back(new coin("coin", 2000.0f, 853, 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 		  sprites.push_back(new coin("coin", 4000.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
-	  
+		  */
 	  
 		  sprites.push_back(new balloon("balloon", 600.0f, (float)(DISPLAY_SIZE.get_y() - 400), .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 		  simple_balloon(5016.0f, 440);
 		  simple_balloon(2829, 1049);
-		 
-	  
+		  simple_balloon(3300, DISPLAY_SIZE.get_y() - 500);
+		  simple_balloon(-3450, -500, false, true);
+		  simple_balloon(-800, 700, true);
+ 
+		  
 	  }
 	  else if (level_in == 2)
 	  {
+		  // THE GAUNTLET LEVEL
 
-
+		  // STARTING PLATFORM
+		  build_platform(0, 0, 1, 1, "ground", "ground_5000.png", 5000, 50);
+		  build_platform(0, 300, 6, 1, "ground", "ground_300.png", 800, 50);
+		  simple_balloon(2500, 400, false, true);
+		  
 	  }
+	  createCoins();
+	  // TINY DIRT RESPAWN PLATFORM
+	  sprites.push_back(new obstruction_sprite("ground", 358, DISPLAY_SIZE.get_y() - 200, .5f, .1f, image_library::get_instance()->get("ground dirt.png")));
 	  
+	  player->reload_level = false;
+	  player->winning_tint = 0.0f;
   }
 
-  void world::simple_balloon(float x, float y, bool is_solid )
+  void world::simple_balloon(float x, float y, bool is_solid, bool is_magical )
   {
-	  if (is_solid == false)
-	  sprites.push_back(new balloon("balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+	  if (is_magical == false)
+	  {
+		  if (is_solid == false)
+			  sprites.push_back(new balloon("balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  else
+		  {
+			  sprites.push_back(new balloon("solid_balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  }
+	  }
 	  else
 	  {
-		  sprites.push_back(new balloon("solid_balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
+		  sprites.push_back(new balloon("magic_balloon", x, y, .2f, .2f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 	  }
   }
 
@@ -256,12 +288,16 @@ namespace csis3700 {
   }
 
   void world::build_background(int init_x, int init_y, int width ){
-
+	  obstruction_sprite *splash = new obstruction_sprite("splash", -200, -20, 1.0f, 1.0f, image_library::get_instance()->get("woods_splash2.png")); // y should be 330 for 1920x1080 res
+	  obstruction_sprite *splash2 = new obstruction_sprite("splash", -3959, -881, 1.0f, 1.0f, image_library::get_instance()->get("splash.png")); // y should be 330 for 1920x1080 res
 	  for (int x = init_x; x < (init_x + (width * 1081)); x += 1081){
 		   
 		  sprites.push_back(new obstruction_sprite("background", x, init_y, 1.0f, 1.0f, image_library::get_instance()->get("woods_green.png")));
 		  
 	  }
+	  
+	  sprites.push_back(splash);
+	  sprites.push_back(splash2);
 
   }
 
@@ -298,7 +334,7 @@ namespace csis3700 {
   }
 
   void world::handle_event(ALLEGRO_EVENT ev) {
-	if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
+	if(ev.type == ALLEGRO_EVENT_KEY_DOWN && can_move) {
 		
 
 		switch (ev.keyboard.keycode){
@@ -408,27 +444,29 @@ namespace csis3700 {
   }
 
   void world::advance_by_time(double dt) {
-	  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_W)){
-		  //cout << "KEY_DOWN: W................" << endl;
-		  player->move(JUMP, jump_sound_instance);
+	  if (can_move)
+	  {
+		  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_W)){
+			  //cout << "KEY_DOWN: W................" << endl;
+			  player->move(JUMP, jump_sound_instance);
 
-	  }
-	  /*
-		  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_S)){
+		  }
+		  /*
+			  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_S)){
 			  cout << "KEY_DOWN: S................" << endl;
 			  player->move(HOVER);
-		  }
-	  */
-	  
-	  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_A)){
-		  //cout << "KEY_DOWN: A" << endl;
-		  player->move(MOVE_LEFT, player_change_direction_sound_instance);
-	  }
-	  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_D)){
-		  //cout << "KEY_DOWN: D................" << endl;
-		  player->move(MOVE_RIGHT, player_change_direction_sound_instance);
-	  }
+			  }
+			  */
 
+		  if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_A)){
+			  //cout << "KEY_DOWN: A" << endl;
+			  player->move(MOVE_LEFT, player_change_direction_sound_instance);
+		  }
+		  else if (Key_Input.get_instance()->is_key_down(ALLEGRO_KEY_D)){
+			  //cout << "KEY_DOWN: D................" << endl;
+			  player->move(MOVE_RIGHT, player_change_direction_sound_instance);
+		  }
+	  }
 	 
 	  sprite* deletable_sprite = NULL;
 
@@ -445,13 +483,44 @@ namespace csis3700 {
 
 	  if (deletable_sprite != NULL)
 	  {
-		  cout << endl <<"DELETING OBJECT: " << (deletable_sprite)->get_name() << " (ID: " << (deletable_sprite)->get_sprite_id() << " )" << endl;
+		  //cout << endl <<"DELETING OBJECT: " << (deletable_sprite)->get_name() << " (ID: " << (deletable_sprite)->get_sprite_id() << " )" << endl;
+		  if (deletable_sprite->get_name() == "coin")
+			  coin_count--;
+
 		  sprites.resize(std::remove(sprites.begin(), sprites.end(), deletable_sprite) - sprites.begin());
-		  cout << "OBJECT DELETED" << endl << endl;
+		  //cout << "OBJECT DELETED" << endl << endl;
 		  delete deletable_sprite;
+	  } 
+	   else if ( player->player_has_won == false)
+	  {
+		// EVERYTHING IS DELETED AND LEVEL NEEDS LOADED
+		  make_ground(level);
+		  if (player->current_level == 2 && player->reload_level == false && coin_count <= 0)
+		  {
+			  player->player_has_won == true;
+			  
+		  }
 	  }
+	  else if ( player->current_level == 1 && player->reload_level == true)
+	  {
+		  // IF PLAYER BEATS LEVEL ONE AND ITS FADE SCREEN IS OVER
+		  destroy_level();
+		  player->current_level = 2;
+		  level = 2;
+		  player->player_has_won = false;
+	  }
+	  else if (player->current_level == 2 && player->reload_level == false && coin_count <= 0)
+	  {
+		  
+		  cout << "GAME OVER. YOU WIN!" << endl;
+	  }
+	  
+	  
+
 	  if (player->player_has_won)
 		  al_stop_sample(&id);
+
+	  
 		  
 	  
 	  //(*it)->set_velocity;
@@ -490,26 +559,28 @@ namespace csis3700 {
 
   void world::draw() {
 
-	  if (camera.y > 0)
-	  {
-
-		  if (camera.x < 12000)
-			  al_clear_to_color(al_map_rgb(0, 0, 0));
-		  else if (camera.x < 18000)
+	  if (camera.x < 12000){
+		  if (camera.y > 0)
 		  {
-			  int color_amount = (255 - ((18000 - camera.x) * 0.0425));
-			  al_clear_to_color(al_map_rgb(0, color_amount, 0));
+			  al_clear_to_color(al_map_rgb(0, 0, 0));
 		  }
 		  else
 		  {
-			  al_clear_to_color(al_map_rgb(255, 0, 0));
+			  int color_amount = (0 + (-camera.y * 0.1));
+			  al_clear_to_color(al_map_rgb(0, 0, color_amount));
 		  }
+	  }
+	  else if (camera.x < 18000)
+	  {
+		  int color_amount = (255 - ((18000 - camera.x) * 0.0425));
+		  al_clear_to_color(al_map_rgb(0, color_amount, 0));
 	  }
 	  else
 	  {
-		  int color_amount = (0 + ( -camera.y * 0.1) );
-		  al_clear_to_color(al_map_rgb(0, 0, color_amount));
+
+		  al_clear_to_color(al_map_rgb(255, 0, 0));
 	  }
+	  
 	  
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  (*it)->draw(&camera);
@@ -524,6 +595,12 @@ namespace csis3700 {
 	
 	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 50, ALLEGRO_ALIGN_CENTER, "%i", player->get_health());
 	al_draw_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (100 * 1.5f), 40.0f, al_map_rgba(15, 15, 200, 200),3);
+	
+	if (player->player_has_won && level == 2 && player->reload_level == false)
+	{
+		// PLAYER WINS GAME
+		al_draw_textf(rapier48, al_map_rgba(15, 200, 15, 225), al_get_display_width(gameDisplay) / 2, al_get_display_height(gameDisplay) / 2, ALLEGRO_ALIGN_CENTRE, "YOU WIN!");
+	}
   }
 
 
@@ -565,21 +642,46 @@ namespace csis3700 {
 
   void world::createCoins()
   {
-	  for (int x = 0; x < 20000; x += randomGenerator(200, 500))
+	  if (level == 1)
 	  {
-		  coin * newCoin;// = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
-		  if (randomGenerator(1, 20) == 7)
+		  for (int x = 0; x < 12000; x += randomGenerator(250, 500))
 		  {
-			  newCoin = new coin("coin", x, 0, 2.0, 2.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
-			  newCoin->set_image_sequence(newCoin->coinSpecialSequence);
-			  newCoin->setMoveSpeed(35.0);
-			  newCoin->set_score_value(150);
+			  coin * newCoin;// = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+			  if (randomGenerator(1, 20) == 7)
+			  {
+				  newCoin = new coin("coin", x, 0, 2.0, 2.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+				  newCoin->set_image_sequence(newCoin->coinSpecialSequence);
+				  newCoin->setMoveSpeed(35.0);
+				  newCoin->set_score_value(150);
+			  }
+			  else
+			  {
+				  newCoin = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+			  }
+			  sprites.push_back(newCoin);
+			  coin_count++;
 		  }
-		  else
+	  }
+	  else
+	  {
+		  for (int x = 0; x < 5000; x += randomGenerator(100, 250))
 		  {
-			  newCoin = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+			  coin * newCoin;// = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+			  if (randomGenerator(1, 20) == 7)
+			  {
+				  newCoin = new coin("coin", x, 0, 2.0, 2.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+				  newCoin->set_image_sequence(newCoin->coinSpecialSequence);
+				  newCoin->setMoveSpeed(35.0);
+				  newCoin->set_score_value(150);
+			  }
+			  else
+			  {
+				  newCoin = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+			  }
+			  sprites.push_back(newCoin);
+			  coin_count++;
 		  }
-		  sprites.push_back(newCoin);
+
 	  }
   }
 
