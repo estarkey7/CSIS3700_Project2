@@ -338,6 +338,19 @@ namespace csis3700 {
 					}
 					cout << "Objects in world: " << sprites.size() << endl;
 						break;
+				case ALLEGRO_KEY_P:
+
+					al_show_native_message_box(
+						gameDisplay,
+						"Game Paused",
+						"",
+						"Press OK to unpause game.",
+						NULL,
+						ALLEGRO_MESSAGEBOX_WARN
+						);
+
+
+					break;
 				case ALLEGRO_KEY_ESCAPE :
 					int button = 0;
 					button = al_show_native_message_box(
@@ -355,6 +368,7 @@ namespace csis3700 {
 						}
 						
 					break;
+				
 										
 		}
 	}
