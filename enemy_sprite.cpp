@@ -39,7 +39,7 @@ namespace csis3700
 			rectangle r = collision.collision_rectangle();
 			set_velocity(Vector2(get_velocity().get_x(), 0.0f));
 			set_position((get_position() + Vector2(0, -r.get_height())));
-
+			set_velocity(Vector2(get_velocity().get_x(), 0.0f));
 			// WHEN PLAYERS VELOCITY IS ALMOST 0(WITHIN FRICTION THRESHHOLD AMOUNT OF 0), SET IT TO EXACTLY 0;
 			//	IF ITS NOT CLOSE, APPLY FRICTION
 			if (get_velocity().get_x() > -frictionLimit && get_velocity().get_x() < frictionLimit)
@@ -49,7 +49,7 @@ namespace csis3700
 			}
 			else
 			{
-				set_velocity(Vector2(get_velocity().get_x() * friction, 0.0f));
+				//set_velocity(Vector2(get_velocity().get_x() * friction, 0.0f));
 			}
 
 			/*if (get_velocity().get_x() > frictionLimit)
