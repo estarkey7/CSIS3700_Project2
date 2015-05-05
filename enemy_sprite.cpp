@@ -5,7 +5,7 @@ using namespace std;
 
 namespace csis3700
 {
-	enemy_sprite::enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in,bool can_jump) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
+	enemy_sprite::enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in, bool can_jump, float jump_amount_in, int damage_in ) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
 	{
 		staticImageSequence = new image_sequence();
 		staticImageSequence->add_image(image_library::get_instance()->get("bug_static1.png"), .3);
@@ -29,6 +29,8 @@ namespace csis3700
 		moveSpeed = move_speed_in;
 		moveEnemy();
 		is_jumping = can_jump;
+		jump_amount = jump_amount_in;
+		score_value = damage_in;
 	}
 
 
@@ -68,7 +70,7 @@ namespace csis3700
 			}*/
 			if (is_jumping)
 			{
-				set_velocity(Vector2(get_velocity().get_x(), -60.0f));
+				set_velocity(Vector2(get_velocity().get_x(), -jump_amount));
 			}
 		}
 		else if (other->get_name() == "player")

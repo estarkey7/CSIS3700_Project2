@@ -288,8 +288,11 @@ namespace csis3700 {
 	  }
 	  else  if (other->get_name() == "enemy"){
 		  cout << "HIT BY ENEMY (ID #" << other->get_sprite_id() << " )." << endl;
+		  if (other->is_passive() == false)
+			  remove_health(other->get_score_value());
+
 		  other->set_passive(true);
-		  remove_health(10);
+		  
 		  other->set_visible(false);
 
 	  }

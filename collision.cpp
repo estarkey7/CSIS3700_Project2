@@ -10,8 +10,15 @@ namespace csis3700 {
     if (p1->is_passive()) {
       participant1 = p2;
       participant2 = p1;
-    } else {
-      participant1 = p1;
+	}
+	else if (p2->get_name() == "player")
+	{
+		participant1 = p2;
+		participant2 = p1;
+	}
+	else
+	{
+	  participant1 = p1;
       participant2 = p2;
     }
   }
