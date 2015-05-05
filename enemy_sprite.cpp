@@ -5,7 +5,7 @@ using namespace std;
 
 namespace csis3700
 {
-	enemy_sprite::enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in, bool can_jump, float jump_amount_in, int damage_in ) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
+	enemy_sprite::enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in, bool can_jump, float jump_amount_in, int damage_in, bool ai_on_in,Vector2 *follow_target_in) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
 	{
 		staticImageSequence = new image_sequence();
 		staticImageSequence->add_image(image_library::get_instance()->get("bug_static1.png"), .3);
@@ -31,6 +31,8 @@ namespace csis3700
 		is_jumping = can_jump;
 		jump_amount = jump_amount_in;
 		score_value = damage_in;
+		ai_on = ai_on_in;
+		target = follow_target_in;
 	}
 
 
@@ -102,15 +104,37 @@ namespace csis3700
 			set_visible(false);
 		}
 
+		if (ai_on == true)
+		{
+			if (target->get_x() > position.x){
+				if (get_velocity().x < 0)
+				{
+					set_velocity(Vector2(-(get_velocity().x), get_velocity().y));
+				}
+				
+			}
+			else if (target->get_x() < position.x)
+			{
+				if (get_velocity().x > 0)
+				{
+					set_velocity(Vector2(-(get_velocity().x), get_velocity().y));
+				}
+			}
+			
+
+		}
+		
+
 	}
 
 	void enemy_sprite::moveEnemy()
 	{
 		if (get_velocity().x > -maxMoveSpeed && get_velocity().x < maxMoveSpeed)
 		{
-
-			set_velocity(get_velocity() + Vector2(-moveSpeed, 0));
-			//al_play_sample_instance(bugCrawlingSampleInstance);
+			
+				set_velocity(get_velocity() + Vector2(-moveSpeed, 0));
+				//al_play_sample_instance(bugCrawlingSampleInstance);
+			
 		}
 
 

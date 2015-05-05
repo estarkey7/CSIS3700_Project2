@@ -88,7 +88,7 @@ namespace csis3700 {
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
 		
-		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20););
+		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 	 
 	srand((unsigned int)clock() * 3305193169);
 
@@ -177,6 +177,7 @@ namespace csis3700 {
 
 	  case HARD:
 		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(2050, 0));
 		  enemySpawnLocationQueue.push(Vector2(2250, 0));
 		  enemySpawnLocationQueue.push(Vector2(3200, 0));
 		  enemySpawnLocationQueue.push(Vector2(3600, 0));
@@ -186,6 +187,7 @@ namespace csis3700 {
 		  enemySpawnLocationQueue.push(Vector2(14000, 0));
 		  enemySpawnLocationQueue.push(Vector2(15000, 0));
 		  enemySpawnLocationQueue.push(Vector2(16000, 0));
+		  enemySpawnLocationQueue.push(Vector2(18000, 0));
 		  break;
 
 	  case EXTREME:
@@ -537,7 +539,7 @@ namespace csis3700 {
 	  case HARD:
 		  for (int x = 0; x < 15; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25,true, (&camera));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
