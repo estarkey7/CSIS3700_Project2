@@ -20,6 +20,7 @@ namespace csis3700
 		coinBaseSequence->add_image(image_library::get_instance()->get("coin5.png"), coint_rotate_speed);
 		coinBaseSequence->add_image(image_library::get_instance()->get("coin6.png"), coint_rotate_speed);
 		
+		coinSpecialSequence = new image_sequence();
 		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar1.png"), coint_rotate_speed);
 		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar2.png"), coint_rotate_speed);
 		coinSpecialSequence->add_image(image_library::get_instance()->get("dollar3.png"), coint_rotate_speed);
