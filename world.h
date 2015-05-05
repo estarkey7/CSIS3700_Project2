@@ -68,7 +68,7 @@ namespace csis3700 {
 	void fade();
 	void getPlayerPosition(int x, int y) const;
 
-	void make_ground();
+	void make_ground(int level_in);
 
   private:
 

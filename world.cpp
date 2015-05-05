@@ -59,7 +59,7 @@ namespace csis3700 {
 		
 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
-		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 400.0f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
+		player = new player_sprite("player", (DISPLAY_SIZE.get_x() / 2.0f) - 300, (DISPLAY_SIZE.get_y() / 2) + 100, 1, 1, image_library::get_instance()->get("player_idle1.png"), 50.0f, 250.0f, 325.1f, &camera, player_landing_sound_instance, player_change_direction_sound_instance, walk_sound_instance);
 				
 
 		
@@ -68,7 +68,7 @@ namespace csis3700 {
 		build_background(-4021, -20, 15);
 		sprites.push_back(splash);
 		sprites.push_back(splash2);
-		make_ground();
+		make_ground(1);
 		obstruction_sprite *ground = new obstruction_sprite("ground", 358, DISPLAY_SIZE.get_y() - 200, .5f, .1f, image_library::get_instance()->get("ground dirt.png"));
 		sprites.push_back(ground);
 
@@ -86,28 +86,6 @@ namespace csis3700 {
 		sprites.push_back(balloon);
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
-
-		/*int button = 0;
-		button = al_show_native_message_box(
-			gameDisplay,
-			"Select Game Difficulty",
-			"Player,",
-			"Do you want to play this game on higher difficulty?",
-			NULL,
-			ALLEGRO_MESSAGEBOX_YES_NO
-			);
-
-		if (button == 1)
-		{
-			difficultyLevel = HARD;
-		}
-		else
-		{
-			difficultyLevel = EASY;
-		}*/
-	  
-	
-	  //player->idle_sequence->add_image(image_library::get_instance()->get("player02.png"), .2);
 	 
 	srand((unsigned int)clock() * 3305193169);
 
@@ -119,20 +97,22 @@ namespace csis3700 {
   
   }
 
-  void world::make_ground(){
-
-	  // MAIN GROUND
-		// Secret Bonus Platform way to the left of respawn point
-		  build_platform(-3319, -250, 1);
-		  build_platform(-3450, -150, 1, 3);
-		  build_platform(-3450, 300, 1, 3);
-		  build_platform(-3450, 750, 1, 1);
-		  build_platform(-3450, 1100, 2, 2);
+  void world::make_ground(int level_in){
+	  if (level_in == 1)
+	  {
+		  // LEVEL ONE
+			// MAIN GROUND
+				// Secret Bonus Platform way to the left of respawn point
+				  build_platform(-3319, -250, 1);
+				  build_platform(-3450, -150, 1, 3);
+				  build_platform(-3450, 300, 1, 3);
+				  build_platform(-3450, 750, 1, 1);
+				  build_platform(-3450, 1100, 2, 2);
 
 		  build_platform(5000, 20, 1, 1, "ground", "ground_5000.png", 5000, 50);
 		  for (int i = 10500; i < 18000; i += 2000)
-			  build_platform(i, 20, 1,1,"ground","ground_2000.png",3200,50);
-	  
+			  build_platform(i, 20, 1, 1, "ground", "ground_2000.png", 3200, 50);
+
 		  // START AT LOCATION (0, 0). MAKE 8x1 BLOCK PLATFORM (50x50 per block). Default parameters are for ground objects
 		  // (0,0) -> (750,0) : 8x1 
 
@@ -140,19 +120,24 @@ namespace csis3700 {
 
 		  // (1750,0) -> (2950,0) : 40x1 
 		  build_platform(1750, 0, 4, 1, "ground", "ground_300.png", 300, 50);
-			  build_platform(1950, -200, 4.5, 1, "ground", "ground_300.png", 300, 50);
+		  build_platform(1950, -200, 4.5, 1, "ground", "ground_300.png", 300, 50);
 
 		  // (3000,0) -> (3400,0) : 8x1 
-			  build_platform(4300, 0, 1, 1, "ground", "ground_300.png", 300, 50);
+		  build_platform(4300, 0, 1, 1, "ground", "ground_300.png", 300, 50);
 
 
-	  // FIRST PLATFORM
+		  // FIRST PLATFORM
 		  //build_platform(343, 200, 1);
 
-	  // SECOND PLATFORM
+		  // SECOND PLATFORM
 		  build_platform(3300, 300, 1, 1, "ground", "ground_300.png", 300, 50);
 
-		 
+	  }
+	  else if (level_in == 2)
+	  {
+
+
+	  }
 	  
   }
 

@@ -104,6 +104,7 @@ namespace csis3700 {
 
   // draw
   void sprite::draw(Vector2 *camera_in) {
+	  if (visible)
 	  sequence->draw(time, (-camera_in->get_x() + (DISPLAY_SIZE.get_x() / 2)) + position.get_x(), (-camera_in->get_y() + DISPLAY_SIZE.get_y() / 2) + position.get_y(), sx, sy);
 
 	  x_local = -camera_in->get_x() + (DISPLAY_SIZE.get_x() / 2) + position.get_x();

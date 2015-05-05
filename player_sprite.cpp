@@ -248,8 +248,13 @@ namespace csis3700 {
   }
 
   void player_sprite::resolve(const collision& collision, sprite *other) {
-		// collision with ground
-	  if (other->get_name() == "ground"){
+	  if (other->get_name() == "background")
+	  {
+		  // APPLY A LITTLE FRICTION WHILE JUMPING
+		  set_velocity(		Vector2( get_velocity().get_x() * .97f, get_velocity().get_y() )		);
+	  }
+	  // collision with ground
+	  else if(other->get_name() == "ground"){
 		  rectangle r = collision.collision_rectangle();
 		  
 		  set_position((get_position() + Vector2(0, -r.get_height())));
@@ -290,7 +295,7 @@ namespace csis3700 {
 	  }
 	  else  if (other->get_name() == "balloon"){
 		  move(JUMP);
-		  set_velocity(get_velocity() + Vector2(0.0f, -500.0f));
+		  set_velocity(get_velocity() + Vector2(0.0f, -300.0f));
 		  other->set_position(Vector2(-10000, -5000));
 	  }
 	  else  if (other->get_name() == "magic_balloon"){
@@ -349,14 +354,14 @@ namespace csis3700 {
   
   void player_sprite::walk_right(ALLEGRO_SAMPLE_INSTANCE *sound_in){
 		// SNAP VELOCITY TO 0 IF CHANGING DIRECTIONS
-	  if (get_velocity().x < 0){
+	  if ( get_velocity().x < 0 ) {
 		  set_velocity(Vector2(0, get_velocity().y));
 		  if (sound_in != NULL)
 			  al_play_sample_instance(sound_in);
 	  }
 		
 		// INCREASE VELOCITY TO THE RIGHT IF VELOCITY HASN'T REACHED MAX_MOVE_SPEED YET
-		  if(get_velocity().x < max_move_speed)
+	  if (get_velocity().x < max_move_speed )
 			set_velocity(get_velocity()  + Vector2(move_speed, 0));
 
 		  
