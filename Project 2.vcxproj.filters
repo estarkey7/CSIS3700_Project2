@@ -151,6 +151,45 @@
     <Image Include="Images\bug_run3.png">
       <Filter>Resource Files\Images</Filter>
     </Image>
+    <Image Include="Images\coin1.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\coin2.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\coin3.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\coin4.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\coin5.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\coin6.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar1.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar2.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar3.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar4.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar5.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar6.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
+    <Image Include="Images\dollar7.png">
+      <Filter>Resource Files\Images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="bug.wav">
