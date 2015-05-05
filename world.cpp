@@ -87,7 +87,8 @@ namespace csis3700 {
 		sprites.push_back(balloon);
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
-		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f,20));
+		
+		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20));
 	 
 	srand((unsigned int)clock() * 3305193169);
 
@@ -176,6 +177,7 @@ namespace csis3700 {
 
 	  case HARD:
 		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(2050, 0));
 		  enemySpawnLocationQueue.push(Vector2(2250, 0));
 		  enemySpawnLocationQueue.push(Vector2(3200, 0));
 		  enemySpawnLocationQueue.push(Vector2(3600, 0));
@@ -185,6 +187,7 @@ namespace csis3700 {
 		  enemySpawnLocationQueue.push(Vector2(14000, 0));
 		  enemySpawnLocationQueue.push(Vector2(15000, 0));
 		  enemySpawnLocationQueue.push(Vector2(16000, 0));
+		  enemySpawnLocationQueue.push(Vector2(18000, 0));
 		  break;
 
 	  case EXTREME:
@@ -335,6 +338,19 @@ namespace csis3700 {
 					}
 					cout << "Objects in world: " << sprites.size() << endl;
 						break;
+				case ALLEGRO_KEY_P:
+
+					al_show_native_message_box(
+						gameDisplay,
+						"Game Paused",
+						"",
+						"Press OK to unpause game.",
+						NULL,
+						ALLEGRO_MESSAGEBOX_WARN
+						);
+
+
+					break;
 				case ALLEGRO_KEY_ESCAPE :
 					int button = 0;
 					button = al_show_native_message_box(
@@ -352,6 +368,7 @@ namespace csis3700 {
 						}
 						
 					break;
+				
 										
 		}
 	}
@@ -495,11 +512,11 @@ namespace csis3700 {
 	else 
 		al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.5f), 40.0f, al_map_rgba(200, 15, 15, 200));
 	
-	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 27, ALLEGRO_ALIGN_CENTER, "%i\%", player->get_health());
+	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 27, ALLEGRO_ALIGN_CENTER, "%i", player->get_health());
   }
 
 
-  void world::createEnemies(Vector2 initialPosition)
+  void world::createEnemies()
   {
 	  float right_edge = camera.get_x() + (al_get_display_width(gameDisplay) / 2);
 	  float top_edge = camera.get_y() - (al_get_display_height(gameDisplay) / 2);
@@ -512,53 +529,25 @@ namespace csis3700 {
 			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge + 100, right_edge + 600), top_edge - 20, 1, 1, NULL, randomGenerator(40, 60), randomGenerator(0, 1) ? true : false, (float)randomGenerator(60,70));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
+			  enemy_count++;
 		  }
 		  break;
 
-	  case MODERATE:
-		  for (int x = 0; x < 7; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 70));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
+	
 
-	  case DIFFICULT:
-		  for (int x = 0; x < 10; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 80));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
+	 
 
 	  case HARD:
-		  for (int x = 0; x < 15; x++)
+		  for (int x = 0; x < 12; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25,true, (&camera));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
+			  enemy_count++;
 		  }
 		  break;
 
-	  case EXTREME:
-		  for (int x = 0; x < 40; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 95));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
-
-	  case INSANE:
-		  for (int x = 0; x < 30; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 90));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
+	
 
 	  }
   }
@@ -573,7 +562,7 @@ namespace csis3700 {
 		  {
 			  Vector2 tempVect = enemySpawnLocationQueue.front();
 			  enemySpawnLocationQueue.pop();
-			  createEnemies(tempVect);
+			  createEnemies();
 		  }
 	  }
 
