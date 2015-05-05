@@ -411,9 +411,10 @@ namespace csis3700 {
 	  {
 		  cout << endl <<"DELETING OBJECT: " << (deletable_sprite)->get_name() << " (ID: " << (deletable_sprite)->get_sprite_id() << " )" << endl;
 		  sprites.resize(std::remove(sprites.begin(), sprites.end(), deletable_sprite) - sprites.begin());
-		  cout << "OBJECT DELETED" << endl;
+		  cout << "OBJECT DELETED" << endl << endl;
+		  delete deletable_sprite;
 	  }
-	  delete deletable_sprite;
+	  
 		  
 	  
 	  //(*it)->set_velocity;
@@ -451,7 +452,18 @@ namespace csis3700 {
   }
 
   void world::draw() {
+	  if (camera.x < 12000)
 	  al_clear_to_color(al_map_rgb(0, 0, 0));
+	  else if (camera.x < 18000)
+	  {
+		  int color_amount = (255 -((18000 - camera.x) * 0.0425));
+		  al_clear_to_color(al_map_rgb(0, color_amount, 0));
+	  }
+	  else
+	  {
+		  al_clear_to_color(al_map_rgb(255, 0, 0));
+	  }
+	  
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  (*it)->draw(&camera);
 	al_draw_rounded_rectangle       (20, 20, 200, 60, 15, 15, al_map_rgba( 0,  0,  0, 200), 7);
