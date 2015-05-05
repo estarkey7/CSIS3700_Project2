@@ -11,6 +11,7 @@ namespace csis3700
 		//ALLEGRO_BITMAP *image, float move_speed_in, bool can_jump, float jump_amount_in, int damage_in) : phys_sprite(name_in, initial_x, initial_y, sx_in, sy_in)
 	{
 		coinBaseSequence = new image_sequence();
+		coinSpecialSequence = new image_sequence();
 		float coint_rotate_speed = .04;
 		coinBaseSequence->add_image(image_library::get_instance()->get("coin1.png"), coint_rotate_speed);
 		coinBaseSequence->add_image(image_library::get_instance()->get("coin2.png"), coint_rotate_speed);

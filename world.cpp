@@ -87,7 +87,8 @@ namespace csis3700 {
 		sprites.push_back(balloon);
 		sprites.push_back(magic_balloon);
 		sprites.push_back(magic_balloon2);
-		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f,20));
+		
+		sprites.push_back(new coin("coin", 400.0f, (float)(DISPLAY_SIZE.get_y() - 500), 1.0f, 1.0f, image_library::get_instance()->get("coin1.png"), 0.0f, 20););
 	 
 	srand((unsigned int)clock() * 3305193169);
 
@@ -495,7 +496,7 @@ namespace csis3700 {
 	else 
 		al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.5f), 40.0f, al_map_rgba(200, 15, 15, 200));
 	
-	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 27, ALLEGRO_ALIGN_CENTER, "%i\%", player->get_health());
+	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 27, ALLEGRO_ALIGN_CENTER, "%i", player->get_health());
   }
 
 

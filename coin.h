@@ -1,9 +1,11 @@
 #pragma once
+#ifndef _COIN_H
+#define _COIN_H
 #include "enemy_sprite.h"
 #include "image_sequence.h"
 #include "image_library.h"
-#ifndef _COIN_H
-#define _COIN_H
+
+
 
 namespace csis3700
 {
