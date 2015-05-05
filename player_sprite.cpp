@@ -127,6 +127,9 @@ namespace csis3700 {
 		  friction = .9f;	// FRICTION FROM PLAYER MOVING ON GROUND
 		  friction_threshhold = 40.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
 		 
+		  gotCoinSample = al_load_sample("drip.wav");
+		  gotCoinSampleInstance = al_create_sample_instance(gotCoinSample);
+		  al_attach_sample_instance_to_mixer(gotCoinSampleInstance, al_get_default_mixer());
 		 
 		  
 
@@ -323,7 +326,7 @@ namespace csis3700 {
 		  other->set_passive(true);	// stops collisions with object
 
 		  other->set_visible(false); // deletes object
-
+		  al_play_sample_instance(gotCoinSampleInstance);
 	  }
   }
   

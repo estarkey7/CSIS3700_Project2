@@ -74,6 +74,8 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE_INSTANCE *player_landing_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *gotCoinSampleInstance;
+	ALLEGRO_SAMPLE *gotCoinSample;
 	ALLEGRO_SAMPLE *hover_sound;
 	bool playerHit = false;
 	

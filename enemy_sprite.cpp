@@ -26,6 +26,11 @@ namespace csis3700
 		bugCrawlingSample = al_load_sample("bug.wav");
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
+
+		fallingBugSample = al_load_sample("falling.wav");
+		fallingBugSampleInstance = al_create_sample_instance(fallingBugSample);
+		al_attach_sample_instance_to_mixer(fallingBugSampleInstance, al_get_default_mixer());
+
 		moveSpeed = move_speed_in;
 		moveEnemy();
 		is_jumping = can_jump;
@@ -110,6 +115,13 @@ namespace csis3700
 
 		}
 		
+		if (name == "enemy")
+		{
+			if (get_velocity().get_y() > 250)
+			{
+				al_play_sample_instance(fallingBugSampleInstance);
+			}
+		}
 
 	}
 
