@@ -56,7 +56,7 @@ namespace csis3700 {
 		
 		
 		
-		addEnemeySpawnVectors();
+		
 		
 
 		// CREATE PLAYER OBJECT AS THE FIRST OBJECT
@@ -89,6 +89,9 @@ namespace csis3700 {
 
   void world::destroy_level()
   {
+	  for (int i = 0; i < enemySpawnLocationQueue.size(); i++)
+		  enemySpawnLocationQueue.pop();
+
 	 for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
 	  {
 		  string name = (*it)->get_name();
@@ -116,6 +119,9 @@ namespace csis3700 {
 		  build_background(-4021, -20, 15);
 
 		  // LEVEL ONE
+
+		  // LOAD ENEMY SPAWNS
+		  addEnemeySpawnVectors();
 			// MAIN GROUND
 				// Secret Bonus Platform way to the left of respawn point
 				  build_platform(-3319, -200, 2);
@@ -490,18 +496,8 @@ namespace csis3700 {
 		  sprites.resize(std::remove(sprites.begin(), sprites.end(), deletable_sprite) - sprites.begin());
 		  //cout << "OBJECT DELETED" << endl << endl;
 		  delete deletable_sprite;
-	  } 
-	   else if ( player->player_has_won == false)
-	  {
-		// EVERYTHING IS DELETED AND LEVEL NEEDS LOADED
-		  make_ground(level);
-		  if (player->current_level == 2 && player->reload_level == false && coin_count <= 0)
-		  {
-			  player->player_has_won == true;
-			  
-		  }
 	  }
-	  else if ( player->current_level == 1 && player->reload_level == true)
+	  else if ( player->player_has_won && player->current_level == 1 && player->reload_level == true)
 	  {
 		  // IF PLAYER BEATS LEVEL ONE AND ITS FADE SCREEN IS OVER
 		  destroy_level();
@@ -509,11 +505,14 @@ namespace csis3700 {
 		  level = 2;
 		  player->player_has_won = false;
 	  }
-	  else if (player->current_level == 2 && player->reload_level == false && coin_count <= 0)
+	  else
 	  {
-		  
-		  cout << "GAME OVER. YOU WIN!" << endl;
+		  // EVERYTHING IS DELETED AND LEVEL NEEDS LOADED
+		  make_ground(level);
 	  }
+
+	   
+	  
 	  
 	  
 
@@ -555,6 +554,14 @@ namespace csis3700 {
 	timeFlag += dt;
 	
 	checkForEnemySpawn();
+	if (player->current_level == 2 && level == 2 && player->reload_level == false && coin_count <= 0)
+	{
+		player->game_over = true;
+			
+		
+		player->player_has_won == true;
+
+	}
   }
 
   void world::draw() {
@@ -596,9 +603,18 @@ namespace csis3700 {
 	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 50, ALLEGRO_ALIGN_CENTER, "%i", player->get_health());
 	al_draw_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (100 * 1.5f), 40.0f, al_map_rgba(15, 15, 200, 200),3);
 	
-	if (player->player_has_won && level == 2 && player->reload_level == false)
+	// PLAYER WINS GAME
+	if (player->game_over)
 	{
-		// PLAYER WINS GAME
+	
+		if (game_winning_tint <= 255)
+			{
+				// FADE SPEED from 0 => 255
+				game_winning_tint += 1.33;
+			}
+
+		
+		al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 4 * (game_winning_tint), al_map_rgba(0, 0, 0, game_winning_tint));
 		al_draw_textf(rapier48, al_map_rgba(15, 200, 15, 225), al_get_display_width(gameDisplay) / 2, al_get_display_height(gameDisplay) / 2, ALLEGRO_ALIGN_CENTRE, "YOU WIN!");
 	}
   }
@@ -694,6 +710,7 @@ namespace csis3700 {
 			  Vector2 tempVect = enemySpawnLocationQueue.front();
 			  enemySpawnLocationQueue.pop();
 			  createEnemies();
+			  
 		  }
 	  }
 

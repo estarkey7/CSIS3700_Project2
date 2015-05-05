@@ -93,6 +93,8 @@ namespace csis3700 {
 	int enemy_count = 0;
 	int coin_count = 0;
 	bool can_move = true;
+	bool game_over = false;
+	float game_winning_tint;
 	int level = 1;
 	ALLEGRO_SAMPLE_ID id;
 	ALLEGRO_SAMPLE *game_music;

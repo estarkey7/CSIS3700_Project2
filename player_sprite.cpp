@@ -367,7 +367,8 @@ namespace csis3700 {
 		  al_play_sample_instance(gotCoinSampleInstance);
 	  }
 
-	  if (other->get_name() == "winning_platform"){
+	  
+	  if (other->get_name() == "winning_platform" ){
 		  if (!player_has_won)
 			  al_play_sample_instance(win_sound_instance);
 		  rectangle r = collision.collision_rectangle();
@@ -404,9 +405,9 @@ namespace csis3700 {
 		  
 		  
 	  }
-	  else if (current_level != 2)
+	  else
 	  {	
-		 // player_has_won = false;
+		  player_has_won = false;
 	  }
   }
   
@@ -542,16 +543,12 @@ namespace csis3700 {
 		  
 		  
 	  }
-	  else if (player_has_won && current_level == 2)
+	  else if (game_over)
 	  {
 		  if (winning_tint == 0)
 			  al_play_sample_instance(win_sound_instance);
-
-		  if (winning_tint <= 255)
-		  {
-			  // FADE SPEED from 0 => 255
-			  winning_tint += 1.33;
-		  }
+		  winning_tint = 1;
+		  
 		  
 	  }
 	  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 4 * (winning_tint), al_map_rgba(0, 0, 0, winning_tint));

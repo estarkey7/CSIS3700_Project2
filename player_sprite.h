@@ -26,6 +26,8 @@ namespace csis3700 {
 	  bool reload_level = true;
 	  int current_level = 1;
 	  float winning_tint = 0;
+	  int coins_remaining = 0;
+	  bool game_over = false;
 	player_sprite(string name_in, float initial_x = 0, float initial_y = 0, float sx_in = 1.0f, float sy_in = 1.0f, 
 				  ALLEGRO_BITMAP *image = NULL, float move_speed_in = 10, 
 				  float max_move_speed_in = 50, float jump_speed_in = 200,
