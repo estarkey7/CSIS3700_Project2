@@ -89,6 +89,7 @@ namespace csis3700 {
 	void build_background(int init_x, int init_y, int width);
 
     player_sprite *player;
+	int enemy_count = 0;
 	ALLEGRO_SAMPLE *game_music;
 	ALLEGRO_SAMPLE *jump_sound;
 	ALLEGRO_SAMPLE *player_change_direction_sound;
@@ -110,7 +111,7 @@ namespace csis3700 {
 
 	 std::queue<Vector2> enemySpawnLocationQueue;
 	 gameDifficulty difficultyLevel;
-	 void createEnemies(Vector2 initialPosition);
+	 void createEnemies();
 	 void addEnemeySpawnVectors();
 	 std::vector<enemy_sprite*> enemies;
 	 void checkForEnemySpawn();

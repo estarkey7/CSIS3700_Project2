@@ -516,7 +516,7 @@ namespace csis3700 {
   }
 
 
-  void world::createEnemies(Vector2 initialPosition)
+  void world::createEnemies()
   {
 	  float right_edge = camera.get_x() + (al_get_display_width(gameDisplay) / 2);
 	  float top_edge = camera.get_y() - (al_get_display_height(gameDisplay) / 2);
@@ -529,53 +529,25 @@ namespace csis3700 {
 			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge + 100, right_edge + 600), top_edge - 20, 1, 1, NULL, randomGenerator(40, 60), randomGenerator(0, 1) ? true : false, (float)randomGenerator(60,70));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
+			  enemy_count++;
 		  }
 		  break;
 
-	  case MODERATE:
-		  for (int x = 0; x < 7; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 70));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
+	
 
-	  case DIFFICULT:
-		  for (int x = 0; x < 10; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 80));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
+	 
 
 	  case HARD:
-		  for (int x = 0; x < 15; x++)
+		  for (int x = 0; x < 12; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25,true, (&camera));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
+			  enemy_count++;
 		  }
 		  break;
 
-	  case EXTREME:
-		  for (int x = 0; x < 40; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 95));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
-
-	  case INSANE:
-		  for (int x = 0; x < 30; x++)
-		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy" + x + 1, initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 90));
-			  sprites.push_back(enemy);
-			  enemies.push_back(enemy);
-		  }
-		  break;
+	
 
 	  }
   }
@@ -590,7 +562,7 @@ namespace csis3700 {
 		  {
 			  Vector2 tempVect = enemySpawnLocationQueue.front();
 			  enemySpawnLocationQueue.pop();
-			  createEnemies(tempVect);
+			  createEnemies();
 		  }
 	  }
 
