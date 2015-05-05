@@ -56,6 +56,7 @@ namespace csis3700
 
 	coin::~coin()
 	{
-		delete cointBaseSequence;
+		delete coinBaseSequence;
+		delete coinSpecialSequence;
 	}
 }
