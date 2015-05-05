@@ -117,6 +117,7 @@ namespace csis3700 {
 	 void checkForEnemySpawn();
 	 bool messageBoxAlreadyShown = false;
 	 int randomGenerator(int minQty, int maxQty);
+	 void createCoins();
   };
 }
 
