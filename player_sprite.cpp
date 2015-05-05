@@ -289,8 +289,11 @@ namespace csis3700 {
 	  else  if (other->get_name() == "enemy"){
 		  cout << "HIT BY ENEMY (ID #" << other->get_sprite_id() << " )." << endl;
 		  if (other->is_passive() == false)
+		  {
 			  remove_health(other->get_score_value());
-
+			  playerHit = true;
+		  }
+			  
 		  other->set_passive(true);
 		  
 		  // if visible is false, this object will be deleted on next world.advance_by_time iteration of sprites
@@ -399,10 +402,39 @@ namespace csis3700 {
   }
 
   void player_sprite::draw(Vector2 *camera_in){
-	  
+	  static bool setTime = false;
+	  static double timeCaptured = 0;
+	  double result = 0;
 	  // (1024.0f / 2.0f) - 300, (768.0f / 2) + 100
-	  //if (player_movement_state == IDLE)
-	  sequence->draw(time, (DISPLAY_SIZE.get_x() / 2) + camera_offset.get_x(), (DISPLAY_SIZE.get_y() / 2) + camera_offset.get_y(), sx, sy);
+	  if (setTime == false && playerHit == false)
+	  {
+		  sequence->draw(time, (DISPLAY_SIZE.get_x() / 2) + camera_offset.get_x(), (DISPLAY_SIZE.get_y() / 2) + camera_offset.get_y(), sx, sy);
+
+	  }
+	  else
+	  {
+		  if (playerHit == true)
+		  {
+			  if (setTime == false)
+			  {
+				  timeCaptured = time;
+				  setTime = true;
+			  }
+		  }
+
+
+		  ALLEGRO_COLOR tint;
+		  result = time - timeCaptured;
+		  result = result * .2;
+		  tint = al_map_rgba(255, result * 225, result * 225, result);
+		  sequence->draw(true, tint, time, (DISPLAY_SIZE.get_x() / 2) + camera_offset.get_x(), (DISPLAY_SIZE.get_y() / 2) + camera_offset.get_y(), sx, sy);
+		  if (result >= 1)
+		  {
+			  setTime = false;
+			  playerHit = false;
+			  timeCaptured = 0.0;
+		  }
+	  }
 	  
 
 	  //sequence->draw(time, get_x(), get_y());

@@ -58,28 +58,14 @@ namespace csis3700
 				//set_velocity(Vector2(get_velocity().get_x() * friction, 0.0f));
 			}
 
-			/*if (get_velocity().get_x() > frictionLimit)
-			{
-			set_image_sequence(walk_right_sequence);
-			al_play_sample_instance(walk_sound_instance);
-			}
-			else if (get_velocity().get_x() < -friction_threshhold)
-			{
-			set_image_sequence(walk_left_sequence);
-			al_play_sample_instance(walk_sound_instance);
-			}*/
+			
 			if (is_jumping)
 			{
 				set_velocity(Vector2(get_velocity().get_x(), -jump_amount));
 			}
 		}
 		
-		/*else  if (other->get_name() == "balloon"){
-		move(JUMP);
-		set_velocity(get_velocity() + Vector2(0.0f, -500.0f));
-		other->set_position(Vector2(-10000, -5000));
-		}*/
-
+		
 	}
 	
 

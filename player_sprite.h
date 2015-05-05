@@ -75,6 +75,7 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
 	ALLEGRO_SAMPLE *hover_sound;
+	bool playerHit = false;
 	
   };
 }
