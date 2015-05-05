@@ -73,11 +73,7 @@ namespace csis3700
 				set_velocity(Vector2(get_velocity().get_x(), -jump_amount));
 			}
 		}
-		else if (other->get_name() == "player")
-		{
-
-			
-		}
+		
 		/*else  if (other->get_name() == "balloon"){
 		move(JUMP);
 		set_velocity(get_velocity() + Vector2(0.0f, -500.0f));
@@ -101,7 +97,10 @@ namespace csis3700
 		Vector2 stepVelocity = (dt * get_velocity());
 		set_position((get_position() + stepVelocity));
 		
-
+		if (position.get_y() > DISPLAY_SIZE.get_y() + 300)
+		{
+			set_visible(false);
+		}
 
 	}
 

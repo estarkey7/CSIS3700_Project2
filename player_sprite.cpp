@@ -22,7 +22,7 @@ namespace csis3700 {
 
 	void splash_screen(){
 		cout << endl;
-		for (int i = 0; i<7; i++){
+		for (int i = 0; i<3; i++){
 			cout << "   ";
 			repeat_char('*', 28);
 			cout << endl;
@@ -32,7 +32,7 @@ namespace csis3700 {
 			cout << "   ";
 			if (i == 1){
 				repeat_char('*', 6);   //
-				cout << " --MAIN PLAYER-- ";
+				cout << " -MAIN  PLAYER- ";
 				repeat_char('*', 6);
 			}
 			else {
@@ -43,7 +43,7 @@ namespace csis3700 {
 			cout << endl;
 		}
 
-		for (int i = 0; i<5; i++){
+		for (int i = 0; i<3; i++){
 			cout << "   ";
 			repeat_char('*', 28);
 			cout << endl;
@@ -298,8 +298,8 @@ namespace csis3700 {
 
 	  }
 	  else  if (other->get_name() == "balloon"){
-		  move(JUMP);
-		  set_velocity(get_velocity() + Vector2(0.0f, -300.0f));
+		  
+		  set_velocity(get_velocity() + Vector2(0.0f, -250.0f));
 
 		  other->set_visible(false);
 	  }

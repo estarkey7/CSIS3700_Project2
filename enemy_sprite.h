@@ -14,6 +14,7 @@
 #include <cstdlib> 
 #include <iostream>
 #include <queue>
+#include "enums.h"
 
 
 

@@ -319,13 +319,21 @@ namespace csis3700 {
 				case ALLEGRO_KEY_H:  player->remove_health(10); break;
 				
 				case ALLEGRO_KEY_SPACE :  
-					
+					for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it){
+
+						if ((*it)->get_name() == "enemy"){
+							(*it)->print_initial_configuration();
+						}
+
+					}
 					for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it){
 
 						if ((*it)->get_name() == "player"){
 							(*it)->print_initial_configuration();
 						}
+						
 					}
+					cout << "Objects in world: " << sprites.size() << endl;
 						break;
 				case ALLEGRO_KEY_ESCAPE :
 					int button = 0;
@@ -454,16 +462,26 @@ namespace csis3700 {
   }
 
   void world::draw() {
-	  if (camera.x < 12000)
-	  al_clear_to_color(al_map_rgb(0, 0, 0));
-	  else if (camera.x < 18000)
+
+	  if (camera.y > 0)
 	  {
-		  int color_amount = (255 -((18000 - camera.x) * 0.0425));
-		  al_clear_to_color(al_map_rgb(0, color_amount, 0));
+
+		  if (camera.x < 12000)
+			  al_clear_to_color(al_map_rgb(0, 0, 0));
+		  else if (camera.x < 18000)
+		  {
+			  int color_amount = (255 - ((18000 - camera.x) * 0.0425));
+			  al_clear_to_color(al_map_rgb(0, color_amount, 0));
+		  }
+		  else
+		  {
+			  al_clear_to_color(al_map_rgb(255, 0, 0));
+		  }
 	  }
 	  else
 	  {
-		  al_clear_to_color(al_map_rgb(255, 0, 0));
+		  int color_amount = (0 + ( -camera.y * 0.1) );
+		  al_clear_to_color(al_map_rgb(0, 0, color_amount));
 	  }
 	  
 	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
@@ -473,10 +491,13 @@ namespace csis3700 {
 	al_draw_filled_rounded_rectangle(24, 24, 196, 56, 11, 11, al_map_rgba(15, 30, 15, 230));
 	al_draw_textf(rapier24, al_map_rgba(15, 120, 15, 255), 35, 27, ALLEGRO_ALIGN_LEFT, "SCORE : %i", player->get_score());
 	if (player->get_health() >= 50)
-	al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 185.0f, 25.0f, al_get_display_width(gameDisplay) - 185.0f + (player->get_health() * 1.5f), 50.0f, al_map_rgba(15, 200, 15, 230));
+	al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.5f), 40.0f, al_map_rgba(15, 200, 15, 200));
 	else 
-		al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 185.0f, 25.0f, al_get_display_width(gameDisplay) - 185.0f + (player->get_health() * 1.5f), 50.0f, al_map_rgba(200, 15, 15, 230));
+		al_draw_filled_rectangle(al_get_display_width(gameDisplay) - 200.0f, 25.0f, al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.5f), 40.0f, al_map_rgba(200, 15, 15, 200));
+	
+	al_draw_textf(rapier24, al_map_rgba(200, 200, 200, 225), al_get_display_width(gameDisplay) - 200.0f + (player->get_health() * 1.25f), 27, ALLEGRO_ALIGN_CENTER, "%i\%", player->get_health());
   }
+
 
   void world::createEnemies(Vector2 initialPosition)
   {
