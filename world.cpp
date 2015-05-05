@@ -243,7 +243,7 @@ namespace csis3700 {
 				//case ALLEGRO_KEY_A :  player->move(MOVE_LEFT); break;
 								 
 				case ALLEGRO_KEY_S:   player->move(HOVER);
-					checkForEnemySpawn();
+					
 					break;
 								 
 				//case ALLEGRO_KEY_D :  player->move(MOVE_RIGHT); break;
@@ -251,19 +251,19 @@ namespace csis3700 {
 				//case ALLEGRO_KEY_W:  player->move(JUMP); break;			  
 								 
 				case ALLEGRO_KEY_LEFT : player->move(MOVE_LEFT);
-					checkForEnemySpawn();
+					
 					break;
 								 
 				case ALLEGRO_KEY_RIGHT :  player->move(MOVE_RIGHT);
-					checkForEnemySpawn();
+					
 					break;
 				
 				case ALLEGRO_KEY_UP :  player->move(JUMP, jump_sound_instance);
-					checkForEnemySpawn();
+					
 					break;
 				
 				case ALLEGRO_KEY_DOWN:  player->move(HOVER); 
-					checkForEnemySpawn();
+					
 					break;
 
 				case ALLEGRO_KEY_H:  player->remove_health(10); break;
@@ -353,7 +353,7 @@ namespace csis3700 {
 	resolve_collisions();
 
 	static double timeFlag = 0;
-
+	
 	if (timeFlag > .7 && messageBoxAlreadyShown == false)
 	{
 		int button = 0;
@@ -379,7 +379,8 @@ namespace csis3700 {
 
 	}
 	timeFlag += dt;
-
+	
+	checkForEnemySpawn();
   }
 
   void world::draw() {
@@ -398,12 +399,15 @@ namespace csis3700 {
 
   void world::createEnemies(Vector2 initialPosition)
   {
+	  float right_edge = camera.get_x() + (al_get_display_width(gameDisplay) / 2);
+	  
+
 	  switch (difficultyLevel)
 	  {
 	  case EASY:
-		  for (int x = 0; x < 12; x++)
+		  for (int x = 0; x < 7; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40,60));
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge + 200, right_edge + 1500), 0, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -470,7 +474,7 @@ namespace csis3700 {
   {	  
 	  if (enemySpawnLocationQueue.size() > 0)
 	  {
-		  if (player->get_x() >= enemySpawnLocationQueue.front().get_x())
+		  if (camera.get_x() >= enemySpawnLocationQueue.front().get_x())
 		  {
 			  Vector2 tempVect = enemySpawnLocationQueue.front();
 			  enemySpawnLocationQueue.pop();
