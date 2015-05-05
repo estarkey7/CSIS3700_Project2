@@ -5,6 +5,7 @@
 #include "Vector2.h"
 #include <cmath>
 #include <string>
+#include "allegro5/allegro.h"
 #include <allegro5\allegro_audio.h>
 #include <allegro5\allegro_acodec.h>
 #include <cstdlib> 
@@ -41,7 +42,7 @@ namespace csis3700 {
 	virtual void hover(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
 	virtual void walk_left(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
 	virtual void walk_right(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
-	virtual void respawn(ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
+	virtual void respawn(bool play_sound );
 	virtual void move(character_movement direction, ALLEGRO_SAMPLE_INSTANCE *sound_in = NULL);
 	void draw(Vector2 *camera_in);
 	void print_initial_configuration();
@@ -75,8 +76,14 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE_INSTANCE *change_direction_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance;
 	ALLEGRO_SAMPLE_INSTANCE *gotCoinSampleInstance;
+	ALLEGRO_SAMPLE_INSTANCE *win_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *death_sound_instance;
+	ALLEGRO_SAMPLE_INSTANCE *get_hit_sound_instance;
 	ALLEGRO_SAMPLE *gotCoinSample;
 	ALLEGRO_SAMPLE *hover_sound;
+	ALLEGRO_SAMPLE *win_sound;
+	ALLEGRO_SAMPLE *death_sound;
+	ALLEGRO_SAMPLE *get_hit_sound;
 	bool playerHit = false;
 	bool player_has_won = false;
 	

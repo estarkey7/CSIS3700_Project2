@@ -61,6 +61,30 @@ namespace csis3700 {
 						ALLEGRO_SAMPLE_INSTANCE *walk_sound_instance_in) :
 							phys_sprite(name_in,initial_x, initial_y, sx_in, sy_in) {
 
+
+	 
+	 
+	  
+		  // SETUP AUDIO SAMPLES
+		  gotCoinSample = al_load_sample("drip.wav");
+		  get_hit_sound = al_load_sample("get_hit.wav");
+		  win_sound = al_load_sample("win_sound.wav");
+		  death_sound = al_load_sample("death_sound.wav");
+		  
+
+		  // SETUP AUDIO SAMPLE INSTANCES
+		  gotCoinSampleInstance = al_create_sample_instance(gotCoinSample);
+		  get_hit_sound_instance = al_create_sample_instance(get_hit_sound);
+		  win_sound_instance = al_create_sample_instance(win_sound);
+		  death_sound_instance = al_create_sample_instance(death_sound);
+		  
+
+		  // ATTACH AUDIO SAMPLE INSTANCES TO MIXER
+		  al_attach_sample_instance_to_mixer(get_hit_sound_instance, al_get_default_mixer());
+		  al_attach_sample_instance_to_mixer(win_sound_instance, al_get_default_mixer());
+		  al_attach_sample_instance_to_mixer(death_sound_instance, al_get_default_mixer());
+		  al_attach_sample_instance_to_mixer(gotCoinSampleInstance, al_get_default_mixer());
+
 			// CREATE IDLE_SEQUENCE (DEFAULT)
 		  idle_sequence = new image_sequence;
 		  //idle_sequence->add_image(image, .1);
@@ -127,14 +151,12 @@ namespace csis3700 {
 		  friction = .9f;	// FRICTION FROM PLAYER MOVING ON GROUND
 		  friction_threshhold = 40.0f;	// PLAYER WILL STOP MOVING ON GROUND IF PLAYERS HORIZONTAL VELOCITY IS WITHIN THE ABSOLUTE VALUE OF THIS THRESH HOLD 
 		 
-		  gotCoinSample = al_load_sample("drip.wav");
-		  gotCoinSampleInstance = al_create_sample_instance(gotCoinSample);
-		  al_attach_sample_instance_to_mixer(gotCoinSampleInstance, al_get_default_mixer());
+		  
 		 
 		  
 
 		  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
-		  respawn();
+		  respawn(false);
 
 		  
   }
@@ -174,7 +196,7 @@ namespace csis3700 {
 		  on_ground = v;
   }
 
-  void player_sprite::respawn(ALLEGRO_SAMPLE_INSTANCE *sound_in) {
+  void player_sprite::respawn(bool play_sound = true) {
 	  set_health(100);
 	  is_alive = true;
 	  set_position(respawn_location);
@@ -183,8 +205,8 @@ namespace csis3700 {
 	  hover_strength = hover_strength_default;
 	  move_speed = move_speed_default;
 	  max_move_speed = max_move_speed_default;
-	  if (sound_in != NULL)
-		  al_play_sample_instance(sound_in);
+	  if (play_sound)
+	  al_play_sample_instance(death_sound_instance);
   }
 
   void player_sprite::print_initial_configuration(){
@@ -296,7 +318,7 @@ namespace csis3700 {
 			  remove_health(other->get_score_value());
 			  playerHit = true;
 		  }
-			  
+		  al_play_sample_instance(get_hit_sound_instance);
 		  other->set_passive(true);
 		  
 		  // if visible is false, this object will be deleted on next world.advance_by_time iteration of sprites
@@ -369,6 +391,7 @@ namespace csis3700 {
 			  al_play_sample_instance(walk_sound_instance);
 		  }
 		  player_has_won = true;
+		  al_play_sample_instance(win_sound_instance);
 		  
 	  }
 	  else
@@ -491,7 +514,7 @@ namespace csis3700 {
 	  camera_in->Set(position.get_x() - camera_offset.get_x(), position.get_y() - camera_offset.get_y());
 	  
 	  if (player_has_won)
-		  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 500, al_map_rgba(15, randomGenerator(100, 150), 15, randomGenerator(0, 50)));
+		  al_draw_filled_circle((DISPLAY_SIZE.get_x() / 2), (DISPLAY_SIZE.get_y() / 2), 500, al_map_rgba(15, 150, 15, 100));
 		  
   }
 

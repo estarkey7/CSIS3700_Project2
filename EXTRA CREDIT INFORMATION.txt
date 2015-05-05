@@ -1,0 +1,55 @@
+EXTRA-CREDIT ADDITIONAL FEATURES
+--------------------------------
+-Sound F/X
+	-Game Music (on a loop)
+	-Player
+		-Jump
+		-Change Direction
+		-Long Fall
+		-Pick Up Coins
+		-Die
+		-Win Level
+	-Enemy
+		-Spawn
+		-Hit Player
+
+-Extra Animations
+	-Enemy 
+		-walking sequence
+	-Coins
+		-Default spinning sequence
+		-Special Dollar Sign Sequence
+	-Baloons
+		- flashing sequence
+
+-Secret Hidden Area!
+	- Located off far left side of level 1 (Has a special splash screen with metal background)
+	- only reachable by maximizing the ability to hover(button mashing down while moving in air)
+	- Includes the "MAGIC BALLOON" object that increases speed and allows the ability to fly!
+	- Special Abilities are lost on death
+
+-ENEMY AI
+	-In Difficult mode, enemies have AI to follow player
+
+-HUD and Updating Allegro GUI functions
+	-basic manipulation of Allegro primitive shapes
+	-Gui Text and shapes with altered Alpha channel colors for transparency
+	-Health bar changes colors based on percentage left
+
+-Special F/X
+	- Sky fades to brighter shades of blue as the player goes above the background image to provide a sense of location
+	- Sky changes color as player approaches end of levels
+
+-Choice of Difficulty (EASY VS HARD)
+	-Allegro manipulated message box prompt to set Difficulty at start of game
+	-Switching to "Hard" Difficulty provides many extra features
+		- Damage is Increased
+		- More Spawn Location Triggers are added
+		- More Enemies are spawned at each spawn location
+		- Enemies has random variables:
+			- Size
+			- Speed
+			- Ability to Jump
+			- Jump Power
+-Ability to PAUSE GAME
+	-Tap the 'P' button at any time to pause game
