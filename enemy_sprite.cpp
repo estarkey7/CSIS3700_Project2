@@ -27,7 +27,7 @@ namespace csis3700
 		bugCrawlingSampleInstance = al_create_sample_instance(bugCrawlingSample);
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
 		moveSpeed = move_speed_in;
-		moveEnemy();
+		
 	}
 
 	void enemy_sprite::resolve(const collision& collision, sprite *other)
@@ -97,10 +97,6 @@ namespace csis3700
 			//al_play_sample_instance(bugCrawlingSampleInstance);
 		}
 
-		if (get_velocity().x > -maxMoveSpeed)
-		{
-			set_velocity(get_velocity() + Vector2(-moveSpeed, 0));
-		}
 
 	}
 

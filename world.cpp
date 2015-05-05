@@ -6,6 +6,7 @@
 #include "allegro5/allegro_native_dialog.h"
 #include "allegro5/allegro_primitives.h"
 #include "sprite.h"
+
 #include "player_sprite.h"
 #include "obstruction_sprite.h"
 #include "collision.h"
@@ -402,7 +403,9 @@ namespace csis3700 {
 	  case EASY:
 		  for (int x = 0; x < 12; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40,60));
+			  //float random_scale = (.01f * (float)randomGenerator(100, 200));
+			  float random_scale = 1.0f;
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, random_scale, random_scale, NULL, randomGenerator(40, 60));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -438,7 +441,8 @@ namespace csis3700 {
 	  case EXTREME:
 		  for (int x = 0; x < 40; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 95));
+			  float random_scale = (.01f * (float)randomGenerator(100, 200));
+			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, random_scale, random_scale, NULL, randomGenerator(40, 95));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
