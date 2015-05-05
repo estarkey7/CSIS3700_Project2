@@ -189,6 +189,8 @@ namespace csis3700 {
 	  }
 	  else if (level_in == 2)
 	  {
+
+		  addEnemeySpawnVectors();
 		  // THE GAUNTLET LEVEL
 
 		  // STARTING PLATFORM
@@ -225,35 +227,68 @@ namespace csis3700 {
   void world::addEnemeySpawnVectors()
   {
 	 
-	  
-
-	  switch (difficultyLevel)
+	  if (level == 1)
 	  {
-	  case EASY:
-		  enemySpawnLocationQueue.push(Vector2(1750, 0));
-		  enemySpawnLocationQueue.push(Vector2(3200, 0));
-		  enemySpawnLocationQueue.push(Vector2(4700, 0));
-		  enemySpawnLocationQueue.push(Vector2(5400, 0));
-		  enemySpawnLocationQueue.push(Vector2(7700, 0));
-		  break;
+		  switch (difficultyLevel)
+		  {
+		  case EASY:
+			  enemySpawnLocationQueue.push(Vector2(1750, 0));
+			  enemySpawnLocationQueue.push(Vector2(3200, 0));
+			  enemySpawnLocationQueue.push(Vector2(4700, 0));
+			  enemySpawnLocationQueue.push(Vector2(5400, 0));
+			  enemySpawnLocationQueue.push(Vector2(7700, 0));
+			  break;
 
-	  case HARD:
-		  enemySpawnLocationQueue.push(Vector2(1750, 0));
-		  enemySpawnLocationQueue.push(Vector2(2050, 0));
-		  enemySpawnLocationQueue.push(Vector2(2250, 0));
-		  enemySpawnLocationQueue.push(Vector2(3200, 0));
-		  enemySpawnLocationQueue.push(Vector2(3600, 0));
-		  enemySpawnLocationQueue.push(Vector2(4700, 0));
-		  enemySpawnLocationQueue.push(Vector2(5400, 0));
-		  enemySpawnLocationQueue.push(Vector2(7700, 0));
-		  enemySpawnLocationQueue.push(Vector2(14000, 0));
-		  enemySpawnLocationQueue.push(Vector2(15000, 0));
-		  enemySpawnLocationQueue.push(Vector2(16000, 0));
-		  enemySpawnLocationQueue.push(Vector2(18000, 0));
-		  break;
+		  case HARD:
+			  enemySpawnLocationQueue.push(Vector2(1750, 0));
+			  enemySpawnLocationQueue.push(Vector2(2050, 0));
+			  enemySpawnLocationQueue.push(Vector2(2250, 0));
+			  enemySpawnLocationQueue.push(Vector2(3200, 0));
+			  enemySpawnLocationQueue.push(Vector2(3600, 0));
+			  enemySpawnLocationQueue.push(Vector2(4700, 0));
+			  enemySpawnLocationQueue.push(Vector2(5400, 0));
+			  enemySpawnLocationQueue.push(Vector2(7700, 0));
+			  enemySpawnLocationQueue.push(Vector2(14000, 0));
+			  enemySpawnLocationQueue.push(Vector2(15000, 0));
+			  enemySpawnLocationQueue.push(Vector2(16000, 0));
+			  enemySpawnLocationQueue.push(Vector2(18000, 0));
+			  break;
 
 
+		  }
 	  }
+	  else
+	  {
+		  switch (difficultyLevel)
+		  {
+		  case EASY:
+			  enemySpawnLocationQueue.push(Vector2(700, 0));
+			  enemySpawnLocationQueue.push(Vector2(1200, 0));
+			  enemySpawnLocationQueue.push(Vector2(1800, 0));
+			  enemySpawnLocationQueue.push(Vector2(2500, 0));
+			  enemySpawnLocationQueue.push(Vector2(4200, 0));
+			  break;
+
+		  case HARD:
+			  enemySpawnLocationQueue.push(Vector2(700, 0));
+			  enemySpawnLocationQueue.push(Vector2(100, 0));
+			  enemySpawnLocationQueue.push(Vector2(1550, 0));
+			  enemySpawnLocationQueue.push(Vector2(1800, 0));
+			  enemySpawnLocationQueue.push(Vector2(2200, 0));
+			  enemySpawnLocationQueue.push(Vector2(2500, 0));
+			  enemySpawnLocationQueue.push(Vector2(3000, 0));
+			  enemySpawnLocationQueue.push(Vector2(3500, 0));
+			  enemySpawnLocationQueue.push(Vector2(4000, 0));
+			  enemySpawnLocationQueue.push(Vector2(4200, 0));
+			  enemySpawnLocationQueue.push(Vector2(4700, 0));
+			  enemySpawnLocationQueue.push(Vector2(4900, 0));
+			  break;
+
+
+		  }
+	  }
+
+	  
   }
 
   void world::build_platform(int init_x, int init_y, int x_scale, int y_scale, string object_name_in, string object_location_string_in,int object_width_in, int object_height_in){
