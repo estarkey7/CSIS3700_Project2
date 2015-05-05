@@ -394,9 +394,28 @@ namespace csis3700 {
 	  }
 
 	 
+	  sprite* deletable_sprite = NULL;
 
-	for(vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
-	  (*it)->advance_by_time(dt);
+	  for (vector<sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it)
+	  {
+		  (*it)->advance_by_time(dt);
+		  if (deletable_sprite == NULL && (*it)->get_visible() == false  )
+		  {
+			  deletable_sprite = (*it);
+			  
+		  }
+
+	  }
+
+	  if (deletable_sprite != NULL)
+	  {
+		  cout << endl <<"DELETING OBJECT: " << (deletable_sprite)->get_name() << " (ID: " << (deletable_sprite)->get_sprite_id() << " )" << endl;
+		  sprites.resize(std::remove(sprites.begin(), sprites.end(), deletable_sprite) - sprites.begin());
+		  cout << "OBJECT DELETED" << endl;
+	  }
+	  delete deletable_sprite;
+		  
+	  
 	  //(*it)->set_velocity;
 	resolve_collisions();
 
@@ -482,7 +501,7 @@ namespace csis3700 {
 	  case HARD:
 		  for (int x = 0; x < 15; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400));
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400), 25);
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
