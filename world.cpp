@@ -105,9 +105,9 @@ namespace csis3700 {
 				// Secret Bonus Platform way to the left of respawn point
 				  build_platform(-3319, -250, 1);
 				  build_platform(-3450, -150, 1, 3);
-				  build_platform(-3450, 300, 1, 3);
+				  build_platform(-3450, 300, 1, 1);
 				  build_platform(-3450, 750, 1, 1);
-				  build_platform(-3450, 1100, 2, 2);
+				  build_platform(-3450, 1100, 2, 1);
 
 		  build_platform(5000, 20, 1, 1, "ground", "ground_5000.png", 5000, 50);
 		  for (int i = 10500; i < 18000; i += 2000)
@@ -120,7 +120,7 @@ namespace csis3700 {
 
 		  // (1750,0) -> (2950,0) : 40x1 
 		  build_platform(1750, 0, 4, 1, "ground", "ground_300.png", 300, 50);
-		  build_platform(1950, -200, 4.5, 1, "ground", "ground_300.png", 300, 50);
+		  build_platform(1950, -200, 1, 1, "ground", "ground_300.png", 300, 50);
 
 		  // (3000,0) -> (3400,0) : 8x1 
 		  build_platform(4300, 0, 1, 1, "ground", "ground_300.png", 300, 50);
@@ -139,6 +139,69 @@ namespace csis3700 {
 
 	  }
 	  
+  }
+
+  void world::addEnemeySpawnVectors()
+  {
+	 
+	  
+
+	  switch (difficultyLevel)
+	  {
+	  case EASY:
+		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(3200, 0));
+		  enemySpawnLocationQueue.push(Vector2(4700, 0));
+		  enemySpawnLocationQueue.push(Vector2(5400, 0));
+		  enemySpawnLocationQueue.push(Vector2(7700, 0));
+		  break;
+
+	  case MODERATE:
+		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(3200, 0));
+		  enemySpawnLocationQueue.push(Vector2(4700, 0));
+		  enemySpawnLocationQueue.push(Vector2(5400, 0));
+		  enemySpawnLocationQueue.push(Vector2(7700, 0));
+		  break;
+
+	  case DIFFICULT:
+		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(3200, 0));
+		  enemySpawnLocationQueue.push(Vector2(4700, 0));
+		  enemySpawnLocationQueue.push(Vector2(5400, 0));
+		  enemySpawnLocationQueue.push(Vector2(7700, 0));
+		  break;
+
+	  case HARD:
+		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(2250, 0));
+		  enemySpawnLocationQueue.push(Vector2(3200, 0));
+		  enemySpawnLocationQueue.push(Vector2(3600, 0));
+		  enemySpawnLocationQueue.push(Vector2(4700, 0));
+		  enemySpawnLocationQueue.push(Vector2(5400, 0));
+		  enemySpawnLocationQueue.push(Vector2(7700, 0));
+		  enemySpawnLocationQueue.push(Vector2(14000, 0));
+		  enemySpawnLocationQueue.push(Vector2(15000, 0));
+		  enemySpawnLocationQueue.push(Vector2(16000, 0));
+		  break;
+
+	  case EXTREME:
+		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(3200, 0));
+		  enemySpawnLocationQueue.push(Vector2(4700, 0));
+		  enemySpawnLocationQueue.push(Vector2(5400, 0));
+		  enemySpawnLocationQueue.push(Vector2(7700, 0));
+		  break;
+
+	  case INSANE:
+		  enemySpawnLocationQueue.push(Vector2(1750, 0));
+		  enemySpawnLocationQueue.push(Vector2(3200, 0));
+		  enemySpawnLocationQueue.push(Vector2(4700, 0));
+		  enemySpawnLocationQueue.push(Vector2(5400, 0));
+		  enemySpawnLocationQueue.push(Vector2(7700, 0));
+		  break;
+
+	  }
   }
 
   void world::build_platform(int init_x, int init_y, int x_scale, int y_scale, string object_name_in, string object_location_string_in,int object_width_in, int object_height_in){
@@ -385,21 +448,21 @@ namespace csis3700 {
   void world::createEnemies(Vector2 initialPosition)
   {
 	  float right_edge = camera.get_x() + (al_get_display_width(gameDisplay) / 2);
-	  
+	  float top_edge = camera.get_y() - (al_get_display_height(gameDisplay) / 2);
 
 	  switch (difficultyLevel)
 	  {
 	  case EASY:
-		  for (int x = 0; x < 7; x++)
+		  for (int x = 0; x < 5; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge + 200, right_edge + 1500), 0, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false);
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge + 100, right_edge + 600), top_edge - 20, 1, 1, NULL, randomGenerator(40, 60), randomGenerator(0, 1) ? true : false, (float)randomGenerator(60,70));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
 		  break;
 
 	  case MODERATE:
-		  for (int x = 0; x < 15; x++)
+		  for (int x = 0; x < 7; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 70));
 			  sprites.push_back(enemy);
@@ -408,7 +471,7 @@ namespace csis3700 {
 		  break;
 
 	  case DIFFICULT:
-		  for (int x = 0; x < 18; x++)
+		  for (int x = 0; x < 10; x++)
 		  {
 			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 80));
 			  sprites.push_back(enemy);
@@ -417,9 +480,9 @@ namespace csis3700 {
 		  break;
 
 	  case HARD:
-		  for (int x = 0; x < 25; x++)
+		  for (int x = 0; x < 15; x++)
 		  {
-			  enemy_sprite * enemy = new enemy_sprite("enemy", initialPosition.get_x() + 1000, 0, 1, 1, NULL, randomGenerator(40, 90));
+			  enemy_sprite * enemy = new enemy_sprite("enemy", randomGenerator(right_edge , right_edge + 1800), top_edge - 20, (float)randomGenerator(1, 2), (float)randomGenerator(1, 2), NULL, randomGenerator(40, 120), randomGenerator(0, 1) ? true : false, (float)randomGenerator(90, 400));
 			  sprites.push_back(enemy);
 			  enemies.push_back(enemy);
 		  }
@@ -446,14 +509,7 @@ namespace csis3700 {
 	  }
   }
 
-  void world::addEnemeySpawnVectors()
-  {
-	  enemySpawnLocationQueue.push(Vector2(1700, 0));
-	  enemySpawnLocationQueue.push(Vector2(3200, 0));
-	  enemySpawnLocationQueue.push(Vector2(4700, 0));
-	  enemySpawnLocationQueue.push(Vector2(5400, 0));
-	  enemySpawnLocationQueue.push(Vector2(7700, 0));
-  }
+
 
   void world::checkForEnemySpawn()
   {	  

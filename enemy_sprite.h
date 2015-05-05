@@ -22,7 +22,7 @@ namespace csis3700
 	class enemy_sprite : public phys_sprite
 	{
 	public:
-		enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in = 10, bool can_jump = false);
+		enemy_sprite(string name_in, float initial_x, float initial_y, float sx_in, float sy_in, ALLEGRO_BITMAP *image, float move_speed_in = 10, bool can_jump = false, float jump_amount_in = 60, int damage_in = 10);
 		image_sequence  *staticImageSequence;
 		image_sequence  *movingImageSequence;
 		virtual ~enemy_sprite();
