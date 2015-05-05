@@ -78,6 +78,7 @@ namespace csis3700 {
 	ALLEGRO_SAMPLE *gotCoinSample;
 	ALLEGRO_SAMPLE *hover_sound;
 	bool playerHit = false;
+	bool player_has_won = false;
 	
 
 	int randomGenerator(int minQty, int maxQty);
