@@ -28,15 +28,17 @@ namespace csis3700
 		al_attach_sample_instance_to_mixer(bugCrawlingSampleInstance, al_get_default_mixer());
 		moveSpeed = move_speed_in;
 		moveEnemy();
-		
 	}
+
+	
 
 	void enemy_sprite::resolve(const collision& collision, sprite *other)
 	{
 		// collision with ground
 		if (other->get_name() == "ground")
 		{
-			cout << "VELOCITY : " << get_velocity().get_y() << endl;
+			
+			
 			rectangle r = collision.collision_rectangle();
 			set_velocity(Vector2(get_velocity().get_x(), 0.0f));
 			set_position((get_position() + Vector2(0, -r.get_height())));
@@ -74,7 +76,7 @@ namespace csis3700
 
 	bool enemy_sprite::is_passive() const 
 	{
-		return false;
+		return passive;
 	}
 
 	void enemy_sprite::advance_by_time(double dt) {

@@ -103,8 +103,16 @@ namespace csis3700 {
     virtual void resolve(const collision& collision, sprite* other) = 0;
     
 	image_sequence* getImageSequence() { return sequence; }
+	void set_passive(bool is_passive_in);
+	void set_visible(bool is_visible_in);
+	bool get_visible();
+	void set_score_value(int score_value_in);
+	int get_score_value();
 
   protected:
+	  bool visible = true;
+	  bool passive = false;
+	  int score_value = 0;
 	  float x_local = 0.0f;
 	  float y_local = 0.0f;
 	  float sx;

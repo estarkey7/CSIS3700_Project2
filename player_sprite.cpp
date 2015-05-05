@@ -281,6 +281,12 @@ namespace csis3700 {
 			  al_play_sample_instance(walk_sound_instance);
 		  }
 	  }
+	  else  if (other->get_name() == "enemy"){
+		  other->set_passive(true);
+		  remove_health(10);
+		  other->set_visible(false);
+
+	  }
 	  else  if (other->get_name() == "balloon"){
 		  move(JUMP);
 		  set_velocity(get_velocity() + Vector2(0.0f, -500.0f));

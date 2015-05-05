@@ -145,4 +145,17 @@ namespace csis3700 {
     position = p;
   }
 
+  void sprite::set_passive(bool is_passive_in)
+  {
+	  passive = is_passive_in;
+  }
+
+  void sprite::set_visible(bool is_visible_in)
+  {
+	  visible = is_visible_in;
+  }
+  bool sprite::get_visible(){ return visible; }
+
+  void sprite::set_score_value(int score_value_in){ score_value = score_value_in; }
+  int sprite::get_score_value(){ return score_value; }
 }

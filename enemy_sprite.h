@@ -32,8 +32,10 @@ namespace csis3700
 		void moveEnemy();
 		void advance_by_time(double dt);
 		virtual bool is_passive() const;
+		
 
 	protected:
+		
 		float friction = 0;
 		float frictionLimit = 40.0f;
 		float moveSpeed;
