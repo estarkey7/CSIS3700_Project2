@@ -365,7 +365,7 @@ namespace csis3700 {
 					button = al_show_native_message_box(
 						gameDisplay,
 						"Close Project II",
-						"Player,",
+						"",
 						"You are about to exit the game, is that okay?",
 						NULL,
 						ALLEGRO_MESSAGEBOX_YES_NO
@@ -567,12 +567,17 @@ namespace csis3700 {
   {
 	  for (int x = 0; x < 20000; x += randomGenerator(200, 500))
 	  {
-		  coin * newCoin = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
+		  coin * newCoin;// = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
 		  if (randomGenerator(1, 20) == 7)
 		  {
+			  newCoin = new coin("coin", x, 0, 2.0, 2.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
 			  newCoin->set_image_sequence(newCoin->coinSpecialSequence);
 			  newCoin->setMoveSpeed(35.0);
 			  newCoin->set_score_value(150);
+		  }
+		  else
+		  {
+			  newCoin = new coin("coin", x, 0, 1.0, 1.0, image_library::get_instance()->get("coin1.png"), 0.0, 20.0);
 		  }
 		  sprites.push_back(newCoin);
 	  }
